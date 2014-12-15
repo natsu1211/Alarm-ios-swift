@@ -1,0 +1,26 @@
+
+    <ons-page>
+        <ons-toolbar>
+            <div class="left">
+                <ons-toolbar-button ng-click="ons.slidingMenu.toggleMenu()"><ons-icon icon="bars"></ons-icon></ons-toolbar-button>
+            </div>
+            <div class="center">時刻を設定
+            </div>
+        </ons-toolbar>
+
+        <div style="text-align: center">
+            <p>
+                <input type="time" name="settime" id="settime" value="07:00" autofocus style="font-size:260%"><br>
+            </p>
+            
+            <ons-button onclick = "addTime() ;AddAlarm(); alarm.popPage()" modifier="large">
+                設定
+            </ons-button>
+            <ons-button onclick = "alarm.popPage()" modifier="large--cta">
+                キャンセル
+            </ons-button>
+            <div id="current_user"></div>
+        
+    </ons-page>
+   
+
