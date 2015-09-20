@@ -10,99 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MainAlarmViewController.swift"
-            timestampString = "446918535.063684"
+            timestampString = "464259597.970328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
             landmarkName = "MainAlarmViewController"
             landmarkType = "3">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WeatherAlarm.MainAlarmViewController.alarms.setter : Swift.Array&lt;WeatherAlarm.Alarm&gt;"
-                  moduleName = "WeatherAlarm"
-                  urlString = "file:///Users/longyutao/Desktop/firstapp/IOS/chapter4/WeatherAlarm/MainAlarmViewController.swift"
-                  timestampString = "446917285.663402"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WeatherAlarm.MainAlarmViewController.alarms.materializeForSet : Swift.Array&lt;WeatherAlarm.Alarm&gt;"
-                  moduleName = "WeatherAlarm"
-                  urlString = "file:///Users/longyutao/Desktop/firstapp/IOS/chapter4/WeatherAlarm/MainAlarmViewController.swift"
-                  timestampString = "446917285.663692"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WeatherAlarm.MainAlarmViewController.init (WeatherAlarm.MainAlarmViewController.Type)(style : C.UITableViewStyle) -&gt; WeatherAlarm.MainAlarmViewController"
-                  moduleName = "WeatherAlarm"
-                  urlString = "file:///Users/longyutao/Desktop/firstapp/IOS/chapter4/WeatherAlarm/MainAlarmViewController.swift"
-                  timestampString = "446917285.664006"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "217">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WeatherAlarm.MainAlarmViewController.init (WeatherAlarm.MainAlarmViewController.Type)(nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;ObjectiveC.NSBundle&gt;) -&gt; WeatherAlarm.MainAlarmViewController"
-                  moduleName = "WeatherAlarm"
-                  urlString = "file:///Users/longyutao/Desktop/firstapp/IOS/chapter4/WeatherAlarm/MainAlarmViewController.swift"
-                  timestampString = "446917285.664294"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "336">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WeatherAlarm.MainAlarmViewController.init (WeatherAlarm.MainAlarmViewController.Type)() -&gt; WeatherAlarm.MainAlarmViewController"
-                  moduleName = "WeatherAlarm"
-                  urlString = "file:///Users/longyutao/Desktop/firstapp/IOS/chapter4/WeatherAlarm/MainAlarmViewController.swift"
-                  timestampString = "446917285.664573"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "206">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WeatherAlarm.MainAlarmViewController.init (WeatherAlarm.MainAlarmViewController.Type)(coder : ObjectiveC.NSCoder) -&gt; WeatherAlarm.MainAlarmViewController"
-                  moduleName = "WeatherAlarm"
-                  urlString = "file:///Users/longyutao/Desktop/firstapp/IOS/chapter4/WeatherAlarm/MainAlarmViewController.swift"
-                  timestampString = "446917285.664842"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "217">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -112,12 +26,108 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MainAlarmViewController.swift"
-            timestampString = "446989030.568333"
+            timestampString = "464259597.970328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAlarm/AppDelegate.swift"
+            timestampString = "463934147.140732"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MainAlarmViewController.swift"
+            timestampString = "464259597.970328"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "SetNotification(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MainAlarmViewController.swift"
+            timestampString = "464259597.970328"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "SetNotification(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MainAlarmViewController.swift"
+            timestampString = "464327584.19694"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "SwitchTapped(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAlarm/AlarmAddViewController.swift"
+            timestampString = "464275267.786816"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "mediaPicker(_:didPickMediaItems:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherAlarm/AlarmAddViewController.swift"
+            timestampString = "464275267.786816"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "saveAlarm(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
