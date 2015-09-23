@@ -10,7 +10,7 @@ import UIKit
 import MediaPlayer
 var alarms: [Alarm] = [Alarm]()
 
-class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITableViewDataSource {
+class MainAlarmViewController: UITableViewController{
     
     
     

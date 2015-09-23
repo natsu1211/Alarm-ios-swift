@@ -11,7 +11,7 @@ import Foundation
 import MediaPlayer
 
 
-class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate {
+class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate, UITableViewDelegate,  UITableViewDataSource {
 
     @IBOutlet weak var datePicker: UIDatePicker!
     var mediaItem: MPMediaItem?
@@ -45,6 +45,30 @@ class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate 
     
     @IBAction func backToMain(sender: AnyObject) {
         navigationController?.popViewControllerAnimated(true)
+    }
+    let settingIdentifier = "settingIdentifier"
+    private let settingLabel = ["Interval" , "Pulsation"]
+    //private let settingLabelDetail = ["Interval" , "pulsation"]
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // Return the number of sections.
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier(
+        settingIdentifier) as? UITableViewCell
+        if (cell == nil) {
+        cell = UITableViewCell(
+        style: UITableViewCellStyle.Value1, reuseIdentifier: settingIdentifier)
+        }
+        
+        cell!.textLabel!.text = settingLabel[indexPath.row]
+        cell!.detailTextLabel!.text = "test"
+        return cell!
     }
     
     

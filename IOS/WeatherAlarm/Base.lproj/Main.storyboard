@@ -40,7 +40,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCo-Yz-gt0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1077" y="88"/>
+            <point key="canvasLocation" x="1073" y="88"/>
         </scene>
         <!--Alarm Add View Controller-->
         <scene sceneID="KWb-0J-Vuz">
@@ -60,11 +60,11 @@
                                     <!--2015-03-01 10:50:33 +0000-->
                                 </date>
                             </datePicker>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bl-Hv-aZh">
-                                <rect key="frame" x="266" y="416" width="69" height="53"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bl-Hv-aZh">
+                                <rect key="frame" x="391" y="454" width="69" height="53"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="69" id="Piw-ae-jcB"/>
-                                    <constraint firstAttribute="height" constant="53" id="d6Z-2m-aPg"/>
+                                    <constraint firstAttribute="width" constant="69" id="uRL-Hg-gbW"/>
+                                    <constraint firstAttribute="height" constant="53" id="x0O-tX-1eW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Cancel">
@@ -75,7 +75,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USS-nO-e0L">
-                                <rect key="frame" x="277" y="330" width="46" height="38"/>
+                                <rect key="frame" x="140" y="462" width="46" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="xQG-7p-0Pd"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Save">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -84,15 +87,29 @@
                                     <action selector="saveAlarm:" destination="Hc0-91-jHo" eventType="touchUpInside" id="5Lo-zy-JQa"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Sig-gf-rWO">
+                                <rect key="frame" x="0.0" y="322" width="600" height="117"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Hc0-91-jHo" id="3W7-AN-Xq7"/>
+                                    <outlet property="delegate" destination="Hc0-91-jHo" id="vAj-ib-LTZ"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5bl-Hv-aZh" firstAttribute="centerX" secondItem="USS-nO-e0L" secondAttribute="centerX" id="Cvp-FI-CEy"/>
+                            <constraint firstItem="5bl-Hv-aZh" firstAttribute="top" secondItem="Sig-gf-rWO" secondAttribute="bottom" constant="15" id="DLA-fx-P1v"/>
                             <constraint firstItem="NSI-4y-VRm" firstAttribute="top" secondItem="UAQ-6d-GVG" secondAttribute="bottom" constant="47" id="EFR-En-vgY"/>
-                            <constraint firstItem="USS-nO-e0L" firstAttribute="top" secondItem="NSI-4y-VRm" secondAttribute="bottom" constant="57" id="TOP-tg-eFc"/>
-                            <constraint firstAttribute="centerX" secondItem="USS-nO-e0L" secondAttribute="centerX" id="UI4-YL-nkO"/>
+                            <constraint firstItem="kqQ-aI-t82" firstAttribute="top" secondItem="USS-nO-e0L" secondAttribute="bottom" constant="100" id="EVD-e8-HXw"/>
+                            <constraint firstItem="Sig-gf-rWO" firstAttribute="centerX" secondItem="NSI-4y-VRm" secondAttribute="centerX" id="H6Z-IL-saa"/>
+                            <constraint firstItem="5bl-Hv-aZh" firstAttribute="baseline" secondItem="USS-nO-e0L" secondAttribute="firstBaseline" id="ShM-H2-Yu5"/>
+                            <constraint firstItem="5bl-Hv-aZh" firstAttribute="firstBaseline" secondItem="USS-nO-e0L" secondAttribute="baseline" id="Ttl-xL-C2h"/>
+                            <constraint firstItem="Sig-gf-rWO" firstAttribute="leading" secondItem="rgy-dr-CTb" secondAttribute="leading" id="bkf-VA-Qk9"/>
+                            <constraint firstItem="Sig-gf-rWO" firstAttribute="top" secondItem="NSI-4y-VRm" secondAttribute="bottom" constant="49" id="f7x-t6-j2z"/>
+                            <constraint firstItem="USS-nO-e0L" firstAttribute="leading" secondItem="NSI-4y-VRm" secondAttribute="leading" id="jjX-VT-ymj"/>
+                            <constraint firstItem="5bl-Hv-aZh" firstAttribute="trailing" secondItem="NSI-4y-VRm" secondAttribute="trailing" id="l2r-Xm-54f"/>
+                            <constraint firstItem="kqQ-aI-t82" firstAttribute="top" secondItem="5bl-Hv-aZh" secondAttribute="bottom" constant="93" id="oLy-zQ-dwp"/>
                             <constraint firstAttribute="centerX" secondItem="NSI-4y-VRm" secondAttribute="centerX" id="uXV-OX-wDj"/>
-                            <constraint firstItem="5bl-Hv-aZh" firstAttribute="top" secondItem="USS-nO-e0L" secondAttribute="bottom" constant="48" id="vIw-ns-a61"/>
                         </constraints>
                     </view>
                     <connections>
@@ -132,10 +149,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yin-Fv-W6i">
-                                <rect key="frame" x="415" y="403" width="69" height="53"/>
+                                <rect key="frame" x="409" y="455" width="69" height="53"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="69" id="ctK-Lt-y3z"/>
-                                    <constraint firstAttribute="height" constant="53" id="f23-Jd-K8O"/>
+                                    <constraint firstAttribute="width" constant="69" id="3h6-5n-GeN"/>
+                                    <constraint firstAttribute="height" constant="53" id="EYf-Lc-flA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Cancel">
@@ -145,14 +162,14 @@
                                     <action selector="cancelEdit:" destination="Fk8-LO-3Xz" eventType="touchUpInside" id="wGk-oF-mus"/>
                                 </connections>
                             </button>
-                            <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="zjP-O7-iJH">
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="zjP-O7-iJH">
                                 <rect key="frame" x="140" y="112" width="320" height="162"/>
                                 <date key="date" timeIntervalSinceReferenceDate="446899833.86513501">
                                     <!--2015-03-01 10:50:33 +0000-->
                                 </date>
                             </datePicker>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Him-Ye-6uC" userLabel="Edit">
-                                <rect key="frame" x="282" y="411" width="36" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Him-Ye-6uC" userLabel="Edit">
+                                <rect key="frame" x="276" y="463" width="36" height="38"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Edit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -161,10 +178,10 @@
                                     <action selector="editAlarm:" destination="Fk8-LO-3Xz" eventType="touchUpInside" id="gfr-5S-wtJ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-sP-BU0" userLabel="Delete">
-                                <rect key="frame" x="129" y="411" width="59" height="38"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-sP-BU0" userLabel="Delete">
+                                <rect key="frame" x="123" y="463" width="59" height="38"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="38" id="NRG-Kd-dQN"/>
+                                    <constraint firstAttribute="height" constant="38" id="6hB-vT-kcS"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Delete">
@@ -174,23 +191,27 @@
                                     <action selector="deleteAlarm:" destination="Fk8-LO-3Xz" eventType="touchUpInside" id="O61-nZ-2El"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="k2N-ah-vUt">
+                                <rect key="frame" x="140" y="315" width="320" height="102"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="Him-Ye-6uC" secondAttribute="firstBaseline" id="58A-9H-s1O"/>
-                            <constraint firstItem="4x8-sP-BU0" firstAttribute="firstBaseline" secondItem="Him-Ye-6uC" secondAttribute="baseline" id="6Yu-xb-TL7"/>
-                            <constraint firstItem="4x8-sP-BU0" firstAttribute="bottom" secondItem="Him-Ye-6uC" secondAttribute="bottom" id="7Ou-cT-3iU"/>
-                            <constraint firstItem="Him-Ye-6uC" firstAttribute="top" secondItem="zjP-O7-iJH" secondAttribute="bottom" constant="137" id="JAI-Ti-h8W"/>
-                            <constraint firstItem="zjP-O7-iJH" firstAttribute="top" secondItem="6sO-gh-mtN" secondAttribute="bottom" constant="92" id="JlI-Tz-pJx"/>
-                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="yin-Fv-W6i" secondAttribute="firstBaseline" id="L8m-4I-jlR"/>
-                            <constraint firstItem="yin-Fv-W6i" firstAttribute="top" secondItem="Him-Ye-6uC" secondAttribute="bottom" constant="-46" id="L9a-v6-gZW"/>
-                            <constraint firstItem="Him-Ye-6uC" firstAttribute="leading" secondItem="4x8-sP-BU0" secondAttribute="trailing" constant="94" id="QNV-du-NpN"/>
-                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="yin-Fv-W6i" secondAttribute="baseline" id="QtK-Eb-00z"/>
-                            <constraint firstAttribute="centerX" secondItem="Him-Ye-6uC" secondAttribute="centerX" id="Sl8-U3-NVQ"/>
-                            <constraint firstItem="yin-Fv-W6i" firstAttribute="centerX" secondItem="Him-Ye-6uC" secondAttribute="centerX" constant="149.5" id="fKg-6s-4Pa"/>
-                            <constraint firstItem="4x8-sP-BU0" firstAttribute="top" secondItem="Him-Ye-6uC" secondAttribute="top" id="hTy-pU-pC8"/>
-                            <constraint firstAttribute="centerX" secondItem="zjP-O7-iJH" secondAttribute="centerX" id="lui-qP-y01"/>
-                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="Him-Ye-6uC" secondAttribute="baseline" id="ndP-v5-LKk"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="baseline" secondItem="4x8-sP-BU0" secondAttribute="firstBaseline" id="3Fp-Yh-w74"/>
+                            <constraint firstItem="qro-2G-I1f" firstAttribute="top" secondItem="yin-Fv-W6i" secondAttribute="bottom" constant="92" id="47N-ew-6yL"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="leading" secondItem="4x8-sP-BU0" secondAttribute="trailing" constant="94" id="CKT-xe-vyz"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="baseline" secondItem="4x8-sP-BU0" secondAttribute="baseline" id="NZM-SA-EUz"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="leading" secondItem="Bv1-ga-MvQ" secondAttribute="leading" constant="123" id="RXp-mr-UXz"/>
+                            <constraint firstItem="zjP-O7-iJH" firstAttribute="centerX" secondItem="Bv1-ga-MvQ" secondAttribute="centerX" id="Tt0-kz-2qB"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="bottom" secondItem="4x8-sP-BU0" secondAttribute="bottom" id="YLl-BF-gdu"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="top" secondItem="4x8-sP-BU0" secondAttribute="top" id="YNe-GY-tt0"/>
+                            <constraint firstItem="yin-Fv-W6i" firstAttribute="leading" secondItem="Him-Ye-6uC" secondAttribute="trailing" constant="97" id="cKU-ki-7Pc"/>
+                            <constraint firstItem="zjP-O7-iJH" firstAttribute="top" secondItem="6sO-gh-mtN" secondAttribute="bottom" constant="48" id="fK6-PS-Whl"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="Him-Ye-6uC" secondAttribute="firstBaseline" id="gzy-dE-ZOD"/>
+                            <constraint firstItem="qro-2G-I1f" firstAttribute="top" secondItem="4x8-sP-BU0" secondAttribute="bottom" constant="99" id="ivh-tU-7RZ"/>
+                            <constraint firstItem="yin-Fv-W6i" firstAttribute="baseline" secondItem="Him-Ye-6uC" secondAttribute="baseline" id="l5e-AG-oXy"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="baseline" secondItem="yin-Fv-W6i" secondAttribute="firstBaseline" id="otw-1Q-CTI"/>
                         </constraints>
                     </view>
                     <connections>
