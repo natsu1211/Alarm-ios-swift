@@ -2,6 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hAR-kE-gii">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Weather Alarm-->
@@ -19,7 +21,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="94p-EQ-n8M" kind="show" id="oQd-57-YaU"/>
+                                    <segue destination="Fk8-LO-3Xz" kind="show" id="rVl-aU-E6X"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -101,32 +103,6 @@
             </objects>
             <point key="canvasLocation" x="1769" y="-583"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="Ixq-RH-kE5">
-            <objects>
-                <tableViewController id="94p-EQ-n8M" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="PAi-vI-rr8">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="o3v-tv-LrX">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="o3v-tv-LrX" id="HeD-57-oMc">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="94p-EQ-n8M" id="vv0-pO-TNV"/>
-                            <outlet property="delegate" destination="94p-EQ-n8M" id="cDQ-wk-ASA"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ili-0f-JZJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1769" y="88"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="ggt-5g-4qm">
             <objects>
@@ -142,6 +118,88 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Snj-k0-cg9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="349" y="88"/>
+        </scene>
+        <!--Alarm Edit View Controller-->
+        <scene sceneID="2km-qa-m3E">
+            <objects>
+                <viewController id="Fk8-LO-3Xz" customClass="AlarmEditViewController" customModule="WeatherAlarm" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6sO-gh-mtN"/>
+                        <viewControllerLayoutGuide type="bottom" id="qro-2G-I1f"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bv1-ga-MvQ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yin-Fv-W6i">
+                                <rect key="frame" x="415" y="403" width="69" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="69" id="ctK-Lt-y3z"/>
+                                    <constraint firstAttribute="height" constant="53" id="f23-Jd-K8O"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="cancelEdit:" destination="Fk8-LO-3Xz" eventType="touchUpInside" id="wGk-oF-mus"/>
+                                </connections>
+                            </button>
+                            <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="zjP-O7-iJH">
+                                <rect key="frame" x="140" y="112" width="320" height="162"/>
+                                <date key="date" timeIntervalSinceReferenceDate="446899833.86513501">
+                                    <!--2015-03-01 10:50:33 +0000-->
+                                </date>
+                            </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Him-Ye-6uC" userLabel="Edit">
+                                <rect key="frame" x="282" y="411" width="36" height="38"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="Edit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="editAlarm:" destination="Fk8-LO-3Xz" eventType="touchUpInside" id="gfr-5S-wtJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4x8-sP-BU0" userLabel="Delete">
+                                <rect key="frame" x="129" y="411" width="59" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="NRG-Kd-dQN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteAlarm:" destination="Fk8-LO-3Xz" eventType="touchUpInside" id="O61-nZ-2El"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="Him-Ye-6uC" secondAttribute="firstBaseline" id="58A-9H-s1O"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="firstBaseline" secondItem="Him-Ye-6uC" secondAttribute="baseline" id="6Yu-xb-TL7"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="bottom" secondItem="Him-Ye-6uC" secondAttribute="bottom" id="7Ou-cT-3iU"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="top" secondItem="zjP-O7-iJH" secondAttribute="bottom" constant="137" id="JAI-Ti-h8W"/>
+                            <constraint firstItem="zjP-O7-iJH" firstAttribute="top" secondItem="6sO-gh-mtN" secondAttribute="bottom" constant="92" id="JlI-Tz-pJx"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="yin-Fv-W6i" secondAttribute="firstBaseline" id="L8m-4I-jlR"/>
+                            <constraint firstItem="yin-Fv-W6i" firstAttribute="top" secondItem="Him-Ye-6uC" secondAttribute="bottom" constant="-46" id="L9a-v6-gZW"/>
+                            <constraint firstItem="Him-Ye-6uC" firstAttribute="leading" secondItem="4x8-sP-BU0" secondAttribute="trailing" constant="94" id="QNV-du-NpN"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="yin-Fv-W6i" secondAttribute="baseline" id="QtK-Eb-00z"/>
+                            <constraint firstAttribute="centerX" secondItem="Him-Ye-6uC" secondAttribute="centerX" id="Sl8-U3-NVQ"/>
+                            <constraint firstItem="yin-Fv-W6i" firstAttribute="centerX" secondItem="Him-Ye-6uC" secondAttribute="centerX" constant="149.5" id="fKg-6s-4Pa"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="top" secondItem="Him-Ye-6uC" secondAttribute="top" id="hTy-pU-pC8"/>
+                            <constraint firstAttribute="centerX" secondItem="zjP-O7-iJH" secondAttribute="centerX" id="lui-qP-y01"/>
+                            <constraint firstItem="4x8-sP-BU0" firstAttribute="baseline" secondItem="Him-Ye-6uC" secondAttribute="baseline" id="ndP-v5-LKk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="datePicker" destination="zjP-O7-iJH" id="Iji-Rh-Q6o"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ggO-r6-fsP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1769" y="88"/>
         </scene>
     </scenes>
 </document>

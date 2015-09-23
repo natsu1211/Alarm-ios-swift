@@ -32,9 +32,31 @@ class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITa
     
     override func viewWillAppear(animated: Bool) {
         //alarms.append(alarm)
-
+        UIApplication.sharedApplication().scheduledLocalNotifications = nil
+        
         super.viewWillAppear(animated)
         tableView.reloadData();
+        let cells = tableView.visibleCells() as? [UITableViewCell]
+        if cells != nil
+        {
+            assert( cells!.count==alarms.count, "alarms not been updated correctly")
+            var count = cells!.count
+            while count>0
+            {
+                if alarms[count-1].enabled
+                {
+                    (cells![count-1].accessoryView as! UISwitch).setOn(true, animated: false)
+                    cells![count-1].backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                }
+                else
+                {
+                    (cells![count-1].accessoryView as! UISwitch).setOn(false, animated: false)
+                    cells![count-1].backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
+                }
+                
+                count--
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,6 +80,19 @@ class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITa
         // Return the number of rows in the section.
         return alarms.count
     }
+    
+    /*
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+            let rowValue = alarms[indexPath.row].timeStr
+            let message = "You selected \(rowValue)"
+            let controller = UIAlertController(title: "Row Selected",
+            message: message, preferredStyle: .Alert)
+            let action = UIAlertAction(title: "Yes I Did",
+            style: .Default, handler: nil)
+            controller.addAction(action)
+            presentViewController(controller, animated: true, completion: nil)
+    }
+    */
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -66,11 +101,13 @@ class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITa
         // Configure the cell...
         let ala = alarms[indexPath.row] as Alarm
         let sw = UISwitch(frame: CGRect())
+        cell.tag = indexPath.row
         sw.tag = indexPath.row
         cell.textLabel?.text = ala.title + "          " + ala.timeStr
         
+        
         //cell.detailTextLabel?.text = ala.time
-        cell.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 0.9)
+        cell.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
         cell.accessoryView = sw
         
@@ -84,12 +121,12 @@ class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITa
     
     
     
-    func SetNotification(time: NSTimeInterval) {
+    class func setNotification(time: NSTimeInterval) {
         let myNotification: UILocalNotification = UILocalNotification()
         // メッセージを代入する
         myNotification.alertBody = "alarm"
-        myNotification.alertAction = "alarm test"
-        myNotification.repeatInterval = NSCalendarUnit.CalendarUnitMinute
+        myNotification.alertAction = "OK!"
+        myNotification.repeatInterval = NSCalendarUnit.CalendarUnitHour
         // 再生サウンドを設定する
         myNotification.soundName = UILocalNotificationDefaultSoundName
         // Timezoneを設定する
@@ -107,7 +144,7 @@ class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITa
             println("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             alarms[sender.tag].enabled = true
-            SetNotification(alarms[sender.tag].time.timeIntervalSinceDate(NSDate()))
+            MainAlarmViewController.setNotification(alarms[sender.tag].time.timeIntervalSinceDate(NSDate()))
             
             
         }
@@ -118,11 +155,9 @@ class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITa
             alarms[sender.tag].enabled = false
             //UIApplication.sharedApplication().cancelLocalNotification(UIApplication.sharedApplication().scheduledLocalNotifications[sender.tag] as! UILocalNotification)
             UIApplication.sharedApplication().scheduledLocalNotifications = nil
-            for alarm in alarms
-            {
-                if alarm.enabled
-                {
-                    SetNotification(alarms[sender.tag].time.timeIntervalSinceDate(NSDate()))
+            for alarm in alarms{
+                if alarm.enabled{
+                    MainAlarmViewController.setNotification(alarm.time.timeIntervalSinceDate(NSDate()))
                 }
             }
             
@@ -165,15 +200,18 @@ class MainAlarmViewController: UITableViewController, UITableViewDelegate,  UITa
         return true
     }
     */
-
-    /*
-    // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
+        // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let tableViewCell = sender as? UITableViewCell
+        if tableViewCell == nil{
+            return
+        }
+        let indexPath = tableView.indexPathForCell(tableViewCell!)!
+        let dist =  segue.destinationViewController as! AlarmEditViewController
+        dist.index = indexPath.row
     }
-    */
 
 }
