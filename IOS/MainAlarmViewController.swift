@@ -139,7 +139,7 @@ class MainAlarmViewController: UITableViewController{
     
     @IBAction func SwitchTapped(sender: UISwitch)
     {
-        if sender.on == true
+        if sender.on 
         {
             println("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -157,7 +157,7 @@ class MainAlarmViewController: UITableViewController{
             UIApplication.sharedApplication().scheduledLocalNotifications = nil
             for alarm in alarms{
                 if alarm.enabled{
-                    MainAlarmViewController.setNotification(alarm.time.timeIntervalSinceDate(NSDate()))
+                MainAlarmViewController.setNotification(alarm.time.timeIntervalSinceDate(NSDate()))
                 }
             }
             
