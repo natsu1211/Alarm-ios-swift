@@ -11,10 +11,11 @@ import Foundation
 import MediaPlayer
 
 
-class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate, UITableViewDelegate,  UITableViewDataSource {
+class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate, UITableViewDelegate,  UITableViewDataSource{
 
     @IBOutlet weak var datePicker: UIDatePicker!
     var mediaItem: MPMediaItem?
+    static var isVibration:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +47,13 @@ class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate,
     @IBAction func backToMain(sender: AnyObject) {
         navigationController?.popViewControllerAnimated(true)
     }
+    
     let settingIdentifier = "settingIdentifier"
-    private let settingLabel = ["Interval" , "Pulsation"]
-    //private let settingLabelDetail = ["Interval" , "pulsation"]
+    private let settingLabel = ["Interval" , "Vibration"]
+    enum AlarmInterval: String {
+        case Once="Once", EveryDay="EveryDay", WeekDay="WeekDay", WeekEnd="WeekEnd"
+    }
+    var settingLabelDetail:AlarmInterval = .Once
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
         return 1
@@ -61,15 +66,87 @@ class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate,
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(
         settingIdentifier) as? UITableViewCell
-        if (cell == nil) {
+        if cell == nil {
         cell = UITableViewCell(
         style: UITableViewCellStyle.Value1, reuseIdentifier: settingIdentifier)
         }
-        
         cell!.textLabel!.text = settingLabel[indexPath.row]
-        cell!.detailTextLabel!.text = "test"
+        if indexPath.row == 0
+        {
+            cell!.detailTextLabel!.text = settingLabelDetail.rawValue
+        }
+        else if indexPath.row == 1
+        {
+            let sw = UISwitch(frame: CGRect())
+            sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+
+            cell!.accessoryView = sw
+        }
         return cell!
     }
+    
+    @IBAction func SwitchTapped(sender: UISwitch){
+        if sender.on{
+            AlarmAddViewController.isVibration = true
+        }
+        else{
+            AlarmAddViewController.isVibration = false
+        }
+        
+    }
+    //var intervalPicker: UIPickerView = UIPickerView()
+    let intervalArray = ["Once","EveryDay","WeekDay","WeekEnd","Cancel"]
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var cell = tableView.cellForRowAtIndexPath(indexPath)
+        let title = NSLocalizedString("Choose a Alarm Interval", comment: "")
+        //let message = NSLocalizedString("Choose Interval", comment: "")
+        let onceActionTitle = NSLocalizedString(intervalArray[0], comment: "")
+        let everydayActionTitle = NSLocalizedString(intervalArray[1], comment: "")
+        let weekdayActionTitle = NSLocalizedString(intervalArray[2], comment: "")
+        let weekendActionTitle = NSLocalizedString(intervalArray[3], comment: "")
+        let cancelActionTitle = NSLocalizedString(intervalArray[4], comment: "")
+        
+        let storageController = UIAlertController(title: title, message: nil, preferredStyle: ./*ActionSheet*/Alert)
+            
+        let onceOption = UIAlertAction(title: onceActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .Once
+            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
+        storageController.addAction(onceOption)
+            
+        let everydayOption = UIAlertAction(title: everydayActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .EveryDay
+            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
+        storageController.addAction(everydayOption)
+            
+        let weekdayOption = UIAlertAction(title: weekdayActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .WeekDay
+            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
+        storageController.addAction(weekdayOption)
+            
+        let weekendOption = UIAlertAction(title: weekendActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .WeekEnd
+            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
+        storageController.addAction(weekendOption)
+            
+        let cancelOption = UIAlertAction(title: cancelActionTitle, style: .Cancel) {(action:UIAlertAction!)->Void in }
+        storageController.addAction(cancelOption)
+        
+            
+        presentViewController(storageController, animated: true, completion: nil)
+            
+    }
+    
+    /*
+    func numberOfComponentsInPickerView(colorPicker: UIPickerView) -> Int {
+        return 1
+    }
+        
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 4
+    }
+    
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!
+    {
+        return "Interval"
+    }
+*/
+   
     
     
     /*
