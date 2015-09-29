@@ -8,12 +8,14 @@
 
 import UIKit
 import Foundation
+import AudioToolbox
+import AVFoundation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate {
 
     var window: UIWindow?
-
+    var audioPlayer: AVAudioPlayer?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -32,6 +34,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         alert.addButtonWithTitle(notification.alertAction!);
         alert.show();
         
+        /*AudioServicesAddSystemSoundCompletion(SystemSoundID(kSystemSoundID_Vibrate),nil,
+            nil,
+            vibrationCallback,
+            nil)*/
+        if AlarmAddViewController.isVibration{
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
+        
+        let url = NSURL.fileURLWithPath(
+            NSBundle.mainBundle().pathForResource("bell", ofType: "mp3")!)
+        
+        var error: NSError?
+        
+        audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+        
+        if let err = error {
+            println("audioPlayer error \(err.localizedDescription)")
+        } else {
+            audioPlayer?.delegate = self
+            audioPlayer?.prepareToPlay()
+        }
+        audioPlayer?.play()
+        
+        
+        
+        
+        
+    }
+    
+    
+    func vibrationCallback(id:SystemSoundID, _ c:UnsafeMutablePointer<Void>) -> Void
+    {
+        print("callback")
+    }
+    
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully
+        flag: Bool) {
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!,
+        error: NSError!) {
+    }
+    
+    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+    }
+    
+    func audioPlayerEndInterruption(player: AVAudioPlayer!) {
     }
 
     func applicationWillResignActive(application: UIApplication) {

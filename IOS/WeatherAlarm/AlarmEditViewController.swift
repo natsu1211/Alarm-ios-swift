@@ -36,14 +36,14 @@ class AlarmEditViewController: UIViewController {
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         
         alarms[index].timeStr = timeStr
-        alarms[index].time = date
+        alarms[index].date = date
 
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
         for alarm in alarms
         {
             if alarm.enabled
             {
-                MainAlarmViewController.setNotification(alarm.time.timeIntervalSinceDate(NSDate()))
+                MainAlarmViewController.setNotificationWithDate(alarm.date)
             }
         }
         navigationController?.popViewControllerAnimated(true)
@@ -59,7 +59,7 @@ class AlarmEditViewController: UIViewController {
         {
             if alarm.enabled
             {
-                MainAlarmViewController.setNotification(alarm.time.timeIntervalSinceDate(NSDate()))
+                MainAlarmViewController.setNotificationWithDate(alarm.date)
             }
         }
         navigationController?.popViewControllerAnimated(true)

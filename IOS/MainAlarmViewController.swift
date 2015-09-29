@@ -121,18 +121,18 @@ class MainAlarmViewController: UITableViewController{
     
     
     
-    class func setNotification(time: NSTimeInterval) {
+    class func setNotificationWithDate(date: NSDate) {
         let myNotification: UILocalNotification = UILocalNotification()
         // メッセージを代入する
         myNotification.alertBody = "alarm"
         myNotification.alertAction = "OK!"
-        myNotification.repeatInterval = NSCalendarUnit.CalendarUnitHour
+        myNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfMonth
         // 再生サウンドを設定する
         myNotification.soundName = UILocalNotificationDefaultSoundName
         // Timezoneを設定する
         myNotification.timeZone = NSTimeZone.defaultTimeZone()
-        // 10秒後に設定する
-        myNotification.fireDate = NSDate(timeIntervalSinceNow: time)
+       
+        myNotification.fireDate = date
         // Notificationを表示する
         UIApplication.sharedApplication().scheduleLocalNotification(myNotification)
     }
@@ -144,7 +144,7 @@ class MainAlarmViewController: UITableViewController{
             println("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             alarms[sender.tag].enabled = true
-            MainAlarmViewController.setNotification(alarms[sender.tag].time.timeIntervalSinceDate(NSDate()))
+            MainAlarmViewController.setNotificationWithDate(alarms[sender.tag].date)
             
             
         }
@@ -157,7 +157,7 @@ class MainAlarmViewController: UITableViewController{
             UIApplication.sharedApplication().scheduledLocalNotifications = nil
             for alarm in alarms{
                 if alarm.enabled{
-                MainAlarmViewController.setNotification(alarm.time.timeIntervalSinceDate(NSDate()))
+                MainAlarmViewController.setNotificationWithDate(alarm.date)
                 }
             }
             
