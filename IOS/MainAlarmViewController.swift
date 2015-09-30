@@ -122,19 +122,52 @@ class MainAlarmViewController: UITableViewController{
     
     
     class func setNotificationWithDate(date: NSDate) {
-        let myNotification: UILocalNotification = UILocalNotification()
-        // メッセージを代入する
-        myNotification.alertBody = "alarm"
-        myNotification.alertAction = "OK!"
-        myNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfMonth
-        // 再生サウンドを設定する
-        myNotification.soundName = UILocalNotificationDefaultSoundName
-        // Timezoneを設定する
-        myNotification.timeZone = NSTimeZone.defaultTimeZone()
-       
-        myNotification.fireDate = date
-        // Notificationを表示する
-        UIApplication.sharedApplication().scheduleLocalNotification(myNotification)
+        let AlarmNotification: UILocalNotification = UILocalNotification()
+        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+        AlarmNotification.alertBody = "alarm"
+        AlarmNotification.alertAction = "OK!"
+        AlarmNotification.repeatCalendar = calendar
+        AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfMonth
+        AlarmNotification.soundName = UILocalNotificationDefaultSoundName
+        AlarmNotification.timeZone = NSTimeZone.defaultTimeZone()
+        AlarmNotification.fireDate = date
+        UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
+    }
+    
+    enum Weekdays:Int{
+        case Sunday=1, Monday, Tuesday, Wendesday, Thursday, Friday, Saturday
+    }
+    
+    class func setNotificationWithDate(date: NSDate, onWeekdaysForNotiy:[Weekdays])
+    {
+        //var flags = NSCalendarUnit.CalendarUnitWeekday
+        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+        let daysInWeek = 7
+        let now = NSDate()
+        let flags = NSCalendarUnit.CalendarUnitEra|NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitWeekday|NSCalendarUnit.CalendarUnitWeekdayOrdinal | NSCalendarUnit.CalendarUnitTimeZone | NSCalendarUnit.CalendarUnitWeekOfMonth | NSCalendarUnit.CalendarUnitWeekOfYear
+        var components = calendar.components(flags, fromDate: date)
+        var weekday = components.weekday
+        var datesForNotification:[NSDate] = [NSDate]()
+        for wd in onWeekdaysForNotiy
+        {
+            var wdDate:NSDate!
+            if wd.rawValue < weekday || (wd.rawValue==weekday && date.compare(now) == NSComparisonResult.OrderedAscending)
+            {
+                
+                wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd.rawValue+daysInWeek-weekday, toDate: date, options:.MatchStrictly)!
+                
+            }
+            else
+            {
+                wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd.rawValue-weekday, toDate: date, options:.MatchStrictly)!
+            }
+            datesForNotification.append(wdDate)
+        }
+        for d in datesForNotification
+        {
+            MainAlarmViewController.setNotificationWithDate(d)
+        }
+        
     }
     
     @IBAction func SwitchTapped(sender: UISwitch)

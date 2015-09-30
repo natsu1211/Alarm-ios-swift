@@ -28,11 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate {
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         
-        var alert = UIAlertView();
+        /*var alert = UIAlertView();
         alert.title = "Get Notification";
         alert.message = notification.alertBody;
         alert.addButtonWithTitle(notification.alertAction!);
-        alert.show();
+        alert.show()*/
+        
+        
         
         /*AudioServicesAddSystemSoundCompletion(SystemSoundID(kSystemSoundID_Vibrate),nil,
             nil,
