@@ -6,66 +6,6 @@
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Alarm Show Up View Controller-->
-        <scene sceneID="9Ua-kV-qrH">
-            <objects>
-                <viewController id="70b-JX-MM1" customClass="AlarmShowUpViewController" customModule="WeatherAlarm" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="yr0-25-Uhi"/>
-                        <viewControllerLayoutGuide type="bottom" id="t07-wP-9aA"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ZTC-TV-WxK">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H2D-zF-BEH" userLabel="Snooze">
-                                <rect key="frame" x="257" y="392" width="75" height="38"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="JVa-66-Z7M"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Snooze">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveAlarm:" destination="Hc0-91-jHo" eventType="touchUpInside" id="uaO-5A-EMy"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="93Z-nO-wos" userLabel="Stop">
-                                <rect key="frame" x="259" y="455" width="70" height="38"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="jCV-op-KW3"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <state key="normal" title="Stop">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveAlarm:" destination="Hc0-91-jHo" eventType="touchUpInside" id="4z8-sw-ksT"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="Time!" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aJF-Na-ve1">
-                                <rect key="frame" x="234" y="188" width="133" height="30"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" staticText="YES" notEnabled="YES"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="46"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="93Z-nO-wos" firstAttribute="centerX" secondItem="H2D-zF-BEH" secondAttribute="centerX" id="1tM-Jn-URA"/>
-                            <constraint firstItem="93Z-nO-wos" firstAttribute="top" secondItem="H2D-zF-BEH" secondAttribute="bottom" constant="25" id="9t6-Wd-GKK"/>
-                            <constraint firstItem="H2D-zF-BEH" firstAttribute="top" secondItem="yr0-25-Uhi" secondAttribute="bottom" constant="372" id="ONT-PO-Jfz"/>
-                            <constraint firstItem="H2D-zF-BEH" firstAttribute="leading" secondItem="ZTC-TV-WxK" secondAttribute="leading" constant="257" id="Ohj-eY-RQn"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yc3-Pr-XLq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1073" y="-576"/>
-        </scene>
         <!--Weather Alarm-->
         <scene sceneID="1K5-R3-JmD">
             <objects>
