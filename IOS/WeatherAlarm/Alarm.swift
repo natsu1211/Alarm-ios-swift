@@ -6,12 +6,11 @@
 //  Copyright (c) 2015年 LongGames. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import MediaPlayer
 
-class Alarm: NSObject {
-    
-   
+struct Alarm
+{
     var title: String
     var timeStr: String
     var date: NSDate
@@ -19,6 +18,7 @@ class Alarm: NSObject {
     //var region:CLCircularRegion
     var media:MPMediaItem?
     
+    /*
     init( title: String, timestr: String, date: NSDate, enabled: Bool, media: MPMediaItem?) {
         self.title = title
        // self.region = region
@@ -28,5 +28,34 @@ class Alarm: NSObject {
         self.enabled = enabled
         self.media = media
      
+    }
+    */
+}
+
+//singleton
+class Alarms
+{
+    private var alarms = [Alarm]()
+    class var sharedInstance: Alarms
+    {
+        struct Singleton
+        {
+            static let instance: Alarms = Alarms()
+        }
+        return Singleton.instance
+    }
+    
+    func append(alarm: Alarm)
+    {
+        alarms.append(alarm)
+    }
+    
+    var count:Int
+    {
+        return alarms.count
+    }
+    
+    subscript(index: Int) -> Alarm{
+        return alarms[index]
     }
 }
