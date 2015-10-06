@@ -8,23 +8,10 @@
 
 import UIKit
 import MediaPlayer
-var alarms: [Alarm] = [Alarm]()
 
 class MainAlarmViewController: UITableViewController{
     
-    
-    
-    /*let alarm = Alarm(title: "test", timestr: "", time: NSDate())
-    
-    @IBAction func AddAlarm(sender: AnyObject) {
-        var timePicker = UIPickerView()
-        //timePicker.dataSource = self
-        //timePicker.delegate = self
-        alarms.append(alarm)
-        tableView.reloadData();
-        
-    }*/
-    
+    var alarmDelegate: AlarmApplicationDelegate = AppDelegate()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,11 +26,11 @@ class MainAlarmViewController: UITableViewController{
         let cells = tableView.visibleCells() as? [UITableViewCell]
         if cells != nil
         {
-            assert( cells!.count==alarms.count, "alarms not been updated correctly")
+            assert( cells!.count==Alarms.sharedInstance.count, "alarms not been updated correctly")
             var count = cells!.count
             while count>0
             {
-                if alarms[count-1].enabled
+                if Alarms.sharedInstance[count-1].enabled
                 {
                     (cells![count-1].accessoryView as! UISwitch).setOn(true, animated: false)
                     cells![count-1].backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -68,7 +55,7 @@ class MainAlarmViewController: UITableViewController{
     // MARK: - Table view data source
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 50
+        return 60
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -78,9 +65,11 @@ class MainAlarmViewController: UITableViewController{
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return alarms.count
+        return Alarms.sharedInstance.count
+        
     }
     
+
     /*
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
             let rowValue = alarms[indexPath.row].timeStr
@@ -96,16 +85,23 @@ class MainAlarmViewController: UITableViewController{
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AlarmCell", forIndexPath: indexPath) as! UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("AlarmCell", forIndexPath: indexPath) as! UITableViewCell
+        
+            //cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "AlarmCell")
+            cell.tag = indexPath.row
+            let ala = Alarms.sharedInstance[indexPath.row] as Alarm
+            cell.textLabel?.text = ala.timeStr
+            cell.detailTextLabel?.text = ala.title
+        
+        
 
         // Configure the cell...
-        let ala = alarms[indexPath.row] as Alarm
+        
         let sw = UISwitch(frame: CGRect())
-        cell.tag = indexPath.row
+        //tag is used to indicate which row had been touched
+        
         sw.tag = indexPath.row
-        cell.textLabel?.text = ala.title + "          " + ala.timeStr
-        
-        
+
         //cell.detailTextLabel?.text = ala.time
         cell.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -121,63 +117,14 @@ class MainAlarmViewController: UITableViewController{
     
     
     
-    class func setNotificationWithDate(date: NSDate) {
-        let AlarmNotification: UILocalNotification = UILocalNotification()
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-        AlarmNotification.alertBody = "alarm"
-        AlarmNotification.alertAction = "OK!"
-        AlarmNotification.repeatCalendar = calendar
-        AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfMonth
-        AlarmNotification.soundName = UILocalNotificationDefaultSoundName
-        AlarmNotification.timeZone = NSTimeZone.defaultTimeZone()
-        AlarmNotification.fireDate = date
-        UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
-    }
-    
-    enum Weekdays:Int{
-        case Sunday=1, Monday, Tuesday, Wendesday, Thursday, Friday, Saturday
-    }
-    
-    class func setNotificationWithDate(date: NSDate, onWeekdaysForNotiy:[Weekdays])
-    {
-        //var flags = NSCalendarUnit.CalendarUnitWeekday
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-        let daysInWeek = 7
-        let now = NSDate()
-        let flags = NSCalendarUnit.CalendarUnitEra|NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitWeekday|NSCalendarUnit.CalendarUnitWeekdayOrdinal | NSCalendarUnit.CalendarUnitTimeZone | NSCalendarUnit.CalendarUnitWeekOfMonth | NSCalendarUnit.CalendarUnitWeekOfYear
-        var components = calendar.components(flags, fromDate: date)
-        var weekday = components.weekday
-        var datesForNotification:[NSDate] = [NSDate]()
-        for wd in onWeekdaysForNotiy
-        {
-            var wdDate:NSDate!
-            if wd.rawValue < weekday || (wd.rawValue==weekday && date.compare(now) == NSComparisonResult.OrderedAscending)
-            {
-                
-                wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd.rawValue+daysInWeek-weekday, toDate: date, options:.MatchStrictly)!
-                
-            }
-            else
-            {
-                wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd.rawValue-weekday, toDate: date, options:.MatchStrictly)!
-            }
-            datesForNotification.append(wdDate)
-        }
-        for d in datesForNotification
-        {
-            MainAlarmViewController.setNotificationWithDate(d)
-        }
-        
-    }
-    
     @IBAction func SwitchTapped(sender: UISwitch)
     {
         if sender.on 
         {
             println("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-            alarms[sender.tag].enabled = true
-            MainAlarmViewController.setNotificationWithDate(alarms[sender.tag].date)
+            Alarms.sharedInstance[sender.tag].enabled = true
+            alarmDelegate.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date)
             
             
         }
@@ -185,12 +132,12 @@ class MainAlarmViewController: UITableViewController{
         {
             println("switch off")
             sender.superview?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
-            alarms[sender.tag].enabled = false
+            Alarms.sharedInstance[sender.tag].enabled = false
             //UIApplication.sharedApplication().cancelLocalNotification(UIApplication.sharedApplication().scheduledLocalNotifications[sender.tag] as! UILocalNotification)
             UIApplication.sharedApplication().scheduledLocalNotifications = nil
-            for alarm in alarms{
+            for alarm in Alarms.sharedInstance{
                 if alarm.enabled{
-                MainAlarmViewController.setNotificationWithDate(alarm.date)
+                alarmDelegate.setNotificationWithDate(alarm.date)
                 }
             }
             
