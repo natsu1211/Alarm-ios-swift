@@ -12,6 +12,7 @@ class AlarmEditViewController: UIViewController {
 
     @IBOutlet weak var datePicker: UIDatePicker!
     var index:Int = 0
+    var alarmDelegate: AlarmApplicationDelegate = AppDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,16 +35,16 @@ class AlarmEditViewController: UIViewController {
     @IBAction func editAlarm(sender: AnyObject) {
         let date = datePicker.date
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        //not change the title, UUID, mediaID
+        let newAlarm = Alarm(title: Alarms.sharedInstance[sender.tag].title, timeStr: timeStr, date: date, enabled: false, UUID: Alarms.sharedInstance[sender.tag].UUID, mediaID: Alarms.sharedInstance[sender.tag].mediaID)
         
-        alarms[index].timeStr = timeStr
-        alarms[index].date = date
 
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
-        for alarm in alarms
+        for alarm in Alarms.sharedInstance
         {
             if alarm.enabled
             {
-                MainAlarmViewController.setNotificationWithDate(alarm.date)
+                alarmDelegate.setNotificationWithDate(alarm.date)
             }
         }
         navigationController?.popViewControllerAnimated(true)
@@ -53,13 +54,13 @@ class AlarmEditViewController: UIViewController {
     @IBAction func deleteAlarm(sender: AnyObject) {
         
         
-        alarms.removeAtIndex(index)
+        Alarms.sharedInstance.removeAtIndex(index)
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
-        for alarm in alarms
+        for alarm in Alarms.sharedInstance
         {
             if alarm.enabled
             {
-                MainAlarmViewController.setNotificationWithDate(alarm.date)
+                alarmDelegate.setNotificationWithDate(alarm.date)
             }
         }
         navigationController?.popViewControllerAnimated(true)

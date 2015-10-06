@@ -36,12 +36,10 @@ class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate,
         let date = datePicker.date
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         
-        alarms.append( Alarm(title: "Alarm\(alarms.count+1)", timestr: timeStr, date: date, enabled: false, media: mediaItem))
+        Alarms.sharedInstance.append( Alarm(title: "Alarm", timeStr: timeStr, date: date, enabled: false, UUID: NSUUID().UUIDString, mediaID: ""))
         navigationController?.popViewControllerAnimated(true)
         
     }
-    
-    
     
     
     @IBAction func backToMain(sender: AnyObject) {
