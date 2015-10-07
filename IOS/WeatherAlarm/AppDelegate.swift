@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         // Override point for customization after application launch.
         //alarmDelegate? = self
         //alarmDelegate!.setupNotificationSettings()
+        
         setupNotificationSettings()
         return true
     }
@@ -47,7 +48,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             nil)*/
         
         playAlarmSound()
-        //alarmDelegate!.scheduleNotification()
+        //if app is in foreground, show a alert
+        let storageController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .Alert)
+        //todo, snooze
+        let snoozeOption = UIAlertAction(title: "Snooze", style: .Default) {
+            (action:UIAlertAction!)->Void in audioPlayer?.stop()
+            
+        }
+        let stopOption = UIAlertAction(title: "Stop", style: .Default) {
+            (action:UIAlertAction!)->Void in audioPlayer?.stop()}
+        storageController.addAction(snoozeOption)
+        storageController.addAction(stopOption)
+        window?.rootViewController!.presentViewController(storageController, animated: true, completion: nil)
   
         
     }
@@ -85,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     func setupNotificationSettings() {
         let notificationSettings: UIUserNotificationSettings! = UIApplication.sharedApplication().currentUserNotificationSettings()
         
-        if (notificationSettings.types == UIUserNotificationType.None){
+        //if (notificationSettings.types == UIUserNotificationType.None){
             // Specify the notification types.
             var notificationTypes: UIUserNotificationType = UIUserNotificationType.Alert | UIUserNotificationType.Sound
             
@@ -104,14 +116,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             snoozeAction.activationMode = UIUserNotificationActivationMode.Background
             snoozeAction.destructive = false
             snoozeAction.authenticationRequired = false
-            
+        
             
             let actionsArray = [UIUserNotificationAction](arrayLiteral: stopAction, snoozeAction)
-            
+            let actionsArrayMinimal = [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction)
             // Specify the category related to the above actions.
             var alarmCategory = UIMutableUserNotificationCategory()
             alarmCategory.identifier = "myAlarmCategory"
             alarmCategory.setActions(actionsArray, forContext: .Default)
+            alarmCategory.setActions(actionsArrayMinimal, forContext: .Minimal)
             
             
             let categoriesForSettings = Set(arrayLiteral: alarmCategory)
@@ -120,20 +133,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             // Register the notification settings.
             let newNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: categoriesForSettings)
             UIApplication.sharedApplication().registerUserNotificationSettings(newNotificationSettings)
-        }
+        //}
     }
     
     func setNotificationWithDate(date: NSDate) {
         let AlarmNotification: UILocalNotification = UILocalNotification()
         let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-        AlarmNotification.alertBody = "alarm"
-        AlarmNotification.alertAction = "open app"
+        AlarmNotification.alertBody = "Wake Up!"
+        AlarmNotification.alertAction = "Open App"
         AlarmNotification.category = "myAlarmCategory"
         //AlarmNotification.applicationIconBadgeNumber = 1
         //AlarmNotification.repeatCalendar = calendar
         //TODO, not working
         //AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfYear
-        AlarmNotification.soundName = UILocalNotificationDefaultSoundName
+        AlarmNotification.soundName = "bell.mp3"
         AlarmNotification.timeZone = NSTimeZone.defaultTimeZone()
         AlarmNotification.fireDate = date
         UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
@@ -180,6 +193,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     {
         print("callback")
     }
+    
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully
         flag: Bool) {
