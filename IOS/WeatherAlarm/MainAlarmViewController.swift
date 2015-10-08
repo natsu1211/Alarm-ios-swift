@@ -20,7 +20,6 @@ class MainAlarmViewController: UITableViewController{
     override func viewWillAppear(animated: Bool) {
         //alarms.append(alarm)
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
-        
         super.viewWillAppear(animated)
         tableView.reloadData();
         let cells = tableView.visibleCells() as? [UITableViewCell]
