@@ -11,11 +11,12 @@ import Foundation
 import MediaPlayer
 
 
-class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate, UITableViewDelegate,  UITableViewDataSource{
+class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDelegate, UITableViewDelegate,  UITableViewDataSource{
 
     @IBOutlet weak var datePicker: UIDatePicker!
     var mediaItem: MPMediaItem?
     static var isVibration:Bool = false
+    var isEditMode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,11 +55,26 @@ class AlarmAddViewController: UIViewController, MPMediaPickerControllerDelegate,
     var settingLabelDetail:AlarmInterval = .Once
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        return 1
+        if isEditMode
+        {
+            return 2
+        }
+        else
+        {
+            return 1
+
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        if section == 0
+        {
+            return 2
+        }
+        else if section == 1
+        {
+            return 1
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
