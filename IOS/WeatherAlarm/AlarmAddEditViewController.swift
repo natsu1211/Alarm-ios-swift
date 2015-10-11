@@ -16,7 +16,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     @IBOutlet weak var datePicker: UIDatePicker!
     var mediaItem: MPMediaItem?
     static var isVibration:Bool = false
-    var isEditMode: Bool = false
+    var isEditMode: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +48,8 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     }
     
     let settingIdentifier = "settingIdentifier"
-    private let settingLabel = ["Interval" , "Vibration"]
+ 
+    private let settingLabel = ["Repeat","Label", "Sound", "Snooze"]
     enum AlarmInterval: String {
         case Once="Once", EveryDay="EveryDay", WeekDay="WeekDay", WeekEnd="WeekEnd"
     }
@@ -69,42 +70,57 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0
         {
-            return 2
+            return 4
         }
-        else if section == 1
+        else
         {
             return 1
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         var cell = tableView.dequeueReusableCellWithIdentifier(
-        settingIdentifier) as? UITableViewCell
+            settingIdentifier) as? UITableViewCell
         if cell == nil {
-        cell = UITableViewCell(
-        style: UITableViewCellStyle.Value1, reuseIdentifier: settingIdentifier)
+            cell = UITableViewCell(
+                style: UITableViewCellStyle.Value1, reuseIdentifier: settingIdentifier)
         }
-        cell!.textLabel!.text = settingLabel[indexPath.row]
-        if indexPath.row == 0
+        if indexPath.section == 0
         {
-            cell!.detailTextLabel!.text = settingLabelDetail.rawValue
+            
+            if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2
+            {
+                
+                cell!.textLabel!.text = settingLabel[indexPath.row]
+                cell!.detailTextLabel!.text = settingLabelDetail.rawValue
+                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            }
+            else if indexPath.row == 3
+            {
+               
+                cell!.textLabel!.text = settingLabel[indexPath.row]
+                let sw = UISwitch(frame: CGRect())
+                sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+                
+                cell!.accessoryView = sw
+            }
         }
-        else if indexPath.row == 1
-        {
-            let sw = UISwitch(frame: CGRect())
-            sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-
-            cell!.accessoryView = sw
+        else if indexPath.section == 1{
+            cell = UITableViewCell(
+                style: UITableViewCellStyle.Subtitle, reuseIdentifier: settingIdentifier)
+            cell!.textLabel!.text = "Delete"
         }
+        
         return cell!
     }
     
     @IBAction func SwitchTapped(sender: UISwitch){
         if sender.on{
-            AlarmAddViewController.isVibration = true
+            AlarmAddEditViewController.isVibration = true
         }
         else{
-            AlarmAddViewController.isVibration = false
+            AlarmAddEditViewController.isVibration = false
         }
         
     }
