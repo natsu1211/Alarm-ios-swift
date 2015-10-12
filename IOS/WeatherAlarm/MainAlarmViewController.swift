@@ -64,7 +64,16 @@ class MainAlarmViewController: UITableViewController{
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
+        if Alarms.sharedInstance.count == 0
+        {
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        }
+        else
+        {
+            tableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        }
         return Alarms.sharedInstance.count
+
         
     }
     
@@ -84,29 +93,33 @@ class MainAlarmViewController: UITableViewController{
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("AlarmCell", forIndexPath: indexPath) as! UITableViewCell
-        
+        var cell = tableView.dequeueReusableCellWithIdentifier("AlarmCell", forIndexPath: indexPath) as? UITableViewCell
+        if  cell == nil {
+            cell = UITableViewCell(
+            style: UITableViewCellStyle.Subtitle, reuseIdentifier: "AlarmCell")
+        }
             //cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "AlarmCell")
-            cell.tag = indexPath.row
+            cell!.tag = indexPath.row
             let ala = Alarms.sharedInstance[indexPath.row] as Alarm
-            cell.textLabel?.text = ala.timeStr
-            cell.detailTextLabel?.text = ala.title
-        
-        
+            cell!.textLabel?.text = ala.timeStr
+            cell!.textLabel?.font = UIFont.systemFontOfSize(22.0)
+            cell!.detailTextLabel?.text = ala.title
 
         // Configure the cell...
         
         let sw = UISwitch(frame: CGRect())
+        sw.transform = CGAffineTransformMakeScale(0.9, 0.9);
         //tag is used to indicate which row had been touched
         
         sw.tag = indexPath.row
-
-        //cell.detailTextLabel?.text = ala.time
-        cell.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
+        cell!.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        cell.accessoryView = sw
+        cell!.accessoryView = sw
         
-        return cell
+        //delete empty seperator line
+        tableView.tableFooterView = UIView(frame: CGRectZero)
+        
+        return cell!
     }
     /*
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -191,6 +204,10 @@ class MainAlarmViewController: UITableViewController{
         let indexPath = tableView.indexPathForCell(tableViewCell!)!
         let dist =  segue.destinationViewController as! AlarmEditViewController
         dist.index = indexPath.row
+    }
+    
+    @IBAction func unwindToMainAlarmView(segue: UIStoryboardSegue) {
+        
     }
 
 }
