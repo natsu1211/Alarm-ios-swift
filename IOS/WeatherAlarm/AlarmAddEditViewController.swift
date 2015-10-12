@@ -15,7 +15,6 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
 
     @IBOutlet weak var datePicker: UIDatePicker!
     var mediaItem: MPMediaItem?
-    static var isVibration:Bool = false
     var isEditMode: Bool = true
     
     override func viewDidLoad() {
@@ -117,15 +116,6 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         return cell!
     }
     
-    @IBAction func SwitchTapped(sender: UISwitch){
-        if sender.on{
-            AlarmAddEditViewController.isVibration = true
-        }
-        else{
-            AlarmAddEditViewController.isVibration = false
-        }
-        
-    }
     //var intervalPicker: UIPickerView = UIPickerView()
     let intervalArray = ["Once","EveryDay","WeekDay","WeekEnd","Cancel"]
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

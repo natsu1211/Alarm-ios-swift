@@ -72,10 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     
     //AlarmApplicationDelegate protocol
     func playAlarmSound() {
-        if AlarmAddViewController.isVibration{
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        }
-        
+        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         let url = NSURL.fileURLWithPath(
             NSBundle.mainBundle().pathForResource("bell", ofType: "mp3")!)
         

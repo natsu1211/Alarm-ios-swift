@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--Weather Alarm-->
+        <!--Alarm-->
         <scene sceneID="1K5-R3-JmD">
             <objects>
                 <tableViewController id="TFz-Z9-qBx" customClass="MainAlarmViewController" customModule="WeatherAlarm" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,7 +25,7 @@
                             <outlet property="delegate" destination="TFz-Z9-qBx" id="wZK-hk-EFI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Weather Alarm" id="dQi-iQ-p46">
+                    <navigationItem key="navigationItem" title="Alarm" id="dQi-iQ-p46">
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="Nee-Gx-WB6">
                             <color key="tintColor" red="1" green="0.25289092608375097" blue="0.2963450998741618" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
@@ -61,7 +61,7 @@
                                 </date>
                             </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sig-gf-rWO">
-                                <rect key="frame" x="0.0" y="292" width="380" height="204"/>
+                                <rect key="frame" x="0.0" y="292" width="380" height="275"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <sections/>
                                 <connections>
