@@ -12,12 +12,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="sectionIndexBackgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="AlarmCell" id="k1q-Lu-G1s">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="AlarmCell" editingAccessoryType="disclosureIndicator" textLabel="1O7-oD-aL7" detailTextLabel="kfr-t6-NbO" style="IBUITableViewCellStyleSubtitle" id="k1q-Lu-G1s">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k1q-Lu-G1s" id="ycH-Gl-cZ0">
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1O7-oD-aL7">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kfr-t6-NbO">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -26,16 +43,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Alarm" id="dQi-iQ-p46">
-                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="Nee-Gx-WB6">
-                            <color key="tintColor" red="1" green="0.25289092608375097" blue="0.2963450998741618" alpha="1" colorSpace="calibratedRGB"/>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aSU-Te-jrO">
                             <color key="tintColor" red="1" green="0.25289092610000002" blue="0.29634509990000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="XKb-lA-7Db" kind="presentation" id="Okr-Zd-u6D"/>
+                                <segue destination="XKb-lA-7Db" kind="presentation" identifier="addSegue" id="Okr-Zd-u6D"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="XKb-lA-7Db" kind="presentation" identifier="editSegue" id="vZt-5w-FkZ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCo-Yz-gt0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -53,7 +70,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="NSI-4y-VRm">
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="NSI-4y-VRm">
                                 <rect key="frame" x="140" y="79" width="320" height="162"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <date key="date" timeIntervalSinceReferenceDate="446899833.86513501">
@@ -86,18 +103,19 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="k9T-Tn-MhG">
                             <color key="tintColor" red="1" green="0.25289092610000002" blue="0.29634509990000002" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="saveAlarm:" destination="Hc0-91-jHo" id="MBa-35-ZGn"/>
+                                <action selector="saveEditAlarm:" destination="Hc0-91-jHo" id="lg7-I3-xmt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="datePicker" destination="NSI-4y-VRm" id="WMC-hi-0LX"/>
+                        <segue destination="c81-oW-ugr" kind="unwind" identifier="saveEditAlarm" unwindAction="unwindToMainAlarmView:" id="H3X-Pk-MH9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m0s-w4-sVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="c81-oW-ugr" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3744" y="-248"/>
+            <point key="canvasLocation" x="3489" y="-305"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jhd-3J-xXH">
@@ -137,4 +155,7 @@
             <point key="canvasLocation" x="2746.875" y="-247.18309859154928"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="vZt-5w-FkZ"/>
+    </inferredMetricsTieBreakers>
 </document>

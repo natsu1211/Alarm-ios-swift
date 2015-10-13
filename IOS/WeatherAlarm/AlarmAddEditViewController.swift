@@ -15,7 +15,9 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
 
     @IBOutlet weak var datePicker: UIDatePicker!
     var mediaItem: MPMediaItem?
-    var isEditMode: Bool = true
+    var isEditMode: Bool = false
+    var indexOfCell: Int = -1
+    private var label: String = "Alarm"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +27,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
        // mediaPicker.allowsPickingMultipleItems = false
         //presentViewController(mediaPicker, animated: true, completion: nil)
         // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,23 +35,26 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func saveAlarm(sender: AnyObject) {
+    @IBAction func saveEditAlarm(sender: AnyObject) {
         let date = datePicker.date
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        if isEditMode
+        {
+            Alarms.sharedInstance.setDate(date, AtIndex: indexOfCell)
+            Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: indexOfCell)
+        }
+        else
+        {
+            Alarms.sharedInstance.append( Alarm(label: "Alarm", timeStr: timeStr, date: date,            enabled: false, UUID: NSUUID().UUIDString, mediaID: ""))
+        }
         
-        Alarms.sharedInstance.append( Alarm(title: "Alarm", timeStr: timeStr, date: date, enabled: false, UUID: NSUUID().UUIDString, mediaID: ""))
         //navigationController?.popViewControllerAnimated(true)
-        dismissViewControllerAnimated(true, completion: nil)
+        //dismissViewControllerAnimated(true, completion: nil)
+        self.performSegueWithIdentifier("saveEditAlarm", sender: self)
     }
     
     
-    
-    
-    @IBAction func backToMain(sender: AnyObject) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    let settingIdentifier = "settingIdentifier"
+    let settingIdentifier = "setting"
  
     private let settingLabel = ["Repeat","Label", "Sound", "Snooze"]
     enum AlarmInterval: String {
@@ -153,6 +159,17 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         presentViewController(storageController, animated: true, completion: nil)
             
     }
+    
+   /* override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let rowValue = alarms[indexPath.row].timeStr
+        let message = "You selected \(rowValue)"
+        let controller = UIAlertController(title: "Row Selected",
+            message: message, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "Yes I Did",
+            style: .Default, handler: nil)
+        controller.addAction(action)
+        presentViewController(controller, animated: true, completion: nil)
+    }*/
     
     /*
     func numberOfComponentsInPickerView(colorPicker: UIPickerView) -> Int {

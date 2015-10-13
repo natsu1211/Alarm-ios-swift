@@ -15,13 +15,27 @@ class MainAlarmViewController: UITableViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.allowsSelectionDuringEditing = true
+
     }
     
     override func viewWillAppear(animated: Bool) {
-        //alarms.append(alarm)
-        UIApplication.sharedApplication().scheduledLocalNotifications = nil
+        
         super.viewWillAppear(animated)
         tableView.reloadData();
+        //dynamically append the edit button
+        if Alarms.sharedInstance.count != 0
+        {
+            self.navigationItem.leftBarButtonItem = editButtonItem()
+            self.navigationItem.leftBarButtonItem?.tintColor = UIColor.redColor()
+        }
+        else
+        {
+            self.navigationItem.leftBarButtonItem = nil
+        }
+        //unschedule all the notifications, faster than calling the cancelAllNotifications func
+        UIApplication.sharedApplication().scheduledLocalNotifications = nil
+        
         let cells = tableView.visibleCells() as? [UITableViewCell]
         if cells != nil
         {
@@ -49,6 +63,20 @@ class MainAlarmViewController: UITableViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    /*
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing,  animated: animated)
+        let cells = tableView.visibleCells() as? [UITableViewCell]
+        if cells != nil{
+
+            for cell in cells!
+            {
+                cell.userInteractionEnabled = editing ? true : false
+            }
+        }
+    }
+    */
 
     
     // MARK: - Table view data source
@@ -77,19 +105,17 @@ class MainAlarmViewController: UITableViewController{
         
     }
     
-
-    /*
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-            let rowValue = alarms[indexPath.row].timeStr
-            let message = "You selected \(rowValue)"
-            let controller = UIAlertController(title: "Row Selected",
-            message: message, preferredStyle: .Alert)
-            let action = UIAlertAction(title: "Yes I Did",
-            style: .Default, handler: nil)
-            controller.addAction(action)
-            presentViewController(controller, animated: true, completion: nil)
+        
+        self.tableView.tag = indexPath.row
+        if editing
+        {
+            performSegueWithIdentifier("editSegue", sender: self)
+        }
     }
-    */
+    
+    
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -98,19 +124,20 @@ class MainAlarmViewController: UITableViewController{
             cell = UITableViewCell(
             style: UITableViewCellStyle.Subtitle, reuseIdentifier: "AlarmCell")
         }
-            //cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "AlarmCell")
-            cell!.tag = indexPath.row
-            let ala = Alarms.sharedInstance[indexPath.row] as Alarm
-            cell!.textLabel?.text = ala.timeStr
-            cell!.textLabel?.font = UIFont.systemFontOfSize(22.0)
-            cell!.detailTextLabel?.text = ala.title
+        cell!.tag = indexPath.row
+        let ala = Alarms.sharedInstance[indexPath.row] as Alarm
+        cell!.textLabel?.text = ala.timeStr
+        cell!.textLabel?.font = UIFont.systemFontOfSize(22.0)
+        cell!.detailTextLabel?.text = ala.label
+
+  
 
         // Configure the cell...
         
         let sw = UISwitch(frame: CGRect())
-        sw.transform = CGAffineTransformMakeScale(0.9, 0.9);
-        //tag is used to indicate which row had been touched
+        //sw.transform = CGAffineTransformMakeScale(0.9, 0.9);
         
+        //tag is used to indicate which row had been touched
         sw.tag = indexPath.row
         cell!.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -166,17 +193,19 @@ class MainAlarmViewController: UITableViewController{
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
+            Alarms.sharedInstance.removeAtIndex(indexPath.row)
             // Delete the row from the data source
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+
 
     /*
     // Override to support rearranging the table view.
@@ -197,17 +226,28 @@ class MainAlarmViewController: UITableViewController{
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let tableViewCell = sender as? UITableViewCell
-        if tableViewCell == nil{
-            return
+        let dist = segue.destinationViewController as! UINavigationController
+        let addEditController = dist.topViewController as! AlarmAddEditViewController
+        if segue.identifier == "addSegue"
+        {
+            addEditController.navigationItem.title = "Add Alarm"
+            addEditController.isEditMode = false
         }
-        let indexPath = tableView.indexPathForCell(tableViewCell!)!
-        let dist =  segue.destinationViewController as! AlarmEditViewController
-        dist.index = indexPath.row
+        else if segue.identifier == "editSegue"
+        {
+            addEditController.navigationItem.title = "Edit Alarm"
+            addEditController.isEditMode = true
+            //let cell = sender as! UITableViewCell
+            //let indexPath = tableView.indexPathForCell(cell)!
+            //addEditController.indexOfCell = indexPath.row
+            let vc = sender as! UITableViewController
+            addEditController.indexOfCell = vc.tableView.tag
+
+        }
     }
     
     @IBAction func unwindToMainAlarmView(segue: UIStoryboardSegue) {
-        
+        editing = false
     }
 
 }
