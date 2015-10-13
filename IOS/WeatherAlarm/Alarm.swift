@@ -9,17 +9,17 @@
 import Foundation
 import MediaPlayer
 
-class Alarm
+struct Alarm
 {
     //using memberwise initializer for struct
-    var title: String
+    var label: String
     var timeStr: String
     var date: NSDate
     var enabled: Bool
     var UUID: String
     var mediaID: String
     
-    init(title: String, timeStr: String, date: NSDate, enabled: Bool,UUID: String, mediaID: String)
+    /*init(title: String, timeStr: String, date: NSDate, enabled: Bool,UUID: String, mediaID: String)
     {
         self.title = title
         self.timeStr = timeStr
@@ -27,7 +27,7 @@ class Alarm
         self.enabled = enabled
         self.UUID = UUID
         self.mediaID = mediaID
-    }
+    }*/
 
 }
 
@@ -42,9 +42,9 @@ class Alarms: SequenceType
     private init()
     {
         ud = NSUserDefaults.standardUserDefaults()
-        /*for key in ud.dictionaryRepresentation().keys {
+        for key in ud.dictionaryRepresentation().keys {
             NSUserDefaults.standardUserDefaults().removeObjectForKey(key.description)
-        }*/
+        }
         alarmKey = "myAlarmKey"
         alarms = getAllAlarm()
     }
@@ -58,7 +58,7 @@ class Alarms: SequenceType
         alarms.append(alarm)
         //ud.setObject(alarms!,forKey: alarmKey)
         var alarmDict = ud.dictionaryForKey(alarmKey) ?? [:]
-        alarmDict[alarm.UUID] = ["title": alarm.title, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID]
+        alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID]
         ud.setObject(alarmDict, forKey: alarmKey)
         ud.synchronize()
     }
@@ -71,7 +71,7 @@ class Alarms: SequenceType
         if alarmDict != nil
         {
             let items = Array(alarmDict!.values)
-            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(title: item["title"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String)}
+            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String)}
             
         }
         else
@@ -104,9 +104,9 @@ class Alarms: SequenceType
 
     }
     //helpers for alarm edit. maybe not a good design
-    func titleAtIndex(index: Int) -> String
+    func labelAtIndex(index: Int) -> String
     {
-        return alarms[index].title
+        return alarms[index].label
     }
     
     func timeStrAtIndex(index: Int) -> String
@@ -132,6 +132,26 @@ class Alarms: SequenceType
     func mediaIDAtIndex(index: Int) -> String
     {
         return alarms[index].mediaID
+    }
+    
+    func setLabel(label: String, AtIndex index: Int)
+    {
+        alarms[index].label = label
+    }
+    
+    func setDate(date: NSDate, AtIndex index: Int)
+    {
+        alarms[index].date = date
+    }
+    
+    func setTimeStr(timeStr: String, AtIndex index: Int)
+    {
+        alarms[index].timeStr = timeStr
+    }
+    
+    func setMediaID(mediaID: String, AtIndex index: Int)
+    {
+        alarms[index].mediaID = mediaID
     }
     
     //SequenceType Protocol
