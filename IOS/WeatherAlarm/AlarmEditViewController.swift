@@ -36,7 +36,7 @@ class AlarmEditViewController: UIViewController {
         let date = datePicker.date
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         //not change the title, UUID, mediaID
-        let newAlarm = Alarm(title: Alarms.sharedInstance[sender.tag].title, timeStr: timeStr, date: date, enabled: false, UUID: Alarms.sharedInstance[sender.tag].UUID, mediaID: Alarms.sharedInstance[sender.tag].mediaID)
+        let newAlarm = Alarm(label: Alarms.sharedInstance[sender.tag].label, timeStr: timeStr, date: date, enabled: false, UUID: Alarms.sharedInstance[sender.tag].UUID, mediaID: Alarms.sharedInstance[sender.tag].mediaID)
         
 
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
