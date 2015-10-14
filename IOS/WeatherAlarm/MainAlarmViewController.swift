@@ -162,7 +162,7 @@ class MainAlarmViewController: UITableViewController{
         {
             println("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-            Alarms.sharedInstance[sender.tag].enabled = true
+            Alarms.sharedInstance.setEnabled(true, AtIndex: sender.tag)
             alarmDelegate.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date)
             
             
@@ -171,7 +171,7 @@ class MainAlarmViewController: UITableViewController{
         {
             println("switch off")
             sender.superview?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
-            Alarms.sharedInstance[sender.tag].enabled = false
+            Alarms.sharedInstance.setEnabled(false, AtIndex: sender.tag)
             //UIApplication.sharedApplication().cancelLocalNotification(UIApplication.sharedApplication().scheduledLocalNotifications[sender.tag] as! UILocalNotification)
             UIApplication.sharedApplication().scheduledLocalNotifications = nil
             for alarm in Alarms.sharedInstance{

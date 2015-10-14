@@ -18,6 +18,7 @@ struct Alarm
     var enabled: Bool
     var UUID: String
     var mediaID: String
+    var repeatWeekdays: [Int]
     
     /*init(title: String, timeStr: String, date: NSDate, enabled: Bool,UUID: String, mediaID: String)
     {
@@ -152,6 +153,11 @@ class Alarms: SequenceType
     func setMediaID(mediaID: String, AtIndex index: Int)
     {
         alarms[index].mediaID = mediaID
+    }
+    
+    func setEnabled(enabled: Bool, AtIndex index: Int)
+    {
+        alarms[index].enabled = enabled
     }
     
     //SequenceType Protocol

@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             (action:UIAlertAction!)->Void in audioPlayer?.stop()
             
         }
-        let stopOption = UIAlertAction(title: "Stop", style: .Default) {
+        let stopOption = UIAlertAction(title: "OK", style: .Default) {
             (action:UIAlertAction!)->Void in audioPlayer?.stop()}
         storageController.addAction(snoozeOption)
         storageController.addAction(stopOption)
@@ -139,7 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
         AlarmNotification.category = "myAlarmCategory"
-        //AlarmNotification.applicationIconBadgeNumber = 1
+        AlarmNotification.applicationIconBadgeNumber = 0
         //AlarmNotification.repeatCalendar = calendar
         //TODO, not working
         //AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfYear
