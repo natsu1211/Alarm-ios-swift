@@ -9,6 +9,7 @@
 import UIKit
 
 class WeekdaysViewController: UITableViewController {
+    static var weekdays: [Int] = [Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +19,7 @@ class WeekdaysViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,29 +27,42 @@ class WeekdaysViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
-        return 0
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
-    }
-
-    /*
+    
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
         // Configure the cell...
-
+        for weekday in WeekdaysViewController.weekdays{
+            if weekday == (indexPath.row + 1) {
+                cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            }
+        }
         return cell
     }
-    */
+
+
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)!
+
+        //for swift 1.2, if you are using swift 2.0, use indexOf:. method instead
+        if let index = find(WeekdaysViewController.weekdays, (indexPath.row + 1)){
+            WeekdaysViewController.weekdays.removeAtIndex(index)
+            cell.setSelected(true, animated: true)
+            cell.setSelected(false, animated: true)
+            cell.accessoryType = UITableViewCellAccessoryType.None
+        }
+        else{
+            //row index start from 0, weekdays index start from 1 (Sunday), so plus 1
+            WeekdaysViewController.weekdays.append(indexPath.row + 1)
+            cell.setSelected(true, animated: true)
+            cell.setSelected(false, animated: true)
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
+        
+        
+    }
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -91,6 +106,7 @@ class WeekdaysViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        let vc = sender as! UITableViewController
     }
     */
 
