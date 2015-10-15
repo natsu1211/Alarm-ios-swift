@@ -27,7 +27,7 @@ class MainAlarmViewController: UITableViewController{
         if Alarms.sharedInstance.count != 0
         {
             self.navigationItem.leftBarButtonItem = editButtonItem()
-            self.navigationItem.leftBarButtonItem?.tintColor = UIColor.redColor()
+            //self.navigationItem.leftBarButtonItem?.tintColor = UIColor.redColor()
         }
         else
         {
