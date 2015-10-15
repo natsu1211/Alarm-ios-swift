@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         //alarmDelegate!.setupNotificationSettings()
         
         setupNotificationSettings()
+        window?.tintColor = UIColor.redColor()
         return true
     }
     
