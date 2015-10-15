@@ -59,7 +59,7 @@ class Alarms: SequenceType
         alarms.append(alarm)
         //ud.setObject(alarms!,forKey: alarmKey)
         var alarmDict = ud.dictionaryForKey(alarmKey) ?? [:]
-        alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID]
+        alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
         ud.setObject(alarmDict, forKey: alarmKey)
         ud.synchronize()
     }
@@ -72,7 +72,7 @@ class Alarms: SequenceType
         if alarmDict != nil
         {
             let items = Array(alarmDict!.values)
-            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String)}
+            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
             
         }
         else
