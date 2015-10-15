@@ -45,7 +45,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         }
         else
         {
-            Alarms.sharedInstance.append( Alarm(label: "Alarm", timeStr: timeStr, date: date,            enabled: false, UUID: NSUUID().UUIDString, mediaID: ""))
+            Alarms.sharedInstance.append( Alarm(label: "Alarm", timeStr: timeStr, date: date,            enabled: false, UUID: NSUUID().UUIDString, mediaID: "", repeatWeekdays: [Int]()))
         }
         
         //navigationController?.popViewControllerAnimated(true)
@@ -122,10 +122,10 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         return cell!
     }
     
-    //var intervalPicker: UIPickerView = UIPickerView()
-    let intervalArray = ["Once","EveryDay","WeekDay","WeekEnd","Cancel"]
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var cell = tableView.cellForRowAtIndexPath(indexPath)
+        /*
         let title = NSLocalizedString("Choose a Alarm Interval", comment: "")
         //let message = NSLocalizedString("Choose Interval", comment: "")
         let onceActionTitle = NSLocalizedString(intervalArray[0], comment: "")
@@ -157,6 +157,15 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         
             
         presentViewController(storageController, animated: true, completion: nil)
+        */
+        switch indexPath.row{
+        case 0:
+            performSegueWithIdentifier("weekdaysSegue", sender: self)
+            cell?.setSelected(true, animated: false)
+        default:
+            break
+            
+        }
             
     }
     

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9E3B062F1BB8347000453456 /* bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E3B062E1BB8347000453456 /* bell.mp3 */; };
-		9EE95E3D1BAF7CFE00221E5F /* AlarmEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE95E3C1BAF7CFE00221E5F /* AlarmEditViewController.swift */; };
+		9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */; };
 		9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EED78711AA0F03F00961BC2 /* AppDelegate.swift */; };
 		9EED78771AA0F03F00961BC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EED78751AA0F03F00961BC2 /* Main.storyboard */; };
 		9EED78791AA0F03F00961BC2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EED78781AA0F03F00961BC2 /* Images.xcassets */; };
@@ -31,7 +31,7 @@
 
 /* Begin PBXFileReference section */
 		9E3B062E1BB8347000453456 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bell.mp3; sourceTree = "<group>"; };
-		9EE95E3C1BAF7CFE00221E5F /* AlarmEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmEditViewController.swift; sourceTree = "<group>"; };
+		9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekdaysViewController.swift; sourceTree = "<group>"; };
 		9EED786C1AA0F03F00961BC2 /* WeatherAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EED78701AA0F03F00961BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9EED78711AA0F03F00961BC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 				9EED786F1AA0F03F00961BC2 /* Supporting Files */,
 				9EED78931AA1E51700961BC2 /* Alarm.swift */,
 				9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */,
-				9EE95E3C1BAF7CFE00221E5F /* AlarmEditViewController.swift */,
+				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
 			);
 			path = WeatherAlarm;
 			sourceTree = "<group>";
@@ -227,9 +227,9 @@
 			files = (
 				9EED789A1AA36C7900961BC2 /* AlarmAddEditViewController.swift in Sources */,
 				9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */,
-				9EE95E3D1BAF7CFE00221E5F /* AlarmEditViewController.swift in Sources */,
 				9EED78941AA1E51700961BC2 /* Alarm.swift in Sources */,
 				9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */,
+				9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
