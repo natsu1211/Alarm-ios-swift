@@ -32,13 +32,13 @@
 /* Begin PBXFileReference section */
 		9E3B062E1BB8347000453456 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bell.mp3; sourceTree = "<group>"; };
 		9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekdaysViewController.swift; sourceTree = "<group>"; };
-		9EED786C1AA0F03F00961BC2 /* WeatherAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EED786C1AA0F03F00961BC2 /* Alarm-ios8-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Alarm-ios8-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EED78701AA0F03F00961BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9EED78711AA0F03F00961BC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9EED78761AA0F03F00961BC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9EED78781AA0F03F00961BC2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9EED787B1AA0F03F00961BC2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		9EED78811AA0F03F00961BC2 /* WeatherAlarmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAlarmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EED78811AA0F03F00961BC2 /* Alarm-ios8-swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Alarm-ios8-swiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EED78861AA0F03F00961BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9EED78871AA0F03F00961BC2 /* WeatherAlarmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAlarmTests.swift; sourceTree = "<group>"; };
 		9EED78931AA1E51700961BC2 /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
@@ -67,8 +67,8 @@
 		9EED78631AA0F03F00961BC2 = {
 			isa = PBXGroup;
 			children = (
-				9EED786E1AA0F03F00961BC2 /* WeatherAlarm */,
-				9EED78841AA0F03F00961BC2 /* WeatherAlarmTests */,
+				9EED786E1AA0F03F00961BC2 /* Alarm */,
+				9EED78841AA0F03F00961BC2 /* AlarmTests */,
 				9EED786D1AA0F03F00961BC2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -76,13 +76,13 @@
 		9EED786D1AA0F03F00961BC2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9EED786C1AA0F03F00961BC2 /* WeatherAlarm.app */,
-				9EED78811AA0F03F00961BC2 /* WeatherAlarmTests.xctest */,
+				9EED786C1AA0F03F00961BC2 /* Alarm-ios8-swift.app */,
+				9EED78811AA0F03F00961BC2 /* Alarm-ios8-swiftTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9EED786E1AA0F03F00961BC2 /* WeatherAlarm */ = {
+		9EED786E1AA0F03F00961BC2 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
 				9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */,
@@ -95,7 +95,7 @@
 				9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */,
 				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
 			);
-			path = WeatherAlarm;
+			path = Alarm;
 			sourceTree = "<group>";
 		};
 		9EED786F1AA0F03F00961BC2 /* Supporting Files */ = {
@@ -107,13 +107,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9EED78841AA0F03F00961BC2 /* WeatherAlarmTests */ = {
+		9EED78841AA0F03F00961BC2 /* AlarmTests */ = {
 			isa = PBXGroup;
 			children = (
 				9EED78871AA0F03F00961BC2 /* WeatherAlarmTests.swift */,
 				9EED78851AA0F03F00961BC2 /* Supporting Files */,
 			);
-			path = WeatherAlarmTests;
+			path = AlarmTests;
 			sourceTree = "<group>";
 		};
 		9EED78851AA0F03F00961BC2 /* Supporting Files */ = {
@@ -127,9 +127,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9EED786B1AA0F03F00961BC2 /* WeatherAlarm */ = {
+		9EED786B1AA0F03F00961BC2 /* Alarm-ios8-swift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9EED788B1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "WeatherAlarm" */;
+			buildConfigurationList = 9EED788B1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "Alarm-ios8-swift" */;
 			buildPhases = (
 				9EED78681AA0F03F00961BC2 /* Sources */,
 				9EED78691AA0F03F00961BC2 /* Frameworks */,
@@ -139,14 +139,14 @@
 			);
 			dependencies = (
 			);
-			name = WeatherAlarm;
+			name = "Alarm-ios8-swift";
 			productName = WeatherAlarm;
-			productReference = 9EED786C1AA0F03F00961BC2 /* WeatherAlarm.app */;
+			productReference = 9EED786C1AA0F03F00961BC2 /* Alarm-ios8-swift.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9EED78801AA0F03F00961BC2 /* WeatherAlarmTests */ = {
+		9EED78801AA0F03F00961BC2 /* Alarm-ios8-swiftTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9EED788E1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "WeatherAlarmTests" */;
+			buildConfigurationList = 9EED788E1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "Alarm-ios8-swiftTests" */;
 			buildPhases = (
 				9EED787D1AA0F03F00961BC2 /* Sources */,
 				9EED787E1AA0F03F00961BC2 /* Frameworks */,
@@ -157,9 +157,9 @@
 			dependencies = (
 				9EED78831AA0F03F00961BC2 /* PBXTargetDependency */,
 			);
-			name = WeatherAlarmTests;
+			name = "Alarm-ios8-swiftTests";
 			productName = WeatherAlarmTests;
-			productReference = 9EED78811AA0F03F00961BC2 /* WeatherAlarmTests.xctest */;
+			productReference = 9EED78811AA0F03F00961BC2 /* Alarm-ios8-swiftTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -180,7 +180,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9EED78671AA0F03F00961BC2 /* Build configuration list for PBXProject "WeatherAlarm" */;
+			buildConfigurationList = 9EED78671AA0F03F00961BC2 /* Build configuration list for PBXProject "Alarm-ios8-swift" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -193,8 +193,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9EED786B1AA0F03F00961BC2 /* WeatherAlarm */,
-				9EED78801AA0F03F00961BC2 /* WeatherAlarmTests */,
+				9EED786B1AA0F03F00961BC2 /* Alarm-ios8-swift */,
+				9EED78801AA0F03F00961BC2 /* Alarm-ios8-swiftTests */,
 			);
 		};
 /* End PBXProject section */
@@ -246,7 +246,7 @@
 /* Begin PBXTargetDependency section */
 		9EED78831AA0F03F00961BC2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9EED786B1AA0F03F00961BC2 /* WeatherAlarm */;
+			target = 9EED786B1AA0F03F00961BC2 /* Alarm-ios8-swift */;
 			targetProxy = 9EED78821AA0F03F00961BC2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -354,9 +354,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = WeatherAlarm/Info.plist;
+				INFOPLIST_FILE = Alarm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Alarm-ios8-swift";
 			};
 			name = Debug;
 		};
@@ -364,9 +364,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = WeatherAlarm/Info.plist;
+				INFOPLIST_FILE = Alarm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Alarm-ios8-swift";
 			};
 			name = Release;
 		};
@@ -382,10 +382,10 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = WeatherAlarmTests/Info.plist;
+				INFOPLIST_FILE = AlarmTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeatherAlarm.app/WeatherAlarm";
+				PRODUCT_NAME = "Alarm-ios8-swiftTests";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Alarm-ios8-swift.app/Alarm-ios8-swift";
 			};
 			name = Debug;
 		};
@@ -397,17 +397,17 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = WeatherAlarmTests/Info.plist;
+				INFOPLIST_FILE = AlarmTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeatherAlarm.app/WeatherAlarm";
+				PRODUCT_NAME = "Alarm-ios8-swiftTests";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Alarm-ios8-swift.app/Alarm-ios8-swift";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9EED78671AA0F03F00961BC2 /* Build configuration list for PBXProject "WeatherAlarm" */ = {
+		9EED78671AA0F03F00961BC2 /* Build configuration list for PBXProject "Alarm-ios8-swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9EED78891AA0F03F00961BC2 /* Debug */,
@@ -416,7 +416,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9EED788B1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "WeatherAlarm" */ = {
+		9EED788B1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "Alarm-ios8-swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9EED788C1AA0F03F00961BC2 /* Debug */,
@@ -425,7 +425,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9EED788E1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "WeatherAlarmTests" */ = {
+		9EED788E1AA0F03F00961BC2 /* Build configuration list for PBXNativeTarget "Alarm-ios8-swiftTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9EED788F1AA0F03F00961BC2 /* Debug */,

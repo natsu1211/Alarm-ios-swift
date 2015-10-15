@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9EED786B1AA0F03F00961BC2"
-               BuildableName = "WeatherAlarm.app"
-               BlueprintName = "WeatherAlarm"
-               ReferencedContainer = "container:WeatherAlarm.xcodeproj">
+               BuildableName = "Alarm-ios8-swift.app"
+               BlueprintName = "Alarm-ios8-swift"
+               ReferencedContainer = "container:Alarm-ios8-swift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9EED78801AA0F03F00961BC2"
-               BuildableName = "WeatherAlarmTests.xctest"
-               BlueprintName = "WeatherAlarmTests"
-               ReferencedContainer = "container:WeatherAlarm.xcodeproj">
+               BuildableName = "Alarm-ios8-swiftTests.xctest"
+               BlueprintName = "Alarm-ios8-swiftTests"
+               ReferencedContainer = "container:Alarm-ios8-swift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9EED78801AA0F03F00961BC2"
-               BuildableName = "WeatherAlarmTests.xctest"
-               BlueprintName = "WeatherAlarmTests"
-               ReferencedContainer = "container:WeatherAlarm.xcodeproj">
+               BuildableName = "Alarm-ios8-swiftTests.xctest"
+               BlueprintName = "Alarm-ios8-swiftTests"
+               ReferencedContainer = "container:Alarm-ios8-swift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9EED786B1AA0F03F00961BC2"
-            BuildableName = "WeatherAlarm.app"
-            BlueprintName = "WeatherAlarm"
-            ReferencedContainer = "container:WeatherAlarm.xcodeproj">
+            BuildableName = "Alarm-ios8-swift.app"
+            BlueprintName = "Alarm-ios8-swift"
+            ReferencedContainer = "container:Alarm-ios8-swift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -72,13 +72,14 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9EED786B1AA0F03F00961BC2"
-            BuildableName = "WeatherAlarm.app"
-            BlueprintName = "WeatherAlarm"
-            ReferencedContainer = "container:WeatherAlarm.xcodeproj">
+            BuildableName = "Alarm-ios8-swift.app"
+            BlueprintName = "Alarm-ios8-swift"
+            ReferencedContainer = "container:Alarm-ios8-swift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -90,13 +91,14 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9EED786B1AA0F03F00961BC2"
-            BuildableName = "WeatherAlarm.app"
-            BlueprintName = "WeatherAlarm"
-            ReferencedContainer = "container:WeatherAlarm.xcodeproj">
+            BuildableName = "Alarm-ios8-swift.app"
+            BlueprintName = "Alarm-ios8-swift"
+            ReferencedContainer = "container:Alarm-ios8-swift.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
