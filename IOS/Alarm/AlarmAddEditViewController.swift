@@ -56,11 +56,6 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     
     let settingIdentifier = "setting"
  
-    private let settingLabel = ["Repeat","Label", "Sound", "Snooze"]
-    enum AlarmInterval: String {
-        case Once="Once", EveryDay="EveryDay", WeekDay="WeekDay", WeekEnd="WeekEnd"
-    }
-    var settingLabelDetail:AlarmInterval = .Once
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
         if isEditMode
@@ -96,17 +91,29 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         if indexPath.section == 0
         {
             
-            if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2
+            if indexPath.row == 0
             {
                 
-                cell!.textLabel!.text = settingLabel[indexPath.row]
-                cell!.detailTextLabel!.text = settingLabelDetail.rawValue
+                cell!.textLabel!.text = "Repeat"
+                //cell!.detailTextLabel!.text = repeatText()
+                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            }
+            else if indexPath.row == 1
+            {
+                cell!.textLabel!.text = "Label"
+                //cell!.detailTextLabel!.text = labelText()
+                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            }
+            else if indexPath.row == 2
+            {
+                cell!.textLabel!.text = "Sound"
+                //cell!.detailTextLabel!.text = soundText()
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
             else if indexPath.row == 3
             {
                
-                cell!.textLabel!.text = settingLabel[indexPath.row]
+                cell!.textLabel!.text = "Snooze"
                 let sw = UISwitch(frame: CGRect())
                 sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
                 
@@ -115,8 +122,10 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         }
         else if indexPath.section == 1{
             cell = UITableViewCell(
-                style: UITableViewCellStyle.Subtitle, reuseIdentifier: settingIdentifier)
-            cell!.textLabel!.text = "Delete"
+                style: UITableViewCellStyle.Default, reuseIdentifier: settingIdentifier)
+            cell!.textLabel!.text = "Delete Alarm"
+            cell!.textLabel!.textAlignment = .Center
+            cell!.textLabel!.textColor = UIColor.redColor()
         }
         
         return cell!
@@ -162,6 +171,11 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         case 0:
             performSegueWithIdentifier("weekdaysSegue", sender: self)
             cell?.setSelected(true, animated: false)
+            cell?.setSelected(false, animated: false)
+        case 1:
+            performSegueWithIdentifier("labelEditSegue", sender: self)
+            cell?.setSelected(true, animated: false)
+            cell?.setSelected(false, animated: false)
         default:
             break
             

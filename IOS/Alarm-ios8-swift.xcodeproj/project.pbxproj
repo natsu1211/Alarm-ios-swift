@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9E3B062F1BB8347000453456 /* bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E3B062E1BB8347000453456 /* bell.mp3 */; };
+		9E603F591BD7CA6600303E93 /* LabelEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */; };
 		9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */; };
 		9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EED78711AA0F03F00961BC2 /* AppDelegate.swift */; };
 		9EED78771AA0F03F00961BC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EED78751AA0F03F00961BC2 /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		9E3B062E1BB8347000453456 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bell.mp3; sourceTree = "<group>"; };
+		9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelEditViewController.swift; sourceTree = "<group>"; };
 		9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekdaysViewController.swift; sourceTree = "<group>"; };
 		9EED786C1AA0F03F00961BC2 /* Alarm-ios8-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Alarm-ios8-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EED78701AA0F03F00961BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				9EED78931AA1E51700961BC2 /* Alarm.swift */,
 				9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */,
 				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
+				9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */,
 			);
 			path = Alarm;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				9EED789A1AA36C7900961BC2 /* AlarmAddEditViewController.swift in Sources */,
 				9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */,
 				9EED78941AA1E51700961BC2 /* Alarm.swift in Sources */,
+				9E603F591BD7CA6600303E93 /* LabelEditViewController.swift in Sources */,
 				9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */,
 				9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */,
 			);

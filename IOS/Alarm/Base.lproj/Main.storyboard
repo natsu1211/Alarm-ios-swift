@@ -7,7 +7,7 @@
         <!--Alarm-->
         <scene sceneID="1K5-R3-JmD">
             <objects>
-                <tableViewController id="TFz-Z9-qBx" customClass="MainAlarmViewController" customModule="WeatherAlarm" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="TFz-Z9-qBx" customClass="MainAlarmViewController" customModule="Alarm_ios8_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bQK-Ff-qGY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -60,7 +60,7 @@
         <!--Add Alarm-->
         <scene sceneID="KWb-0J-Vuz">
             <objects>
-                <viewController id="Hc0-91-jHo" customClass="AlarmAddEditViewController" customModule="WeatherAlarm" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Hc0-91-jHo" customClass="AlarmAddEditViewController" customModule="Alarm_ios8_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UAQ-6d-GVG"/>
                         <viewControllerLayoutGuide type="bottom" id="kqQ-aI-t82"/>
@@ -93,6 +93,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add Alarm" id="eMP-mk-C6U">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="orB-8Q-5hX"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="yrj-B4-lyA">
                             <connections>
                                 <segue destination="c81-oW-ugr" kind="unwind" identifier="cancelAddAlarm" unwindAction="unwindToMainAlarmView:" id="Qb0-PY-wf7"/>
@@ -108,6 +109,7 @@
                         <outlet property="datePicker" destination="NSI-4y-VRm" id="WMC-hi-0LX"/>
                         <segue destination="c81-oW-ugr" kind="unwind" identifier="saveEditAlarm" unwindAction="unwindToMainAlarmView:" id="H3X-Pk-MH9"/>
                         <segue destination="MmK-Sj-jZ1" kind="show" identifier="weekdaysSegue" id="P0y-9x-cTb"/>
+                        <segue destination="Eno-9x-e90" kind="show" identifier="labelEditSegue" id="adI-dQ-7Cn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m0s-w4-sVD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -115,10 +117,10 @@
             </objects>
             <point key="canvasLocation" x="3489" y="-305"/>
         </scene>
-        <!--Weekdays View Controller-->
+        <!--Repeat-->
         <scene sceneID="IBS-M8-TGP">
             <objects>
-                <tableViewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="MmK-Sj-jZ1" customClass="WeekdaysViewController" customModule="WeatherAlarm" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="MmK-Sj-jZ1" customClass="WeekdaysViewController" customModule="Alarm_ios8_swift" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6An-0O-Yah">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -232,10 +234,37 @@
                             <outlet property="delegate" destination="MmK-Sj-jZ1" id="HhJ-JK-1Dt"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Repeat" id="sRP-fD-WPW"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ys-E3-H2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3499" y="458"/>
+        </scene>
+        <!--Label-->
+        <scene sceneID="ck0-2C-80R">
+            <objects>
+                <viewController id="Eno-9x-e90" customClass="LabelEditViewController" customModule="Alarm_ios8_swift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1cM-HH-WjN"/>
+                        <viewControllerLayoutGuide type="bottom" id="msd-Ue-IZj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="m9o-6m-IR4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Alarm" borderStyle="line" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JsK-02-iVy">
+                                <rect key="frame" x="0.0" y="211" width="600" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Label" id="89R-sU-zXe"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bc1-0f-IHl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4183" y="-305"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jhd-3J-xXH">
