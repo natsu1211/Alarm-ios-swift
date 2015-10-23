@@ -15,9 +15,8 @@ protocol AlarmApplicationDelegate
 {
     //typealias Weekday
     func playAlarmSound()
-    func setNotificationWithDate(date: NSDate)
     //something wrong with typealias, use Int instead
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int])
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int]?)
     func setupNotificationSettings()
     
     
@@ -134,57 +133,80 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         //}
     }
     
-    func setNotificationWithDate(date: NSDate) {
+    private func correctDate(date: NSDate, onWeekdaysForNotify weekdays:[Int]?) -> [NSDate]
+    {
+        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+        let now = NSDate()
+        var correctedDate: [NSDate] = [NSDate]()
+        let flags = NSCalendarUnit.CalendarUnitEra|NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitWeekday|NSCalendarUnit.CalendarUnitWeekdayOrdinal | NSCalendarUnit.CalendarUnitTimeZone | NSCalendarUnit.CalendarUnitWeekOfMonth | NSCalendarUnit.CalendarUnitWeekOfYear
+        var dateComponents = calendar.components(flags, fromDate: date)
+        var nowComponents = calendar.components(flags, fromDate: now)
+        var weekday:Int!
+        if date.compare(now) == NSComparisonResult.OrderedAscending
+        {
+            nowComponents.hour = dateComponents.hour
+            nowComponents.minute = dateComponents.minute
+            nowComponents.second = 0
+            weekday = nowComponents.weekday
+            correctedDate.append(calendar.dateFromComponents(nowComponents)!)
+        }
+        else
+        {
+            weekday = dateComponents.weekday
+            correctedDate.append(calendar.dateFromComponents(dateComponents)!)
+        }
+        if weekdays == nil{
+            return correctedDate
+        }
+        else
+        {
+            let daysInWeek = 7
+            correctedDate.removeAll(keepCapacity: true)
+            for wd in weekdays!
+            {
+                
+                var wdDate: NSDate!
+                if date.compare(now) == NSComparisonResult.OrderedAscending
+                {
+                    
+                    wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd+daysInWeek-weekday, toDate: date, options:.MatchStrictly)!
+                    
+                }
+                else
+                {
+                    wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd-weekday, toDate: date, options:.MatchStrictly)!
+                }
+                
+                correctedDate.append(wdDate)
+            }
+            return correctedDate
+        }
+    }
+    
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int]?) {
         let AlarmNotification: UILocalNotification = UILocalNotification()
         let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
         AlarmNotification.category = "myAlarmCategory"
-        AlarmNotification.applicationIconBadgeNumber = 0
+        //AlarmNotification.applicationIconBadgeNumber = 0
         //AlarmNotification.repeatCalendar = calendar
         //TODO, not working
         //AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfYear
         AlarmNotification.soundName = "bell.mp3"
         AlarmNotification.timeZone = NSTimeZone.defaultTimeZone()
-        AlarmNotification.fireDate = date
-        UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
-    }
-    
-    enum Weekdays:Int{
-        case Sunday=1, Monday, Tuesday, Wendesday, Thursday, Friday, Saturday
-    }
-    
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int])
-    {
-        //var flags = NSCalendarUnit.CalendarUnitWeekday
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-        let daysInWeek = 7
-        let now = NSDate()
-        let flags = NSCalendarUnit.CalendarUnitEra|NSCalendarUnit.CalendarUnitYear|NSCalendarUnit.CalendarUnitWeekday|NSCalendarUnit.CalendarUnitWeekdayOrdinal | NSCalendarUnit.CalendarUnitTimeZone | NSCalendarUnit.CalendarUnitWeekOfMonth | NSCalendarUnit.CalendarUnitWeekOfYear
-        var components = calendar.components(flags, fromDate: date)
-        var weekday = components.weekday
-        var datesForNotification:[NSDate] = [NSDate]()
-        for wd in onWeekdaysForNotify
-        {
-            var wdDate:NSDate!
-            if wd < weekday || (wd == weekday && date.compare(now) == NSComparisonResult.OrderedAscending)
-            {
-                
-                wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd+daysInWeek-weekday, toDate: date, options:.MatchStrictly)!
-                
-            }
-            else
-            {
-                wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd-weekday, toDate: date, options:.MatchStrictly)!
-            }
-            datesForNotification.append(wdDate)
-        }
+        
+        let datesForNotification = correctDate(date, onWeekdaysForNotify:weekdays)
         for d in datesForNotification
         {
-            setNotificationWithDate(d)
+            AlarmNotification.fireDate = d
+            UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
         }
         
     }
+    
+    
+    
     
     //todo,vibration infinity
     func vibrationCallback(id:SystemSoundID, _ callback:UnsafeMutablePointer<Void>) -> Void
