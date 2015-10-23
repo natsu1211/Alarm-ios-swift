@@ -248,6 +248,8 @@ class MainAlarmViewController: UITableViewController{
     
     @IBAction func unwindToMainAlarmView(segue: UIStoryboardSegue) {
         editing = false
+        //when cancelled, no checkmark can be shown
+        WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
     }
 
 }
