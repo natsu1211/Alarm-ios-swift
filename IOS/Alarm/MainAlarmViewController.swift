@@ -12,6 +12,7 @@ import MediaPlayer
 class MainAlarmViewController: UITableViewController{
     
     var alarmDelegate: AlarmApplicationDelegate = AppDelegate()
+    var scheduler: AlarmSchedulerDelegate = Scheduler()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,7 +141,7 @@ class MainAlarmViewController: UITableViewController{
         //tag is used to indicate which row had been touched
         sw.tag = indexPath.row
         cell!.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
-        sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        sw.addTarget(self, action: "switchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
         cell!.accessoryView = sw
         
         //delete empty seperator line
@@ -156,14 +157,14 @@ class MainAlarmViewController: UITableViewController{
     
     
     
-    @IBAction func SwitchTapped(sender: UISwitch)
+    @IBAction func switchTapped(sender: UISwitch)
     {
         if sender.on 
         {
             println("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             Alarms.sharedInstance.setEnabled(true, AtIndex: sender.tag)
-            alarmDelegate.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date)
+            scheduler.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date, onWeekdaysForNotify: WeekdaysViewController.weekdays)
             
             
         }
@@ -172,17 +173,9 @@ class MainAlarmViewController: UITableViewController{
             println("switch off")
             sender.superview?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
             Alarms.sharedInstance.setEnabled(false, AtIndex: sender.tag)
-            //UIApplication.sharedApplication().cancelLocalNotification(UIApplication.sharedApplication().scheduledLocalNotifications[sender.tag] as! UILocalNotification)
-            UIApplication.sharedApplication().scheduledLocalNotifications = nil
-            for alarm in Alarms.sharedInstance{
-                if alarm.enabled{
-                alarmDelegate.setNotificationWithDate(alarm.date)
-                }
-            }
-            
+            scheduler.reSchedule()
             
         }
-        //sender.tag
     }
 
     /*

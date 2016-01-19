@@ -58,9 +58,10 @@ class WeekdaysViewController: UITableViewController {
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
             cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            
         }
         
-        
+
     }
 
 
