@@ -16,8 +16,10 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     @IBOutlet weak var datePicker: UIDatePicker!
     var mediaItem: MPMediaItem?
     var isEditMode: Bool = false
+    //indexOfCell will be assigned when segue
     var indexOfCell: Int = -1
     private var label: String = "Alarm"
+    var scheduler: AlarmSchedulerDelegate = Scheduler()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,8 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         {
             Alarms.sharedInstance.setDate(date, AtIndex: indexOfCell)
             Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: indexOfCell)
+            Alarms.sharedInstance.PersistAlarm(indexOfCell)
+            scheduler.reSchedule()
         }
         else
         {
