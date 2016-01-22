@@ -17,6 +17,7 @@ struct Alarm
     var date: NSDate
     var enabled: Bool
     var UUID: String
+    //var index: Int
     var mediaID: String
     var repeatWeekdays: [Int]
     
@@ -43,9 +44,9 @@ class Alarms: SequenceType
     private init()
     {
         ud = NSUserDefaults.standardUserDefaults()
-        for key in ud.dictionaryRepresentation().keys {
-            NSUserDefaults.standardUserDefaults().removeObjectForKey(key.description)
-        }
+//        for key in ud.dictionaryRepresentation().keys {
+//            NSUserDefaults.standardUserDefaults().removeObjectForKey(key.description)
+//        }
         alarmKey = "myAlarmKey"
         alarms = getAllAlarm()
     }
@@ -57,10 +58,40 @@ class Alarms: SequenceType
     func append(alarm: Alarm)
     {
         alarms.append(alarm)
-        //ud.setObject(alarms!,forKey: alarmKey)
-        var alarmDict = ud.dictionaryForKey(alarmKey) ?? [:]
-        alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
-        ud.setObject(alarmDict, forKey: alarmKey)
+        
+        PersistAlarm(alarm, index: alarms.count-1)
+        
+    }
+    
+    func PersistAlarm(alarm: Alarm, index: Int)
+    {
+        var alarmArray = ud.arrayForKey(alarmKey) ?? []
+        //var alarmDict = ud.dictionaryForKey(alarmKey) ?? [:]
+        
+        //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
+        //ud.setObject(alarmDict, forKey: alarmKey)
+        if alarmArray.isEmpty
+        {
+            alarmArray.append(["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays])
+        }
+        else
+        {
+            alarmArray[index] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
+
+        }
+        ud.setObject(alarmArray, forKey: alarmKey)
+        ud.synchronize()
+    }
+    
+    func PersistAlarm(index: Int)
+    {
+        var alarmArray = ud.arrayForKey(alarmKey) ?? []
+        //var alarmDict = ud.dictionaryForKey(alarmKey) ?? [:]
+        
+        //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
+        //ud.setObject(alarmDict, forKey: alarmKey)
+        alarmArray[index] = ["label": Alarms.sharedInstance[index].label, "timeStr": Alarms.sharedInstance[index].timeStr, "date": Alarms.sharedInstance[index].date, "enabled": Alarms.sharedInstance[index].enabled, "UUID": Alarms.sharedInstance[index].UUID, "mediaID": Alarms.sharedInstance[index].mediaID, "repeatWeekdays": Alarms.sharedInstance[index].repeatWeekdays]
+        ud.setObject(alarmArray, forKey: alarmKey)
         ud.synchronize()
     }
     
@@ -68,12 +99,22 @@ class Alarms: SequenceType
     //better if we can get the property name as a string, but Swift does not have any reflection feature now...
     private func getAllAlarm() -> [Alarm]
     {
-        var alarmDict = NSUserDefaults.standardUserDefaults().dictionaryForKey(alarmKey)
-        if alarmDict != nil
-        {
-            let items = Array(alarmDict!.values)
+//        var alarmDict = NSUserDefaults.standardUserDefaults().dictionaryForKey(alarmKey)
+//        if alarmDict != nil
+//        {
+//            let items = Array(alarmDict!.values)
+//            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
+//            
+//        }
+//        else
+//        {
+//            return [Alarm]()
+//        }
+        
+        var alarmArray = NSUserDefaults.standardUserDefaults().arrayForKey(alarmKey)
+        if alarmArray != nil{
+            let items = alarmArray!
             return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
-            
         }
         else
         {
