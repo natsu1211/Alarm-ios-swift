@@ -160,7 +160,7 @@ class Scheduler : AlarmSchedulerDelegate
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
         for alarm in Alarms.sharedInstance{
             if alarm.enabled{
-                setNotificationWithDate(alarm.date, onWeekdaysForNotify: WeekdaysViewController.weekdays)
+                setNotificationWithDate(alarm.date, onWeekdaysForNotify: alarm.repeatWeekdays )
             }
         }
     }

@@ -10,7 +10,7 @@ import UIKit
 
 class WeekdaysViewController: UITableViewController {
     static var weekdays: [Int] = [Int]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,7 +32,7 @@ class WeekdaysViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
         // Configure the cell...
-        for weekday in WeekdaysViewController.weekdays{
+        for weekday in Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays{
             if weekday == (indexPath.row + 1) {
                 cell.accessoryType = UITableViewCellAccessoryType.Checkmark
             }
@@ -44,10 +44,11 @@ class WeekdaysViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)!
-
+        WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
         //for swift 1.2, if you are using swift 2.0, use indexOf:. method instead
-        if let index = find(WeekdaysViewController.weekdays, (indexPath.row + 1)){
+        if let index = find(Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays, (indexPath.row + 1)){
             WeekdaysViewController.weekdays.removeAtIndex(index)
+          Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.removeAtIndex(index)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
             cell.accessoryType = UITableViewCellAccessoryType.None
@@ -55,6 +56,7 @@ class WeekdaysViewController: UITableViewController {
         else{
             //row index start from 0, weekdays index start from 1 (Sunday), so plus 1
             WeekdaysViewController.weekdays.append(indexPath.row + 1)
+            Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.append(indexPath.row + 1)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
             cell.accessoryType = UITableViewCellAccessoryType.Checkmark

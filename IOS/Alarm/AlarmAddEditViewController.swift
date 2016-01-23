@@ -17,7 +17,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     var mediaItem: MPMediaItem?
     var isEditMode: Bool = false
     //indexOfCell will be assigned when segue
-    var indexOfCell: Int = -1
+    //var indexOfCell: Int = -1
     private var label: String = "Alarm"
     var scheduler: AlarmSchedulerDelegate = Scheduler()
     
@@ -42,14 +42,14 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
         if isEditMode
         {
-            Alarms.sharedInstance.setDate(date, AtIndex: indexOfCell)
-            Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: indexOfCell)
-            Alarms.sharedInstance.PersistAlarm(indexOfCell)
+            Alarms.sharedInstance.setDate(date, AtIndex: MainAlarmViewController.indexOfCell)
+            Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: MainAlarmViewController.indexOfCell)
+            Alarms.sharedInstance.PersistAlarm(MainAlarmViewController.indexOfCell)
             scheduler.reSchedule()
         }
         else
         {
-            Alarms.sharedInstance.append( Alarm(label: "Alarm", timeStr: timeStr, date: date,            enabled: false, UUID: NSUUID().UUIDString, mediaID: "", repeatWeekdays: [Int]()))
+            Alarms.sharedInstance.append( Alarm(label: "Alarm", timeStr: timeStr, date: date,            enabled: false, UUID: NSUUID().UUIDString, mediaID: "", repeatWeekdays: WeekdaysViewController.weekdays))
         }
         
         //navigationController?.popViewControllerAnimated(true)
@@ -171,17 +171,28 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
             
         presentViewController(storageController, animated: true, completion: nil)
         */
-        switch indexPath.row{
-        case 0:
-            performSegueWithIdentifier("weekdaysSegue", sender: self)
-            cell?.setSelected(true, animated: false)
-            cell?.setSelected(false, animated: false)
-        case 1:
-            performSegueWithIdentifier("labelEditSegue", sender: self)
-            cell?.setSelected(true, animated: false)
-            cell?.setSelected(false, animated: false)
-        default:
-            break
+        if indexPath.section == 0
+        {
+            switch indexPath.row{
+            case 0:
+                performSegueWithIdentifier("weekdaysSegue", sender: self)
+                cell?.setSelected(true, animated: false)
+                cell?.setSelected(false, animated: false)
+            case 1:
+                performSegueWithIdentifier("labelEditSegue", sender: self)
+                cell?.setSelected(true, animated: false)
+                cell?.setSelected(false, animated: false)
+            default:
+                break
+            }
+        }
+        else if indexPath.section == 1
+        {
+            Alarms.sharedInstance.removeAtIndex(MainAlarmViewController.indexOfCell)
+            Alarms.sharedInstance.deleteAlarm(MainAlarmViewController.indexOfCell)
+            
+            performSegueWithIdentifier("saveEditAlarm", sender: self)
+        
             
         }
             
@@ -215,15 +226,28 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
    
     
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "saveEditAlarm"
+        {
+            var alaVC = segue.destinationViewController as! MainAlarmViewController
+            var cells = alaVC.tableView.visibleCells() as! [UITableViewCell]
+            for cell in cells
+            {
+                var sw = cell.accessoryView as! UISwitch
+                if sw.tag > MainAlarmViewController.indexOfCell
+                {
+                    sw.tag -= 1
+                }
+            }
+        }
     }
-    */
+    
     
     /*
     MPMediaPickerControllerDelegate
