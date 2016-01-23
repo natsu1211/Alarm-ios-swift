@@ -10,10 +10,47 @@ import UIKit
 
 class WeekdaysViewController: UITableViewController {
     static var weekdays: [Int] = [Int]()
-    
+    static func repeatText() -> String
+    {
+        if WeekdaysViewController.weekdays.isEmpty
+        {
+            return "Never"
+        }
+        if Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.count == 7
+        {
+            return "Every day"
+        }
+        
+        var ret = String()
+        let weekdaysSorted = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.sorted(<)
+        for day in weekdaysSorted
+        {
+            switch day{
+            case 1:
+                ret += "Sun "
+            case 2:
+                ret += "Mon "
+            case 3:
+                ret += "Tue "
+            case 4:
+                ret += "Wed "
+            case 5:
+                ret += "Thu "
+            case 6:
+                ret += "Fri "
+            case 7:
+                ret += "Sat "
+            default:
+                //throw
+                break
+            }
+        }
+        return ret
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -44,7 +81,7 @@ class WeekdaysViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)!
-        WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
+        
         //for swift 1.2, if you are using swift 2.0, use indexOf:. method instead
         if let index = find(Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays, (indexPath.row + 1)){
             WeekdaysViewController.weekdays.removeAtIndex(index)

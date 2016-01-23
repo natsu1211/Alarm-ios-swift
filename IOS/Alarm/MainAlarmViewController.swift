@@ -24,7 +24,7 @@ class MainAlarmViewController: UITableViewController{
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        tableView.reloadData();
+        tableView.reloadData()
         //dynamically append the edit button
         if Alarms.sharedInstance.count != 0
         {
@@ -265,7 +265,10 @@ class MainAlarmViewController: UITableViewController{
         if segue.identifier == "cancelAddAlarm"
         {
             Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.removeAll(keepCapacity: true)
+            Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label = LabelEditViewController.oldLabel
+
         }
+        
         
     }
 
