@@ -70,15 +70,9 @@ class Alarms: SequenceType
         
         //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
         //ud.setObject(alarmDict, forKey: alarmKey)
-        if alarmArray.isEmpty
-        {
+       
             alarmArray.append(["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays])
-        }
-        else
-        {
-            alarmArray[index] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
-
-        }
+        
         ud.setObject(alarmArray, forKey: alarmKey)
         ud.synchronize()
     }
@@ -91,6 +85,14 @@ class Alarms: SequenceType
         //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
         //ud.setObject(alarmDict, forKey: alarmKey)
         alarmArray[index] = ["label": Alarms.sharedInstance[index].label, "timeStr": Alarms.sharedInstance[index].timeStr, "date": Alarms.sharedInstance[index].date, "enabled": Alarms.sharedInstance[index].enabled, "UUID": Alarms.sharedInstance[index].UUID, "mediaID": Alarms.sharedInstance[index].mediaID, "repeatWeekdays": Alarms.sharedInstance[index].repeatWeekdays]
+        ud.setObject(alarmArray, forKey: alarmKey)
+        ud.synchronize()
+    }
+    
+    func deleteAlarm(index: Int)
+    {
+        var alarmArray = ud.arrayForKey(alarmKey) ?? []
+        alarmArray.removeAtIndex(index)
         ud.setObject(alarmArray, forKey: alarmKey)
         ud.synchronize()
     }
@@ -199,6 +201,11 @@ class Alarms: SequenceType
     func setEnabled(enabled: Bool, AtIndex index: Int)
     {
         alarms[index].enabled = enabled
+    }
+    
+    var isEmpty: Bool
+    {
+        return alarms.isEmpty
     }
     
     //SequenceType Protocol
