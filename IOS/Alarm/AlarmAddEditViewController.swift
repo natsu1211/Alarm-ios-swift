@@ -14,6 +14,9 @@ import MediaPlayer
 class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDelegate, UITableViewDelegate,  UITableViewDataSource{
 
     @IBOutlet weak var datePicker: UIDatePicker!
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     var mediaItem: MPMediaItem?
     var isEditMode: Bool = false
     //indexOfCell will be assigned when segue
@@ -23,6 +26,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //let mediaPicker = MPMediaPickerController(mediaTypes: .Music)
         //mediaPicker.delegate = self
        // mediaPicker.prompt = "Select any song!"
@@ -30,6 +34,12 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
         //presentViewController(mediaPicker, animated: true, completion: nil)
         // Do any additional setup after loading the view.
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,6 +69,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     
     
     let settingIdentifier = "setting"
+    
  
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
@@ -99,13 +110,13 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
             {
                 
                 cell!.textLabel!.text = "Repeat"
-                //cell!.detailTextLabel!.text = repeatText()
+                cell!.detailTextLabel!.text = WeekdaysViewController.repeatText()
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
             else if indexPath.row == 1
             {
                 cell!.textLabel!.text = "Label"
-                //cell!.detailTextLabel!.text = labelText()
+                cell!.detailTextLabel!.text = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
             else if indexPath.row == 2

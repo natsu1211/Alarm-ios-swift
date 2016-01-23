@@ -8,20 +8,40 @@
 
 import UIKit
 
-class LabelEditViewController: UIViewController {
+class LabelEditViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var labelTextField: UITextField!
+    static var oldLabel:String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        labelTextField.becomeFirstResponder()
         // Do any additional setup after loading the view.
+        self.labelTextField.delegate = self
+        labelTextField.text = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
+        //defined in UITextInputTraits protocol
+        labelTextField.returnKeyType = UIReturnKeyType.Done
+        labelTextField.enablesReturnKeyAutomatically = true
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    //add a ! to avoid conflict of signature of function, likely a bug for swift 1.2
+    //func textFieldDidEndEditing(textField: UITextField) -> Bool! {
+    //    Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label = textField.text
+    //    return true
+    //}
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        LabelEditViewController.oldLabel = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
+        //Becuase segue push is used
+        Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label = textField.text
+        navigationController?.popViewControllerAnimated(true)
+        return false
+    }
     /*
     // MARK: - Navigation
 
