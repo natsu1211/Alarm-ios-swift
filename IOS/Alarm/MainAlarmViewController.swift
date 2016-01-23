@@ -13,6 +13,7 @@ class MainAlarmViewController: UITableViewController{
     
     var alarmDelegate: AlarmApplicationDelegate = AppDelegate()
     var scheduler: AlarmSchedulerDelegate = Scheduler()
+    static var indexOfCell = -1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +110,7 @@ class MainAlarmViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        MainAlarmViewController.indexOfCell = indexPath.row
         self.tableView.tag = indexPath.row
         if editing
         {
@@ -142,7 +144,12 @@ class MainAlarmViewController: UITableViewController{
         sw.tag = indexPath.row
         cell!.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         sw.addTarget(self, action: "switchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        if ala.enabled
+        {
+            sw.setOn(true, animated: false)
+        }
         cell!.accessoryView = sw
+        
         
         //delete empty seperator line
         tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -164,7 +171,8 @@ class MainAlarmViewController: UITableViewController{
             println("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             Alarms.sharedInstance.setEnabled(true, AtIndex: sender.tag)
-            scheduler.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date, onWeekdaysForNotify: WeekdaysViewController.weekdays)
+            Alarms.sharedInstance.PersistAlarm(sender.tag)
+            scheduler.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date, onWeekdaysForNotify: Alarms.sharedInstance[sender.tag].repeatWeekdays)
             
             
         }
@@ -173,6 +181,7 @@ class MainAlarmViewController: UITableViewController{
             println("switch off")
             sender.superview?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
             Alarms.sharedInstance.setEnabled(false, AtIndex: sender.tag)
+            Alarms.sharedInstance.PersistAlarm(sender.tag)
             scheduler.reSchedule()
             
         }
@@ -191,6 +200,16 @@ class MainAlarmViewController: UITableViewController{
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             Alarms.sharedInstance.removeAtIndex(indexPath.row)
+            Alarms.sharedInstance.deleteAlarm(indexPath.row)
+            var cells = tableView.visibleCells() as! [UITableViewCell]
+            for cell in cells
+            {
+                var sw = cell.accessoryView as! UISwitch
+                if sw.tag > indexPath.row
+                {
+                    sw.tag -= 1
+                }
+            }
             // Delete the row from the data source
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             
@@ -233,8 +252,8 @@ class MainAlarmViewController: UITableViewController{
             //let cell = sender as! UITableViewCell
             //let indexPath = tableView.indexPathForCell(cell)!
             //addEditController.indexOfCell = indexPath.row
-            let vc = sender as! UITableViewController
-            addEditController.indexOfCell = vc.tableView.tag
+            //let vc = sender as! UITableViewController
+            //addEditController.indexOfCell = vc.tableView.tag
 
         }
     }
@@ -242,7 +261,12 @@ class MainAlarmViewController: UITableViewController{
     @IBAction func unwindToMainAlarmView(segue: UIStoryboardSegue) {
         editing = false
         //when cancelled, no checkmark can be shown
-        WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
+        //WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
+        if segue.identifier == "cancelAddAlarm"
+        {
+            Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.removeAll(keepCapacity: true)
+        }
+        
     }
 
 }
