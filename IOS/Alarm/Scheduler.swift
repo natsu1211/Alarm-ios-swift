@@ -11,7 +11,7 @@ import UIKit
 
 protocol AlarmSchedulerDelegate
 {
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int])
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int], snooze: Bool)
     func setupNotificationSettings()
     func reSchedule()
 }
@@ -125,7 +125,7 @@ class Scheduler : AlarmSchedulerDelegate
         
     }
     
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int]) {
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int], snooze: Bool) {
         let AlarmNotification: UILocalNotification = UILocalNotification()
         let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         AlarmNotification.alertBody = "Wake Up!"
@@ -137,6 +137,7 @@ class Scheduler : AlarmSchedulerDelegate
         //AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfYear
         AlarmNotification.soundName = "bell.mp3"
         AlarmNotification.timeZone = NSTimeZone.defaultTimeZone()
+        AlarmNotification.userInfo = ["snooze" : snooze]
         
         let datesForNotification = correctDate(date, onWeekdaysForNotify:weekdays)
         if datesForNotification.isEmpty
@@ -160,7 +161,7 @@ class Scheduler : AlarmSchedulerDelegate
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
         for alarm in Alarms.sharedInstance{
             if alarm.enabled{
-                setNotificationWithDate(alarm.date, onWeekdaysForNotify: alarm.repeatWeekdays )
+                setNotificationWithDate(alarm.date, onWeekdaysForNotify: alarm.repeatWeekdays, snooze: alarm.snoozeEnabled)
             }
         }
     }

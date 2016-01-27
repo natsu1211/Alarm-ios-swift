@@ -47,13 +47,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         //if app is in foreground, show a alert
         let storageController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .Alert)
         //todo, snooze
-        let snoozeOption = UIAlertAction(title: "Snooze", style: .Default) {
-            (action:UIAlertAction!)->Void in audioPlayer?.stop()
-            
+        var isSnooze: Bool = false
+        if let userInfo = notification.userInfo {
+            isSnooze = userInfo["snooze"] as! Bool
+        }
+        if isSnooze  == true
+        {
+            let snoozeOption = UIAlertAction(title: "Snooze", style: .Default) {
+                (action:UIAlertAction!)->Void in audioPlayer?.stop()
+                
+            }
+            storageController.addAction(snoozeOption)
         }
         let stopOption = UIAlertAction(title: "OK", style: .Default) {
             (action:UIAlertAction!)->Void in audioPlayer?.stop()}
-        storageController.addAction(snoozeOption)
+        
         storageController.addAction(stopOption)
         window?.rootViewController!.presentViewController(storageController, animated: true, completion: nil)
   

@@ -18,12 +18,10 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     @IBOutlet weak var tableView: UITableView!
     
     var mediaItem: MPMediaItem?
-    var isEditMode: Bool = false
-    //indexOfCell will be assigned when segue
-    //var indexOfCell: Int = -1
-    private var label: String = "Alarm"
+    static var isEditMode: Bool = false
+    static var label: String = "Alarm"
     var scheduler: AlarmSchedulerDelegate = Scheduler()
-    
+    private var snoozeEnabled: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,20 +48,21 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     @IBAction func saveEditAlarm(sender: AnyObject) {
         let date = datePicker.date
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
-        if isEditMode
+        if AlarmAddEditViewController.isEditMode
         {
             Alarms.sharedInstance.setDate(date, AtIndex: MainAlarmViewController.indexOfCell)
             Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: MainAlarmViewController.indexOfCell)
             Alarms.sharedInstance.PersistAlarm(MainAlarmViewController.indexOfCell)
-            scheduler.reSchedule()
+            //scheduler.reSchedule()
         }
         else
         {
-            Alarms.sharedInstance.append( Alarm(label: "Alarm", timeStr: timeStr, date: date,            enabled: false, UUID: NSUUID().UUIDString, mediaID: "", repeatWeekdays: WeekdaysViewController.weekdays))
+            Alarms.sharedInstance.append( Alarm(label: AlarmAddEditViewController.label, timeStr: timeStr, date: date,  enabled: false, snoozeEnabled: snoozeEnabled, UUID: NSUUID().UUIDString, mediaID: "", repeatWeekdays: WeekdaysViewController.weekdays))
         }
         
         //navigationController?.popViewControllerAnimated(true)
         //dismissViewControllerAnimated(true, completion: nil)
+        scheduler.reSchedule()
         self.performSegueWithIdentifier("saveEditAlarm", sender: self)
     }
     
@@ -73,7 +72,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
  
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        if isEditMode
+        if AlarmAddEditViewController.isEditMode
         {
             return 2
         }
@@ -116,7 +115,15 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
             else if indexPath.row == 1
             {
                 cell!.textLabel!.text = "Label"
-                cell!.detailTextLabel!.text = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
+                //if MainAlarmViewController.indexOfCell < 0
+                if AlarmAddEditViewController.isEditMode
+                {
+                    cell!.detailTextLabel!.text = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
+                }
+                else
+                {
+                    cell!.detailTextLabel!.text = AlarmAddEditViewController.label
+                }
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
             else if indexPath.row == 2
@@ -130,8 +137,21 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
                
                 cell!.textLabel!.text = "Snooze"
                 let sw = UISwitch(frame: CGRect())
-                sw.addTarget(self, action: "SwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-                
+                sw.addTarget(self, action: "snoozeSwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+                if AlarmAddEditViewController.isEditMode
+                {
+                    if Alarms.sharedInstance[MainAlarmViewController.indexOfCell].snoozeEnabled
+                    {
+                        sw.setOn(true, animated: false)
+                    }
+                }
+                else
+                {
+                    if snoozeEnabled
+                    {
+                       sw.setOn(true, animated: false)
+                    }
+                }
                 cell!.accessoryView = sw
             }
         }
@@ -235,7 +255,30 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     }
 */
    
-    
+    @IBAction func snoozeSwitchTapped (sender: UISwitch)
+    {
+        if AlarmAddEditViewController.isEditMode
+        {
+            if sender.on{
+                Alarms.sharedInstance[MainAlarmViewController.indexOfCell].snoozeEnabled = true
+            }
+            else
+            {
+                Alarms.sharedInstance[MainAlarmViewController.indexOfCell].snoozeEnabled = false
+            }
+        }
+        else
+        {
+            if sender.on{
+                snoozeEnabled = true
+            }
+            else
+            {
+                snoozeEnabled = false
+            }
+        }
+        
+    }
     
     
     // MARK: - Navigation
