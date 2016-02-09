@@ -20,6 +20,7 @@ struct Alarm
     var UUID: String
     //var index: Int
     var mediaID: String
+    var mediaLabel: String
     var repeatWeekdays: [Int]
     
     /*init(title: String, timeStr: String, date: NSDate, enabled: Bool,UUID: String, mediaID: String)
@@ -45,7 +46,7 @@ class Alarms: SequenceType
     private init()
     {
         ud = NSUserDefaults.standardUserDefaults()
-//       for key in ud.dictionaryRepresentation().keys {
+//      for key in ud.dictionaryRepresentation().keys {
 //            NSUserDefaults.standardUserDefaults().removeObjectForKey(key.description)
 //        }
         alarmKey = "myAlarmKey"
@@ -72,7 +73,7 @@ class Alarms: SequenceType
         //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
         //ud.setObject(alarmDict, forKey: alarmKey)
        
-            alarmArray.append(["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "snoozeEnabled": alarm.snoozeEnabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays])
+            alarmArray.append(["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "snoozeEnabled": alarm.snoozeEnabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "mediaLabel": Alarms.sharedInstance[index].mediaLabel, "repeatWeekdays": alarm.repeatWeekdays])
         
         ud.setObject(alarmArray, forKey: alarmKey)
         ud.synchronize()
@@ -85,7 +86,7 @@ class Alarms: SequenceType
         
         //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
         //ud.setObject(alarmDict, forKey: alarmKey)
-        alarmArray[index] = ["label": Alarms.sharedInstance[index].label, "timeStr": Alarms.sharedInstance[index].timeStr, "date": Alarms.sharedInstance[index].date, "enabled": Alarms.sharedInstance[index].enabled, "snoozeEnabled": Alarms.sharedInstance[index].snoozeEnabled, "UUID": Alarms.sharedInstance[index].UUID, "mediaID": Alarms.sharedInstance[index].mediaID, "repeatWeekdays": Alarms.sharedInstance[index].repeatWeekdays]
+        alarmArray[index] = ["label": Alarms.sharedInstance[index].label, "timeStr": Alarms.sharedInstance[index].timeStr, "date": Alarms.sharedInstance[index].date, "enabled": Alarms.sharedInstance[index].enabled, "snoozeEnabled": Alarms.sharedInstance[index].snoozeEnabled, "UUID": Alarms.sharedInstance[index].UUID, "mediaID": Alarms.sharedInstance[index].mediaID, "mediaLabel": Alarms.sharedInstance[index].mediaLabel, "repeatWeekdays": Alarms.sharedInstance[index].repeatWeekdays]
         ud.setObject(alarmArray, forKey: alarmKey)
         ud.synchronize()
     }
@@ -117,7 +118,7 @@ class Alarms: SequenceType
         var alarmArray = NSUserDefaults.standardUserDefaults().arrayForKey(alarmKey)
         if alarmArray != nil{
             let items = alarmArray!
-            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, snoozeEnabled: item["snoozeEnabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
+            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, snoozeEnabled: item["snoozeEnabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, mediaLabel: item["mediaLabel"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
         }
         else
         {
@@ -199,9 +200,24 @@ class Alarms: SequenceType
         alarms[index].mediaID = mediaID
     }
     
+    func setMediaLabel(mediaLabel: String, AtIndex index: Int)
+    {
+        alarms[index].mediaLabel = mediaLabel
+    }
+    
     func setEnabled(enabled: Bool, AtIndex index: Int)
     {
         alarms[index].enabled = enabled
+    }
+    
+    func setSnooze(snoozeEnabled: Bool, AtIndex index: Int)
+    {
+        alarms[index].snoozeEnabled = snoozeEnabled
+    }
+    
+    func setWeekdays(weekdays: [Int], AtIndex index: Int)
+    {
+        alarms[index].repeatWeekdays = weekdays
     }
     
     var isEmpty: Bool

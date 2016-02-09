@@ -13,7 +13,6 @@ class MainAlarmViewController: UITableViewController{
     
     var alarmDelegate: AlarmApplicationDelegate = AppDelegate()
     var scheduler: AlarmSchedulerDelegate = Scheduler()
-    static var indexOfCell = -1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,10 +109,11 @@ class MainAlarmViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        MainAlarmViewController.indexOfCell = indexPath.row
-        self.tableView.tag = indexPath.row
+        
         if editing
         {
+            Global.indexOfCell = indexPath.row
+            self.tableView.tag = indexPath.row
             performSegueWithIdentifier("editSegue", sender: self)
         }
     }
@@ -172,7 +172,7 @@ class MainAlarmViewController: UITableViewController{
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             Alarms.sharedInstance.setEnabled(true, AtIndex: sender.tag)
             Alarms.sharedInstance.PersistAlarm(sender.tag)
-            scheduler.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date, onWeekdaysForNotify: Alarms.sharedInstance[sender.tag].repeatWeekdays, snooze: Alarms.sharedInstance[sender.tag].snoozeEnabled)
+            scheduler.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date, onWeekdaysForNotify: Alarms.sharedInstance[sender.tag].repeatWeekdays, snooze: Alarms.sharedInstance[sender.tag].snoozeEnabled, soundName: Alarms.sharedInstance[sender.tag].mediaLabel)
             
             
         }
@@ -243,22 +243,22 @@ class MainAlarmViewController: UITableViewController{
         if segue.identifier == "addSegue"
         {
             addEditController.navigationItem.title = "Add Alarm"
-            AlarmAddEditViewController.isEditMode = false
-            AlarmAddEditViewController.label = "Alarm"
-            WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
+            Global.isEditMode = false
+            Global.label = "Alarm"
+            Global.mediaLabel = "bell"
+            Global.weekdays.removeAll(keepCapacity: true)
+            Global.snoozeEnabled = false
         }
         else if segue.identifier == "editSegue"
         {
             addEditController.navigationItem.title = "Edit Alarm"
-            AlarmAddEditViewController.isEditMode = true
-            //let cell = sender as! UITableViewCell
-            //let indexPath = tableView.indexPathForCell(cell)!
-            //addEditController.indexOfCell = indexPath.row
-            //let vc = sender as! UITableViewController
-            //addEditController.indexOfCell = vc.tableView.tag
-            GlobalParams.oldWeekdays = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays
-            LabelEditViewController.oldLabel = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
-
+            Global.isEditMode = true
+            //Global.oldLabel = Alarms.sharedInstance[Global.indexOfCell].label
+            
+            Global.weekdays = Alarms.sharedInstance[Global.indexOfCell].repeatWeekdays
+            Global.label = Alarms.sharedInstance[Global.indexOfCell].label
+            Global.mediaLabel = Alarms.sharedInstance[Global.indexOfCell].mediaLabel
+            Global.snoozeEnabled = Alarms.sharedInstance[Global.indexOfCell].snoozeEnabled
         }
         
         
@@ -266,21 +266,7 @@ class MainAlarmViewController: UITableViewController{
     
     @IBAction func unwindToMainAlarmView(segue: UIStoryboardSegue) {
         editing = false
-        //when cancelled, no checkmark can be shown
-        //WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
-        if segue.identifier == "cancelAddAlarm"
-        {
-            if AlarmAddEditViewController.isEditMode
-            {
-                //todo
-                Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays = GlobalParams.oldWeekdays
-                Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label = LabelEditViewController.oldLabel
-            }
-            WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
-   
-
-        }
-        
+        Global.weekdays.removeAll(keepCapacity: true)
         
     }
 
