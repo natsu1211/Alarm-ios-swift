@@ -14,7 +14,7 @@ import AVFoundation
 protocol AlarmApplicationDelegate
 {
 
-    func playAlarmSound()
+    func playAlarmSound(soundName: String)
    
 }
 
@@ -42,25 +42,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             nil,
             vibrationCallback,
             nil)*/
-        
-        playAlarmSound()
         //if app is in foreground, show a alert
         let storageController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .Alert)
         //todo, snooze
         var isSnooze: Bool = false
+        var soundName: String = ""
+        var index: Int = -1
         if let userInfo = notification.userInfo {
             isSnooze = userInfo["snooze"] as! Bool
+            soundName = userInfo["soundName"] as! String
+            index = userInfo["index"] as! Int
         }
+        
+        playAlarmSound(soundName)
+        
+
+       
         if isSnooze  == true
         {
+            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+            let now = NSDate()
+            //snooze 9 minutes later
+            let snoozeTime = calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitMinute, value: 9, toDate: now, options:.MatchStrictly)!
+            
             let snoozeOption = UIAlertAction(title: "Snooze", style: .Default) {
-                (action:UIAlertAction!)->Void in audioPlayer?.stop()
+                (action:UIAlertAction!)->Void in self.audioPlayer?.stop()
                 
+                self.alarmScheduler.setNotificationWithDate(snoozeTime, onWeekdaysForNotify: [Int](), snooze: true, soundName: soundName)
             }
             storageController.addAction(snoozeOption)
         }
         let stopOption = UIAlertAction(title: "OK", style: .Default) {
-            (action:UIAlertAction!)->Void in audioPlayer?.stop()}
+            (action:UIAlertAction!)->Void in self.audioPlayer?.stop()
+            Alarms.sharedInstance.setEnabled(false, AtIndex: index)
+            var vc = self.window?.rootViewController! as! UINavigationController
+            var cells = (vc.topViewController as! MainAlarmViewController).tableView.visibleCells() as! [UITableViewCell]
+            for cell in cells
+            {
+                if cell.tag == index{
+                    var sw = cell.accessoryView as! UISwitch
+                    sw.setOn(false, animated: false)
+                }
+            }}
         
         storageController.addAction(stopOption)
         window?.rootViewController!.presentViewController(storageController, animated: true, completion: nil)
@@ -75,10 +98,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     }
     
     //AlarmApplicationDelegate protocol
-    func playAlarmSound() {
+    func playAlarmSound(soundName: String) {
         AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         let url = NSURL.fileURLWithPath(
-            NSBundle.mainBundle().pathForResource("bell", ofType: "mp3")!)
+            NSBundle.mainBundle().pathForResource(soundName, ofType: "mp3")!)
         
         var error: NSError?
         
