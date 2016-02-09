@@ -11,21 +11,16 @@ import UIKit
 class LabelEditViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var labelTextField: UITextField!
-    static var oldLabel:String = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         labelTextField.becomeFirstResponder()
         // Do any additional setup after loading the view.
         self.labelTextField.delegate = self
-        if AlarmAddEditViewController.isEditMode
-        {
-            labelTextField.text = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
-        }
-        else
-        {
-            labelTextField.text = AlarmAddEditViewController.label
-        }
+        
+        labelTextField.text = Global.label
+        
         //defined in UITextInputTraits protocol
         labelTextField.returnKeyType = UIReturnKeyType.Done
         labelTextField.enablesReturnKeyAutomatically = true
@@ -43,18 +38,11 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
     //}
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !AlarmAddEditViewController.isEditMode
-        {
-            LabelEditViewController.oldLabel = AlarmAddEditViewController.label
-            AlarmAddEditViewController.label = textField.text
-        }
-        else
-        {
-            LabelEditViewController.oldLabel = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
-            //Becuase segue push is used
-            Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label = textField.text
-        }
+
         
+        Global.label = textField.text
+
+        //Becuase segue push is used
         navigationController?.popViewControllerAnimated(true)
         return false
     }

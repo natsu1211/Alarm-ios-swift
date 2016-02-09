@@ -11,7 +11,7 @@ import UIKit
 
 protocol AlarmSchedulerDelegate
 {
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int], snooze: Bool)
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int], snooze: Bool, soundName: String)
     func setupNotificationSettings()
     func reSchedule()
 }
@@ -125,43 +125,37 @@ class Scheduler : AlarmSchedulerDelegate
         
     }
     
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int], snooze: Bool) {
-        let AlarmNotification: UILocalNotification = UILocalNotification()
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int], snooze: Bool, soundName: String) {
+        var AlarmNotification: UILocalNotification = UILocalNotification()
+        var calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
-        AlarmNotification.category = "myAlarmCategory"
+        AlarmNotification.category = "AlarmCategory"
         //AlarmNotification.applicationIconBadgeNumber = 0
         //AlarmNotification.repeatCalendar = calendar
         //TODO, not working
         //AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfYear
-        AlarmNotification.soundName = "bell.mp3"
+        AlarmNotification.soundName = soundName + ".mp3"
         AlarmNotification.timeZone = NSTimeZone.defaultTimeZone()
-        AlarmNotification.userInfo = ["snooze" : snooze]
+        AlarmNotification.userInfo = ["snooze" : snooze, "index": Global.indexOfCell, "soundName": soundName]
         
         let datesForNotification = correctDate(date, onWeekdaysForNotify:weekdays)
-        if datesForNotification.isEmpty
+        
+        for d in datesForNotification
         {
-            AlarmNotification.fireDate = date
+            AlarmNotification.fireDate = d
             UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
         }
-        else
-        {
-            for d in datesForNotification
-            {
-                AlarmNotification.fireDate = d
-                UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
-            }
-        }
+        
         
         
     }
     
     func reSchedule() {
-        UIApplication.sharedApplication().scheduledLocalNotifications = nil
+        UIApplication.sharedApplication().cancelAllLocalNotifications()
         for alarm in Alarms.sharedInstance{
             if alarm.enabled{
-                setNotificationWithDate(alarm.date, onWeekdaysForNotify: alarm.repeatWeekdays, snooze: alarm.snoozeEnabled)
+                setNotificationWithDate(alarm.date, onWeekdaysForNotify: alarm.repeatWeekdays, snooze: alarm.snoozeEnabled, soundName: alarm.mediaLabel)
             }
         }
     }

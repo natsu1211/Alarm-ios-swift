@@ -11,17 +11,17 @@ import Foundation
 import MediaPlayer
 
 
-class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDelegate, UITableViewDelegate,  UITableViewDataSource{
+
+class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource{
 
     @IBOutlet weak var datePicker: UIDatePicker!
     
     @IBOutlet weak var tableView: UITableView!
     
-    var mediaItem: MPMediaItem?
-    static var isEditMode: Bool = false
-    static var label: String = "Alarm"
+    
+    
     var scheduler: AlarmSchedulerDelegate = Scheduler()
-    private var snoozeEnabled: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,16 +48,20 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
     @IBAction func saveEditAlarm(sender: AnyObject) {
         let date = datePicker.date
         let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
-        if AlarmAddEditViewController.isEditMode
+        if Global.isEditMode
         {
-            Alarms.sharedInstance.setDate(date, AtIndex: MainAlarmViewController.indexOfCell)
-            Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: MainAlarmViewController.indexOfCell)
-            Alarms.sharedInstance.PersistAlarm(MainAlarmViewController.indexOfCell)
+            Alarms.sharedInstance.setDate(date, AtIndex: Global.indexOfCell)
+            Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: Global.indexOfCell)
+            Alarms.sharedInstance.setWeekdays(Global.weekdays, AtIndex: Global.indexOfCell)
+            Alarms.sharedInstance.setSnooze(Global.snoozeEnabled, AtIndex: Global.indexOfCell)
+            Alarms.sharedInstance.setLabel(Global.label, AtIndex: Global.indexOfCell)
+            Alarms.sharedInstance.setMediaLabel(Global.mediaLabel, AtIndex: Global.indexOfCell)
+            Alarms.sharedInstance.PersistAlarm(Global.indexOfCell)
             //scheduler.reSchedule()
         }
         else
         {
-            Alarms.sharedInstance.append( Alarm(label: AlarmAddEditViewController.label, timeStr: timeStr, date: date,  enabled: false, snoozeEnabled: snoozeEnabled, UUID: NSUUID().UUIDString, mediaID: "", repeatWeekdays: WeekdaysViewController.weekdays))
+            Alarms.sharedInstance.append( Alarm(label: Global.label, timeStr: timeStr, date: date,  enabled: false, snoozeEnabled: Global.snoozeEnabled, UUID: NSUUID().UUIDString, mediaID: "", mediaLabel: "bell", repeatWeekdays: Global.weekdays))
         }
         
         //navigationController?.popViewControllerAnimated(true)
@@ -72,7 +76,7 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
  
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        if AlarmAddEditViewController.isEditMode
+        if Global.isEditMode
         {
             return 2
         }
@@ -115,21 +119,15 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
             else if indexPath.row == 1
             {
                 cell!.textLabel!.text = "Label"
-                //if MainAlarmViewController.indexOfCell < 0
-                if AlarmAddEditViewController.isEditMode
-                {
-                    cell!.detailTextLabel!.text = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label
-                }
-                else
-                {
-                    cell!.detailTextLabel!.text = AlarmAddEditViewController.label
-                }
+                
+                cell!.detailTextLabel!.text = Global.label
+                
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
             else if indexPath.row == 2
             {
                 cell!.textLabel!.text = "Sound"
-                //cell!.detailTextLabel!.text = soundText()
+                cell!.detailTextLabel!.text = MediaTableViewController.mediaText()
                 cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             }
             else if indexPath.row == 3
@@ -138,20 +136,12 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
                 cell!.textLabel!.text = "Snooze"
                 let sw = UISwitch(frame: CGRect())
                 sw.addTarget(self, action: "snoozeSwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-                if AlarmAddEditViewController.isEditMode
+                
+                if Global.snoozeEnabled
                 {
-                    if Alarms.sharedInstance[MainAlarmViewController.indexOfCell].snoozeEnabled
-                    {
-                        sw.setOn(true, animated: false)
-                    }
+                   sw.setOn(true, animated: false)
                 }
-                else
-                {
-                    if snoozeEnabled
-                    {
-                       sw.setOn(true, animated: false)
-                    }
-                }
+                
                 cell!.accessoryView = sw
             }
         }
@@ -213,14 +203,18 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
                 performSegueWithIdentifier("labelEditSegue", sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
+            case 2:
+                performSegueWithIdentifier("musicSegue", sender: self)
+                cell?.setSelected(true, animated: false)
+                cell?.setSelected(false, animated: false)
             default:
                 break
             }
         }
         else if indexPath.section == 1
         {
-            Alarms.sharedInstance.removeAtIndex(MainAlarmViewController.indexOfCell)
-            Alarms.sharedInstance.deleteAlarm(MainAlarmViewController.indexOfCell)
+            Alarms.sharedInstance.removeAtIndex(Global.indexOfCell)
+            Alarms.sharedInstance.deleteAlarm(Global.indexOfCell)
             
             performSegueWithIdentifier("saveEditAlarm", sender: self)
         
@@ -257,25 +251,14 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
    
     @IBAction func snoozeSwitchTapped (sender: UISwitch)
     {
-        if AlarmAddEditViewController.isEditMode
-        {
-            if sender.on{
-                Alarms.sharedInstance[MainAlarmViewController.indexOfCell].snoozeEnabled = true
-            }
-            else
-            {
-                Alarms.sharedInstance[MainAlarmViewController.indexOfCell].snoozeEnabled = false
-            }
+       
+        if sender.on{
+            Global.snoozeEnabled = true
         }
         else
         {
-            if sender.on{
-                snoozeEnabled = true
-            }
-            else
-            {
-                snoozeEnabled = false
-            }
+            
+            Global.snoozeEnabled = false
         }
         
     }
@@ -294,33 +277,16 @@ class AlarmAddEditViewController: UIViewController, MPMediaPickerControllerDeleg
             for cell in cells
             {
                 var sw = cell.accessoryView as! UISwitch
-                if sw.tag > MainAlarmViewController.indexOfCell
+                if sw.tag > Global.indexOfCell
                 {
                     sw.tag -= 1
                 }
             }
         }
-    }
-    
-    
-    /*
-    MPMediaPickerControllerDelegate
-    */
-    func mediaPicker(mediaPicker: MPMediaPickerController, didPickMediaItems  mediaItemCollection:MPMediaItemCollection) -> Void
-    {
-        var aMediaItem = mediaItemCollection.items[0] as! MPMediaItem
-        /*if (( aMediaItem.artwork ) != nil) {
-            mediaImageView.image = aMediaItem.artwork.imageWithSize(mediaCell.contentView.bounds.size);
-            mediaImageView.hidden = false;
-        }*/
         
-        self.mediaItem = aMediaItem;
-        //fillData(aMediaItem);
-        self.dismissViewControllerAnimated(true, completion: nil);
     }
     
-    func mediaPickerDidCancel(mediaPicker: MPMediaPickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil);
-    }
+    
+    
 
 }
