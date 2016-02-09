@@ -9,45 +9,27 @@
 import UIKit
 
 class WeekdaysViewController: UITableViewController {
-    static var weekdays: [Int] = [Int]()
+    
     static func repeatText() -> String
     {
         
-        if !AlarmAddEditViewController.isEditMode
+        if Global.weekdays.count == 7
         {
-            if WeekdaysViewController.weekdays.count == 7
-            {
-                return "Every day"
-            }
-            if WeekdaysViewController.weekdays.isEmpty
-            {
-                return "Never"
-            }
+            return "Every day"
         }
-        else
+        
+        if Global.weekdays.isEmpty
         {
-            if Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.count == 7
-            {
-                return "Every day"
-            }
-            
-            if Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.isEmpty
-            {
-                return "Never"
-            }
+            return "Never"
         }
+        
         
         
         var ret = String()
         var weekdaysSorted:[Int] = [Int]()
-        if !AlarmAddEditViewController.isEditMode
-        {
-            weekdaysSorted = WeekdaysViewController.weekdays.sorted(<)
-        }
-        else
-        {
-           weekdaysSorted = Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.sorted(<)
-        }
+        
+        weekdaysSorted = Global.weekdays.sorted(<)
+        
         
         for day in weekdaysSorted
         {
@@ -76,7 +58,6 @@ class WeekdaysViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        WeekdaysViewController.weekdays.removeAll(keepCapacity: true)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -94,24 +75,14 @@ class WeekdaysViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
-        if AlarmAddEditViewController.isEditMode
+        
+        for weekday in Global.weekdays
         {
-            // Configure the cell...
-            for weekday in Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays{
-                if weekday == (indexPath.row + 1) {
-                    cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                }
+            if weekday == (indexPath.row + 1) {
+                cell.accessoryType = UITableViewCellAccessoryType.Checkmark
             }
         }
-        else
-        {
-            for weekday in WeekdaysViewController.weekdays
-            {
-                if weekday == (indexPath.row + 1) {
-                    cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                }
-            }
-        }
+        
        
         return cell
     }
@@ -120,42 +91,25 @@ class WeekdaysViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)!
-        if !AlarmAddEditViewController.isEditMode
-        {
-             if let index = find(WeekdaysViewController.weekdays, (indexPath.row + 1))
-             {
-                WeekdaysViewController.weekdays.removeAtIndex(index)
-                cell.setSelected(true, animated: true)
-                cell.setSelected(false, animated: true)
-                cell.accessoryType = UITableViewCellAccessoryType.None
-            }
-            else
-             {
-                WeekdaysViewController.weekdays.append(indexPath.row + 1)
-                cell.setSelected(true, animated: true)
-                cell.setSelected(false, animated: true)
-                cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-            }
-        }
+        
         //for swift 1.2, if you are using swift 2.0, use indexOf:. method instead
-        else
-        {
-            if let index = find(Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays, (indexPath.row + 1)){
-              Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.removeAtIndex(index)
-                cell.setSelected(true, animated: true)
-                cell.setSelected(false, animated: true)
-                cell.accessoryType = UITableViewCellAccessoryType.None
-            }
-            else{
-                //row index start from 0, weekdays index start from 1 (Sunday), so plus 1
-                WeekdaysViewController.weekdays.append(indexPath.row + 1)
-                Alarms.sharedInstance[MainAlarmViewController.indexOfCell].repeatWeekdays.append(indexPath.row + 1)
-                cell.setSelected(true, animated: true)
-                cell.setSelected(false, animated: true)
-                cell.accessoryType = UITableViewCellAccessoryType.Checkmark
-                
-            }
+        
+        if let index = find(Global.weekdays, (indexPath.row + 1)){
+          Global.weekdays.removeAtIndex(index)
+            cell.setSelected(true, animated: true)
+            cell.setSelected(false, animated: true)
+            cell.accessoryType = UITableViewCellAccessoryType.None
         }
+        else{
+            //row index start from 0, weekdays index start from 1 (Sunday), so plus 1
+            Global.weekdays.append(indexPath.row + 1)
+            //Alarms.sharedInstance[Global.indexOfCell].repeatWeekdays.append(indexPath.row + 1)
+            cell.setSelected(true, animated: true)
+            cell.setSelected(false, animated: true)
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            
+        }
+        
         
 
     }

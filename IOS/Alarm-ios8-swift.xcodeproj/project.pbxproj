@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E16062C1C62358F009B2407 /* MediaTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E16062B1C62358F009B2407 /* MediaTableViewController.swift */; };
+		9E1F30731C49128000C66F79 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1F30721C49128000C66F79 /* Scheduler.swift */; };
+		9E1F30751C589F4100C66F79 /* GlobalParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1F30741C589F4100C66F79 /* GlobalParams.swift */; };
 		9E3B062F1BB8347000453456 /* bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E3B062E1BB8347000453456 /* bell.mp3 */; };
 		9E603F591BD7CA6600303E93 /* LabelEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */; };
+		9E92445B1C690A8D00724DFA /* tickle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E92445A1C690A8D00724DFA /* tickle.mp3 */; };
 		9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */; };
 		9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EED78711AA0F03F00961BC2 /* AppDelegate.swift */; };
 		9EED78771AA0F03F00961BC2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EED78751AA0F03F00961BC2 /* Main.storyboard */; };
@@ -31,8 +35,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9E16062B1C62358F009B2407 /* MediaTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaTableViewController.swift; sourceTree = "<group>"; };
+		9E1F30721C49128000C66F79 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
+		9E1F30741C589F4100C66F79 /* GlobalParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalParams.swift; sourceTree = "<group>"; };
 		9E3B062E1BB8347000453456 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bell.mp3; sourceTree = "<group>"; };
 		9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelEditViewController.swift; sourceTree = "<group>"; };
+		9E92445A1C690A8D00724DFA /* tickle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tickle.mp3; sourceTree = "<group>"; };
 		9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekdaysViewController.swift; sourceTree = "<group>"; };
 		9EED786C1AA0F03F00961BC2 /* Alarm-ios8-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Alarm-ios8-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EED78701AA0F03F00961BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,6 +105,9 @@
 				9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */,
 				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
 				9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */,
+				9E1F30721C49128000C66F79 /* Scheduler.swift */,
+				9E1F30741C589F4100C66F79 /* GlobalParams.swift */,
+				9E16062B1C62358F009B2407 /* MediaTableViewController.swift */,
 			);
 			path = Alarm;
 			sourceTree = "<group>";
@@ -104,6 +115,7 @@
 		9EED786F1AA0F03F00961BC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9E92445A1C690A8D00724DFA /* tickle.mp3 */,
 				9E3B062E1BB8347000453456 /* bell.mp3 */,
 				9EED78701AA0F03F00961BC2 /* Info.plist */,
 			);
@@ -207,6 +219,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E92445B1C690A8D00724DFA /* tickle.mp3 in Resources */,
 				9EED78771AA0F03F00961BC2 /* Main.storyboard in Resources */,
 				9E3B062F1BB8347000453456 /* bell.mp3 in Resources */,
 				9EED787C1AA0F03F00961BC2 /* LaunchScreen.xib in Resources */,
@@ -229,6 +242,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EED789A1AA36C7900961BC2 /* AlarmAddEditViewController.swift in Sources */,
+				9E1F30731C49128000C66F79 /* Scheduler.swift in Sources */,
+				9E16062C1C62358F009B2407 /* MediaTableViewController.swift in Sources */,
+				9E1F30751C589F4100C66F79 /* GlobalParams.swift in Sources */,
 				9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */,
 				9EED78941AA1E51700961BC2 /* Alarm.swift in Sources */,
 				9E603F591BD7CA6600303E93 /* LabelEditViewController.swift in Sources */,
