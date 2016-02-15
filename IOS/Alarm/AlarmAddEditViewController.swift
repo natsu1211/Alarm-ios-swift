@@ -101,7 +101,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell = tableView.dequeueReusableCellWithIdentifier(
-            settingIdentifier) as? UITableViewCell
+            settingIdentifier) as UITableViewCell?
         if cell == nil {
             cell = UITableViewCell(
                 style: UITableViewCellStyle.Value1, reuseIdentifier: settingIdentifier)
@@ -158,7 +158,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var cell = tableView.cellForRowAtIndexPath(indexPath)
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
         /*
         let title = NSLocalizedString("Choose a Alarm Interval", comment: "")
         //let message = NSLocalizedString("Choose Interval", comment: "")
@@ -272,11 +272,11 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         // Pass the selected object to the new view controller.
         if segue.identifier == "saveEditAlarm"
         {
-            var alaVC = segue.destinationViewController as! MainAlarmViewController
-            var cells = alaVC.tableView.visibleCells() as! [UITableViewCell]
+            let alaVC = segue.destinationViewController as! MainAlarmViewController
+            let cells = alaVC.tableView.visibleCells 
             for cell in cells
             {
-                var sw = cell.accessoryView as! UISwitch
+                let sw = cell.accessoryView as! UISwitch
                 if sw.tag > Global.indexOfCell
                 {
                     sw.tag -= 1

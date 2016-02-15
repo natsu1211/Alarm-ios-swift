@@ -28,7 +28,7 @@ class WeekdaysViewController: UITableViewController {
         var ret = String()
         var weekdaysSorted:[Int] = [Int]()
         
-        weekdaysSorted = Global.weekdays.sorted(<)
+        weekdaysSorted = Global.weekdays.sort(<)
         
         
         for day in weekdaysSorted
@@ -94,7 +94,7 @@ class WeekdaysViewController: UITableViewController {
         
         //for swift 1.2, if you are using swift 2.0, use indexOf:. method instead
         
-        if let index = find(Global.weekdays, (indexPath.row + 1)){
+        if let index = Global.weekdays.indexOf((indexPath.row + 1)){
           Global.weekdays.removeAtIndex(index)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)

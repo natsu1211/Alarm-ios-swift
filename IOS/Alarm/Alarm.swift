@@ -115,7 +115,7 @@ class Alarms: SequenceType
 //            return [Alarm]()
 //        }
         
-        var alarmArray = NSUserDefaults.standardUserDefaults().arrayForKey(alarmKey)
+        let alarmArray = NSUserDefaults.standardUserDefaults().arrayForKey(alarmKey)
         if alarmArray != nil{
             let items = alarmArray!
             return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, snoozeEnabled: item["snoozeEnabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, mediaLabel: item["mediaLabel"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
@@ -227,14 +227,14 @@ class Alarms: SequenceType
     
     //SequenceType Protocol
     private var currentIndex = 0
-    func generate() -> GeneratorOf<Alarm> {
+    func generate() -> AnyGenerator<Alarm> {
         let next: () -> Alarm? = {
             if self.currentIndex < self.alarms.count{
                 return self.alarms[self.currentIndex++]
             }
             return nil
         }
-        return GeneratorOf<Alarm>(next)
+        return anyGenerator(next)
     }
     
     

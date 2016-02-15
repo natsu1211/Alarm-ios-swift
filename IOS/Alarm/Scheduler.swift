@@ -24,18 +24,18 @@ class Scheduler : AlarmSchedulerDelegate
         
         //if (notificationSettings.types == UIUserNotificationType.None){
         // Specify the notification types.
-        var notificationTypes: UIUserNotificationType = UIUserNotificationType.Alert | UIUserNotificationType.Sound
+        let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Sound]
         
         
         // Specify the notification actions.
-        var stopAction = UIMutableUserNotificationAction()
+        let stopAction = UIMutableUserNotificationAction()
         stopAction.identifier = "myStop"
         stopAction.title = "OK"
         stopAction.activationMode = UIUserNotificationActivationMode.Background
         stopAction.destructive = false
         stopAction.authenticationRequired = false
         
-        var snoozeAction = UIMutableUserNotificationAction()
+        let snoozeAction = UIMutableUserNotificationAction()
         snoozeAction.identifier = "mySnooze"
         snoozeAction.title = "Snooze"
         snoozeAction.activationMode = UIUserNotificationActivationMode.Background
@@ -46,7 +46,7 @@ class Scheduler : AlarmSchedulerDelegate
         let actionsArray = [UIUserNotificationAction](arrayLiteral: stopAction, snoozeAction)
         let actionsArrayMinimal = [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction)
         // Specify the category related to the above actions.
-        var alarmCategory = UIMutableUserNotificationCategory()
+        let alarmCategory = UIMutableUserNotificationCategory()
         alarmCategory.identifier = "myAlarmCategory"
         alarmCategory.setActions(actionsArray, forContext: .Default)
         alarmCategory.setActions(actionsArrayMinimal, forContext: .Minimal)
@@ -68,17 +68,17 @@ class Scheduler : AlarmSchedulerDelegate
         let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         let now = NSDate()
         
-        let flags = NSCalendarUnit.CalendarUnitWeekday|NSCalendarUnit.CalendarUnitWeekdayOrdinal | NSCalendarUnit.CalendarUnitDay
-        var dateComponents = calendar.components(flags, fromDate: date)
+        let flags: NSCalendarUnit = [NSCalendarUnit.Weekday, NSCalendarUnit.WeekdayOrdinal, NSCalendarUnit.Day]
+        let dateComponents = calendar.components(flags, fromDate: date)
         //var nowComponents = calendar.components(flags, fromDate: now)
-        var weekday:Int = dateComponents.weekday
+        let weekday:Int = dateComponents.weekday
         
         if weekdays.isEmpty{
             //date is eariler than current time
             if date.compare(now) == NSComparisonResult.OrderedAscending
             {
                 
-                correctedDate.append(calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: 1, toDate: date, options:.MatchStrictly)!)
+                correctedDate.append(calendar.dateByAddingUnit(NSCalendarUnit.Day, value: 1, toDate: date, options:.MatchStrictly)!)
             }
                 //later
             else
@@ -99,14 +99,14 @@ class Scheduler : AlarmSchedulerDelegate
                 if wd < weekday
                 {
                     
-                    wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd+daysInWeek-weekday, toDate: date, options:.MatchStrictly)!
+                    wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.Day, value: wd+daysInWeek-weekday, toDate: date, options:.MatchStrictly)!
                     
                 }
                 else if wd == weekday
                 {
                     if date.compare(now) == NSComparisonResult.OrderedAscending
                     {
-                        wdDate = calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: daysInWeek, toDate: date, options:.MatchStrictly)!
+                        wdDate = calendar.dateByAddingUnit(NSCalendarUnit.Day, value: daysInWeek, toDate: date, options:.MatchStrictly)!
                     }
                     //later
                     wdDate = date
@@ -114,7 +114,7 @@ class Scheduler : AlarmSchedulerDelegate
                 }
                 else
                 {
-                    wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: wd-weekday, toDate: date, options:.MatchStrictly)!
+                    wdDate =  calendar.dateByAddingUnit(NSCalendarUnit.Day, value: wd-weekday, toDate: date, options:.MatchStrictly)!
                 }
                 
                 correctedDate.append(wdDate)
@@ -126,7 +126,7 @@ class Scheduler : AlarmSchedulerDelegate
     }
     
     func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int], snooze: Bool, soundName: String) {
-        var AlarmNotification: UILocalNotification = UILocalNotification()
+        let AlarmNotification: UILocalNotification = UILocalNotification()
         var calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"

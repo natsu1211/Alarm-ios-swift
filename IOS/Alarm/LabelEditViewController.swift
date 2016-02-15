@@ -40,7 +40,7 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
 
         
-        Global.label = textField.text
+        Global.label = textField.text!
 
         //Becuase segue push is used
         navigationController?.popViewControllerAnimated(true)

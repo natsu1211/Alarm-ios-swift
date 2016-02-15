@@ -63,24 +63,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
             let now = NSDate()
             //snooze 9 minutes later
-            let snoozeTime = calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitMinute, value: 9, toDate: now, options:.MatchStrictly)!
+            let snoozeTime = calendar.dateByAddingUnit(NSCalendarUnit.Minute, value: 9, toDate: now, options:.MatchStrictly)!
             
             let snoozeOption = UIAlertAction(title: "Snooze", style: .Default) {
-                (action:UIAlertAction!)->Void in self.audioPlayer?.stop()
+                (action:UIAlertAction)->Void in self.audioPlayer?.stop()
                 
                 self.alarmScheduler.setNotificationWithDate(snoozeTime, onWeekdaysForNotify: [Int](), snooze: true, soundName: soundName)
             }
             storageController.addAction(snoozeOption)
         }
         let stopOption = UIAlertAction(title: "OK", style: .Default) {
-            (action:UIAlertAction!)->Void in self.audioPlayer?.stop()
+            (action:UIAlertAction)->Void in self.audioPlayer?.stop()
             Alarms.sharedInstance.setEnabled(false, AtIndex: index)
-            var vc = self.window?.rootViewController! as! UINavigationController
-            var cells = (vc.topViewController as! MainAlarmViewController).tableView.visibleCells() as! [UITableViewCell]
+            let vc = self.window?.rootViewController! as! UINavigationController
+            let cells = (vc.topViewController as! MainAlarmViewController).tableView.visibleCells 
             for cell in cells
             {
                 if cell.tag == index{
-                    var sw = cell.accessoryView as! UISwitch
+                    let sw = cell.accessoryView as! UISwitch
                     sw.setOn(false, animated: false)
                 }
             }}
@@ -94,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     //print out all registed NSNotification for debug
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         
-        println(notificationSettings.types.rawValue)
+        print(notificationSettings.types.rawValue)
     }
     
     //AlarmApplicationDelegate protocol
@@ -105,10 +105,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         
         var error: NSError?
         
-        audioPlayer = AVAudioPlayer(contentsOfURL: url, error: &error)
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOfURL: url)
+        } catch let error1 as NSError {
+            error = error1
+            audioPlayer = nil
+        }
         
         if let err = error {
-            println("audioPlayer error \(err.localizedDescription)")
+            print("audioPlayer error \(err.localizedDescription)")
         } else {
             audioPlayer!.delegate = self
             audioPlayer!.prepareToPlay()
@@ -125,19 +130,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     //todo,vibration infinity
     func vibrationCallback(id:SystemSoundID, _ callback:UnsafeMutablePointer<Void>) -> Void
     {
-        print("callback")
+        print("callback", terminator: "")
     }
     
     
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer!, successfully
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully
         flag: Bool) {
     }
     
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer!,
-        error: NSError!) {
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer,
+        error: NSError?) {
     }
     
-    func audioPlayerBeginInterruption(player: AVAudioPlayer!) {
+    func audioPlayerBeginInterruption(player: AVAudioPlayer) {
     }
     
     func audioPlayerEndInterruption(player: AVAudioPlayer!) {

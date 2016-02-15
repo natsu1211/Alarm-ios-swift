@@ -84,7 +84,7 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier(
-            musicIdentifier) as? UITableViewCell
+            musicIdentifier) as UITableViewCell?
         if cell == nil {
             cell = UITableViewCell(
                 style: UITableViewCellStyle.Default, reuseIdentifier: musicIdentifier)
@@ -140,11 +140,11 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
             }
         }
         
-        var c = tableView.cellForRowAtIndexPath(indexPath)
-        var cells = tableView.visibleCells() as! [UITableViewCell]
+        let c = tableView.cellForRowAtIndexPath(indexPath)
+        let cells = tableView.visibleCells 
         for cell in cells
         {
-            var indexP = tableView.indexPathForCell(cell)
+            let indexP = tableView.indexPathForCell(cell)
             if indexP?.section == 2
             {
                 cell.accessoryType = UITableViewCellAccessoryType.None
@@ -166,7 +166,7 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
     {
         if !mediaItemCollection.items.isEmpty
         {
-            var aMediaItem = mediaItemCollection.items[0] as? MPMediaItem
+            let aMediaItem = mediaItemCollection.items[0] as? MPMediaItem
         
 //        if aMediaItem?.artwork != nil {
 //        mediaImageView.image = aMediaItem.artwork.imageWithSize(mediaCell.contentView.bounds.size);

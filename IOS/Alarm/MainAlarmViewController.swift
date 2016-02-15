@@ -37,7 +37,7 @@ class MainAlarmViewController: UITableViewController{
         //unschedule all the notifications, faster than calling the cancelAllNotifications func
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
         
-        let cells = tableView.visibleCells() as? [UITableViewCell]
+        let cells = tableView.visibleCells as? [UITableViewCell]
         if cells != nil
         {
             assert( cells!.count==Alarms.sharedInstance.count, "alarms not been updated correctly")
@@ -168,7 +168,7 @@ class MainAlarmViewController: UITableViewController{
     {
         if sender.on 
         {
-            println("switch on")
+            print("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             Alarms.sharedInstance.setEnabled(true, AtIndex: sender.tag)
             Alarms.sharedInstance.PersistAlarm(sender.tag)
@@ -178,7 +178,7 @@ class MainAlarmViewController: UITableViewController{
         }
         else
         {
-            println("switch off")
+            print("switch off")
             sender.superview?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
             Alarms.sharedInstance.setEnabled(false, AtIndex: sender.tag)
             Alarms.sharedInstance.PersistAlarm(sender.tag)
@@ -201,10 +201,10 @@ class MainAlarmViewController: UITableViewController{
         if editingStyle == .Delete {
             Alarms.sharedInstance.removeAtIndex(indexPath.row)
             Alarms.sharedInstance.deleteAlarm(indexPath.row)
-            var cells = tableView.visibleCells() as! [UITableViewCell]
+            let cells = tableView.visibleCells 
             for cell in cells
             {
-                var sw = cell.accessoryView as! UISwitch
+                let sw = cell.accessoryView as! UISwitch
                 if sw.tag > indexPath.row
                 {
                     sw.tag -= 1
