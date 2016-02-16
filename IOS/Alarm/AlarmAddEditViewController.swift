@@ -47,7 +47,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     
     @IBAction func saveEditAlarm(sender: AnyObject) {
         let date = datePicker.date
-        let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        //let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let timeStr = dateFormatter.stringFromDate(date)
         if Global.isEditMode
         {
             Alarms.sharedInstance.setDate(date, AtIndex: Global.indexOfCell)
@@ -101,7 +104,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell = tableView.dequeueReusableCellWithIdentifier(
-            settingIdentifier) as UITableViewCell?
+            settingIdentifier)
         if cell == nil {
             cell = UITableViewCell(
                 style: UITableViewCellStyle.Value1, reuseIdentifier: settingIdentifier)
