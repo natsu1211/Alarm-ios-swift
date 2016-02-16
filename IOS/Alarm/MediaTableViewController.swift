@@ -166,7 +166,7 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
     {
         if !mediaItemCollection.items.isEmpty
         {
-            let aMediaItem = mediaItemCollection.items[0] as? MPMediaItem
+            let aMediaItem = mediaItemCollection.items[0]
         
 //        if aMediaItem?.artwork != nil {
 //        mediaImageView.image = aMediaItem.artwork.imageWithSize(mediaCell.contentView.bounds.size);

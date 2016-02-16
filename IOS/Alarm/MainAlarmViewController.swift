@@ -37,22 +37,22 @@ class MainAlarmViewController: UITableViewController{
         //unschedule all the notifications, faster than calling the cancelAllNotifications func
         UIApplication.sharedApplication().scheduledLocalNotifications = nil
         
-        let cells = tableView.visibleCells as? [UITableViewCell]
-        if cells != nil
+        let cells = tableView.visibleCells
+        if !cells.isEmpty
         {
-            assert( cells!.count==Alarms.sharedInstance.count, "alarms not been updated correctly")
-            var count = cells!.count
+            assert( cells.count==Alarms.sharedInstance.count, "alarms not been updated correctly")
+            var count = cells.count
             while count>0
             {
                 if Alarms.sharedInstance[count-1].enabled
                 {
-                    (cells![count-1].accessoryView as! UISwitch).setOn(true, animated: false)
-                    cells![count-1].backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    (cells[count-1].accessoryView as! UISwitch).setOn(true, animated: false)
+                    cells[count-1].backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
                 }
                 else
                 {
-                    (cells![count-1].accessoryView as! UISwitch).setOn(false, animated: false)
-                    cells![count-1].backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
+                    (cells[count-1].accessoryView as! UISwitch).setOn(false, animated: false)
+                    cells[count-1].backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
                 }
                 
                 count--
@@ -123,10 +123,14 @@ class MainAlarmViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("AlarmCell", forIndexPath: indexPath) as? UITableViewCell
-        if  cell == nil {
+        
+        if cell == nil{
             cell = UITableViewCell(
-            style: UITableViewCellStyle.Subtitle, reuseIdentifier: "AlarmCell")
+                style: UITableViewCellStyle.Subtitle, reuseIdentifier: "AlarmCell")
         }
+       
+        
+        
         cell!.tag = indexPath.row
         let ala = Alarms.sharedInstance[indexPath.row] as Alarm
         cell!.textLabel?.text = ala.timeStr

@@ -185,7 +185,7 @@
 			attributes = {
 				LastSwiftMigration = 0720;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = LongGames;
 				TargetAttributes = {
 					9EED786B1AA0F03F00961BC2 = {
@@ -313,6 +313,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -378,6 +379,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Alarm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "LongGames.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Alarm-ios8-swift";
 			};
 			name = Debug;
@@ -388,6 +390,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Alarm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "LongGames.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Alarm-ios8-swift";
 			};
 			name = Release;
@@ -406,6 +409,7 @@
 				);
 				INFOPLIST_FILE = AlarmTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "LongGames.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Alarm-ios8-swiftTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Alarm-ios8-swift.app/Alarm-ios8-swift";
 			};
@@ -421,6 +425,7 @@
 				);
 				INFOPLIST_FILE = AlarmTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "LongGames.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Alarm-ios8-swiftTests";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Alarm-ios8-swift.app/Alarm-ios8-swift";
 			};

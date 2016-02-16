@@ -145,7 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     func audioPlayerBeginInterruption(player: AVAudioPlayer) {
     }
     
-    func audioPlayerEndInterruption(player: AVAudioPlayer!) {
+    func audioPlayerEndInterruption(player: AVAudioPlayer) {
     }
     
     
