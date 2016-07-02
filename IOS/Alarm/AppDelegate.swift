@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             let snoozeOption = UIAlertAction(title: "Snooze", style: .Default) {
                 (action:UIAlertAction)->Void in self.audioPlayer?.stop()
                 
-                self.alarmScheduler.setNotificationWithDate(snoozeTime, onWeekdaysForNotify: [Int](), snooze: true, soundName: soundName)
+                self.alarmScheduler.setNotificationWithDate(snoozeTime, onWeekdaysForNotify: [Int](), snooze: true, soundName: soundName, index: index)
             }
             storageController.addAction(snoozeOption)
         }

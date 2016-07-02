@@ -60,19 +60,12 @@ class Alarms: SequenceType
     func append(alarm: Alarm)
     {
         alarms.append(alarm)
-        
         PersistAlarm(alarm, index: alarms.count-1)
-        
     }
     
     func PersistAlarm(alarm: Alarm, index: Int)
     {
         var alarmArray = ud.arrayForKey(alarmKey) ?? []
-        //var alarmDict = ud.dictionaryForKey(alarmKey) ?? [:]
-        
-        //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
-        //ud.setObject(alarmDict, forKey: alarmKey)
-       
             alarmArray.append(["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "snoozeEnabled": alarm.snoozeEnabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "mediaLabel": Alarms.sharedInstance[index].mediaLabel, "repeatWeekdays": alarm.repeatWeekdays])
         
         ud.setObject(alarmArray, forKey: alarmKey)
@@ -82,10 +75,6 @@ class Alarms: SequenceType
     func PersistAlarm(index: Int)
     {
         var alarmArray = ud.arrayForKey(alarmKey) ?? []
-        //var alarmDict = ud.dictionaryForKey(alarmKey) ?? [:]
-        
-        //alarmDict[alarm.UUID] = ["label": alarm.label, "timeStr": alarm.timeStr, "date": alarm.date, "enabled": alarm.enabled, "UUID": alarm.UUID, "mediaID": alarm.mediaID, "repeatWeekdays": alarm.repeatWeekdays]
-        //ud.setObject(alarmDict, forKey: alarmKey)
         alarmArray[index] = ["label": Alarms.sharedInstance[index].label, "timeStr": Alarms.sharedInstance[index].timeStr, "date": Alarms.sharedInstance[index].date, "enabled": Alarms.sharedInstance[index].enabled, "snoozeEnabled": Alarms.sharedInstance[index].snoozeEnabled, "UUID": Alarms.sharedInstance[index].UUID, "mediaID": Alarms.sharedInstance[index].mediaID, "mediaLabel": Alarms.sharedInstance[index].mediaLabel, "repeatWeekdays": Alarms.sharedInstance[index].repeatWeekdays]
         ud.setObject(alarmArray, forKey: alarmKey)
         ud.synchronize()
@@ -103,19 +92,8 @@ class Alarms: SequenceType
     //better if we can get the property name as a string, but Swift does not have any reflection feature now...
     private func getAllAlarm() -> [Alarm]
     {
-//        var alarmDict = NSUserDefaults.standardUserDefaults().dictionaryForKey(alarmKey)
-//        if alarmDict != nil
-//        {
-//            let items = Array(alarmDict!.values)
-//            return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
-//            
-//        }
-//        else
-//        {
-//            return [Alarm]()
-//        }
-        
         let alarmArray = NSUserDefaults.standardUserDefaults().arrayForKey(alarmKey)
+        
         if alarmArray != nil{
             let items = alarmArray!
             return (items as! Array<Dictionary<String, AnyObject>>).map(){item in Alarm(label: item["label"] as! String, timeStr: item["timeStr"] as! String, date: item["date"] as! NSDate, enabled: item["enabled"] as! Bool, snoozeEnabled: item["snoozeEnabled"] as! Bool, UUID: item["UUID"] as! String, mediaID: item["mediaID"] as! String, mediaLabel: item["mediaLabel"] as! String, repeatWeekdays: item["repeatWeekdays"] as! [Int])}
@@ -124,8 +102,6 @@ class Alarms: SequenceType
         {
             return [Alarm]()
         }
-        
-        
     }
     
     var count:Int

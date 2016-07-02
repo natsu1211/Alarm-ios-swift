@@ -11,7 +11,7 @@ import UIKit
 
 protocol AlarmSchedulerDelegate
 {
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int], snooze: Bool, soundName: String)
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify:[Int], snooze: Bool, soundName: String, index: Int)
     func setupNotificationSettings()
     func reSchedule()
 }
@@ -123,7 +123,7 @@ class Scheduler : AlarmSchedulerDelegate
         
     }
     
-    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int], snooze: Bool, soundName: String) {
+    func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int], snooze: Bool, soundName: String, index: Int) {
         let AlarmNotification: UILocalNotification = UILocalNotification()
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
@@ -134,7 +134,7 @@ class Scheduler : AlarmSchedulerDelegate
         //AlarmNotification.repeatInterval = NSCalendarUnit.CalendarUnitWeekOfYear
         AlarmNotification.soundName = soundName + ".mp3"
         AlarmNotification.timeZone = NSTimeZone.defaultTimeZone()
-        AlarmNotification.userInfo = ["snooze" : snooze, "index": Global.indexOfCell, "soundName": soundName]
+        AlarmNotification.userInfo = ["snooze" : snooze, "index": index, "soundName": soundName]
         
         let datesForNotification = correctDate(date, onWeekdaysForNotify:weekdays)
         
@@ -144,15 +144,14 @@ class Scheduler : AlarmSchedulerDelegate
             UIApplication.sharedApplication().scheduleLocalNotification(AlarmNotification)
         }
         
-        
-        
     }
     
     func reSchedule() {
         UIApplication.sharedApplication().cancelAllLocalNotifications()
-        for alarm in Alarms.sharedInstance{
+        for i in 0..<Alarms.sharedInstance.count{
+            let alarm = Alarms.sharedInstance[i]
             if alarm.enabled{
-                setNotificationWithDate(alarm.date, onWeekdaysForNotify: alarm.repeatWeekdays, snooze: alarm.snoozeEnabled, soundName: alarm.mediaLabel)
+                setNotificationWithDate(alarm.date, onWeekdaysForNotify: alarm.repeatWeekdays, snooze: alarm.snoozeEnabled, soundName: alarm.mediaLabel, index: i)
             }
         }
     }

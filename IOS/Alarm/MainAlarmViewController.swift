@@ -147,7 +147,7 @@ class MainAlarmViewController: UITableViewController{
         //tag is used to indicate which row had been touched
         sw.tag = indexPath.row
         cell!.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
-        sw.addTarget(self, action: "switchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        sw.addTarget(self, action: #selector(MainAlarmViewController.switchTapped(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         if ala.enabled
         {
             sw.setOn(true, animated: false)
@@ -170,22 +170,19 @@ class MainAlarmViewController: UITableViewController{
     
     @IBAction func switchTapped(sender: UISwitch)
     {
-        if sender.on 
+        Global.indexOfCell = sender.tag
+        Alarms.sharedInstance.setEnabled(sender.on, AtIndex: sender.tag)
+        Alarms.sharedInstance.PersistAlarm(sender.tag)
+        if sender.on
         {
             print("switch on")
             sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-            Alarms.sharedInstance.setEnabled(true, AtIndex: sender.tag)
-            Alarms.sharedInstance.PersistAlarm(sender.tag)
-            scheduler.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date, onWeekdaysForNotify: Alarms.sharedInstance[sender.tag].repeatWeekdays, snooze: Alarms.sharedInstance[sender.tag].snoozeEnabled, soundName: Alarms.sharedInstance[sender.tag].mediaLabel)
-            
-            
+            scheduler.setNotificationWithDate(Alarms.sharedInstance[sender.tag].date, onWeekdaysForNotify: Alarms.sharedInstance[sender.tag].repeatWeekdays, snooze: Alarms.sharedInstance[sender.tag].snoozeEnabled, soundName: Alarms.sharedInstance[sender.tag].mediaLabel, index: sender.tag)
         }
         else
         {
             print("switch off")
             sender.superview?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
-            Alarms.sharedInstance.setEnabled(false, AtIndex: sender.tag)
-            Alarms.sharedInstance.PersistAlarm(sender.tag)
             scheduler.reSchedule()
             
         }
