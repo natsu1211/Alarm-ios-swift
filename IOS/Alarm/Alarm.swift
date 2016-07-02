@@ -229,7 +229,7 @@ class Alarms: SequenceType
     private var currentIndex = 0
     func generate() -> AnyGenerator<Alarm> {
         
-        return anyGenerator(){self.currentIndex < self.alarms.count ? self.alarms[self.currentIndex++] : nil}
+        return AnyGenerator(){self.currentIndex < self.alarms.count ? self.alarms[self.currentIndex++] : nil}
     }
     
     

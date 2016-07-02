@@ -20,9 +20,7 @@ protocol AlarmSchedulerDelegate
 class Scheduler : AlarmSchedulerDelegate
 {
     func setupNotificationSettings() {
-        let notificationSettings: UIUserNotificationSettings! = UIApplication.sharedApplication().currentUserNotificationSettings()
         
-        //if (notificationSettings.types == UIUserNotificationType.None){
         // Specify the notification types.
         let notificationTypes: UIUserNotificationType = [UIUserNotificationType.Alert, UIUserNotificationType.Sound]
         
@@ -127,7 +125,6 @@ class Scheduler : AlarmSchedulerDelegate
     
     func setNotificationWithDate(date: NSDate, onWeekdaysForNotify weekdays:[Int], snooze: Bool, soundName: String) {
         let AlarmNotification: UILocalNotification = UILocalNotification()
-        var calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
         AlarmNotification.category = "AlarmCategory"

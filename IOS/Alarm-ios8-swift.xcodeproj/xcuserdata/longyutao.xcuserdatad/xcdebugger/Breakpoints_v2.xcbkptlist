@@ -697,22 +697,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Alarm/AlarmAddEditViewController.swift"
-            timestampString = "476444910.857396"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Alarm/AlarmAddEditViewController.swift"
             timestampString = "477304760.54481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -745,11 +729,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Alarm/Scheduler.swift"
-            timestampString = "475496621.543601"
+            timestampString = "489134060.294462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "setNotificationWithDate(_:onWeekdaysForNotify:snooze:soundName:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -777,11 +761,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Alarm/Scheduler.swift"
-            timestampString = "476158850.108851"
+            timestampString = "489134060.294462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "reSchedule()"
             landmarkType = "5">
          </BreakpointContent>
@@ -793,11 +777,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Alarm/Scheduler.swift"
-            timestampString = "476112688.559506"
+            timestampString = "489134060.294462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "correctDate(_:onWeekdaysForNotify:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -857,11 +841,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Alarm/Scheduler.swift"
-            timestampString = "476175844.467576"
+            timestampString = "489134060.294462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "setNotificationWithDate(_:onWeekdaysForNotify:snooze:soundName:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -873,11 +857,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Alarm/Scheduler.swift"
-            timestampString = "476176508.443235"
+            timestampString = "489134060.294462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
             landmarkName = "reSchedule()"
             landmarkType = "5">
          </BreakpointContent>

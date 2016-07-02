@@ -138,7 +138,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
                
                 cell!.textLabel!.text = "Snooze"
                 let sw = UISwitch(frame: CGRect())
-                sw.addTarget(self, action: "snoozeSwitchTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+                sw.addTarget(self, action: #selector(AlarmAddEditViewController.snoozeSwitchTapped(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 
                 if Global.snoozeEnabled
                 {
