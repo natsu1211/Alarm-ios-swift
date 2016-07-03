@@ -41,7 +41,7 @@ class Scheduler : AlarmSchedulerDelegate
         snoozeAction.authenticationRequired = false
         
         
-        let actionsArray = [UIUserNotificationAction](arrayLiteral: stopAction, snoozeAction)
+        let actionsArray = [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction)
         let actionsArrayMinimal = [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction)
         // Specify the category related to the above actions.
         let alarmCategory = UIMutableUserNotificationCategory()
@@ -127,7 +127,7 @@ class Scheduler : AlarmSchedulerDelegate
         let AlarmNotification: UILocalNotification = UILocalNotification()
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
-        AlarmNotification.category = "AlarmCategory"
+        AlarmNotification.category = "myAlarmCategory"
         //AlarmNotification.applicationIconBadgeNumber = 0
         //AlarmNotification.repeatCalendar = calendar
         //TODO, not working

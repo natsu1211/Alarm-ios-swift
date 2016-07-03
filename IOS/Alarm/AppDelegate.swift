@@ -90,7 +90,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
   
         
     }
-    
+    //notification handler, snooze
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void)
+    {
+        if identifier == "mySnooze"
+        {
+            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+            let now = NSDate()
+            let snoozeTime = calendar.dateByAddingUnit(NSCalendarUnit.Minute, value: 9, toDate: now, options:.MatchStrictly)!
+            var soundName: String = ""
+            var index: Int = -1
+            if let userInfo = notification.userInfo {
+                soundName = userInfo["soundName"] as! String
+                index = userInfo["index"] as! Int
+            self.alarmScheduler.setNotificationWithDate(snoozeTime, onWeekdaysForNotify: [Int](), snooze: true, soundName: soundName, index: index)
+        }
+        }
+        completionHandler()
+    }
     //print out all registed NSNotification for debug
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         
