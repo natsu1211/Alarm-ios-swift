@@ -591,7 +591,7 @@
             startingLineNumber = "175"
             endingLineNumber = "175"
             landmarkName = "switchTapped(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -607,7 +607,7 @@
             startingLineNumber = "179"
             endingLineNumber = "179"
             landmarkName = "switchTapped(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -623,7 +623,7 @@
             startingLineNumber = "104"
             endingLineNumber = "104"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -766,8 +766,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "190"
             endingLineNumber = "190"
-            landmarkName = "switchTapped(_:)"
-            landmarkType = "5">
+            landmarkName = "MainAlarmViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -783,7 +783,7 @@
             startingLineNumber = "189"
             endingLineNumber = "189"
             landmarkName = "switchTapped(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
