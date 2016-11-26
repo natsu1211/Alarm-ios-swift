@@ -31,12 +31,6 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    //add a ! to avoid conflict of signature of function, likely a bug for swift 1.2
-    //func textFieldDidEndEditing(textField: UITextField) -> Bool! {
-    //    Alarms.sharedInstance[MainAlarmViewController.indexOfCell].label = textField.text
-    //    return true
-    //}
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         
@@ -46,14 +40,5 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
         navigationController?.popViewController(animated: true)
         return false
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

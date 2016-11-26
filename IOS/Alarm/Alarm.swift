@@ -18,20 +18,9 @@ struct Alarm
     var enabled: Bool
     var snoozeEnabled: Bool
     var UUID: String
-    //var index: Int
     var mediaID: String
     var mediaLabel: String
     var repeatWeekdays: [Int]
-    
-    /*init(title: String, timeStr: String, date: NSDate, enabled: Bool,UUID: String, mediaID: String)
-    {
-        self.title = title
-        self.timeStr = timeStr
-        self.date = date
-        self.enabled = enabled
-        self.UUID = UUID
-        self.mediaID = mediaID
-    }*/
 
 }
 

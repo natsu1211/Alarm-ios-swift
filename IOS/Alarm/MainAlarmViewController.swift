@@ -188,14 +188,6 @@ class MainAlarmViewController: UITableViewController{
         }
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -218,22 +210,6 @@ class MainAlarmViewController: UITableViewController{
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -254,8 +230,6 @@ class MainAlarmViewController: UITableViewController{
         {
             addEditController.navigationItem.title = "Edit Alarm"
             Global.isEditMode = true
-            //Global.oldLabel = Alarms.sharedInstance[Global.indexOfCell].label
-            
             Global.weekdays = Alarms.sharedInstance[Global.indexOfCell].repeatWeekdays
             Global.label = Alarms.sharedInstance[Global.indexOfCell].label
             Global.mediaLabel = Alarms.sharedInstance[Global.indexOfCell].mediaLabel

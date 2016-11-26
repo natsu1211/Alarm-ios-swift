@@ -168,15 +168,10 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
         {
             let aMediaItem = mediaItemCollection.items[0]
         
-//        if aMediaItem?.artwork != nil {
-//        mediaImageView.image = aMediaItem.artwork.imageWithSize(mediaCell.contentView.bounds.size);
-//        mediaImageView.hidden = false
-//        }
-        
-        self.mediaItem = aMediaItem
-        Alarms.sharedInstance[Global.indexOfCell].mediaID = (self.mediaItem?.value(forProperty: MPMediaItemPropertyPersistentID)) as! String
-        //fillData(aMediaItem);
-        self.dismiss(animated: true, completion: nil)
+            self.mediaItem = aMediaItem
+            Alarms.sharedInstance[Global.indexOfCell].mediaID = (self.mediaItem?.value(forProperty: MPMediaItemPropertyPersistentID)) as! String
+            //fillData(aMediaItem);
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

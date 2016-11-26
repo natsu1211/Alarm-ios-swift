@@ -225,32 +225,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         }
             
     }
-    
-   /* override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let rowValue = alarms[indexPath.row].timeStr
-        let message = "You selected \(rowValue)"
-        let controller = UIAlertController(title: "Row Selected",
-            message: message, preferredStyle: .Alert)
-        let action = UIAlertAction(title: "Yes I Did",
-            style: .Default, handler: nil)
-        controller.addAction(action)
-        presentViewController(controller, animated: true, completion: nil)
-    }*/
-    
-    /*
-    func numberOfComponentsInPickerView(colorPicker: UIPickerView) -> Int {
-        return 1
-    }
-        
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 4
-    }
-    
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!
-    {
-        return "Interval"
-    }
-*/
    
     @IBAction func snoozeSwitchTapped (_ sender: UISwitch)
     {
