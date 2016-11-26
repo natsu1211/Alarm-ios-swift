@@ -34,7 +34,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -45,12 +45,12 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func saveEditAlarm(sender: AnyObject) {
+    @IBAction func saveEditAlarm(_ sender: AnyObject) {
         let date = datePicker.date
         //let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
-        let timeStr = dateFormatter.stringFromDate(date)
+        let timeStr = dateFormatter.string(from: date)
         if Global.isEditMode
         {
             Alarms.sharedInstance.setDate(date, AtIndex: Global.indexOfCell)
@@ -64,20 +64,20 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         }
         else
         {
-            Alarms.sharedInstance.append( Alarm(label: Global.label, timeStr: timeStr, date: date,  enabled: false, snoozeEnabled: Global.snoozeEnabled, UUID: NSUUID().UUIDString, mediaID: "", mediaLabel: "bell", repeatWeekdays: Global.weekdays))
+            Alarms.sharedInstance.append( Alarm(label: Global.label, timeStr: timeStr, date: date,  enabled: false, snoozeEnabled: Global.snoozeEnabled, UUID: UUID().uuidString, mediaID: "", mediaLabel: "bell", repeatWeekdays: Global.weekdays))
         }
         
         //navigationController?.popViewControllerAnimated(true)
         //dismissViewControllerAnimated(true, completion: nil)
         scheduler.reSchedule()
-        self.performSegueWithIdentifier("saveEditAlarm", sender: self)
+        self.performSegue(withIdentifier: "saveEditAlarm", sender: self)
     }
     
     
     let settingIdentifier = "setting"
     
  
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // Return the number of sections.
         if Global.isEditMode
         {
@@ -90,7 +90,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0
         {
             return 4
@@ -101,13 +101,13 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier(
-            settingIdentifier)
+        var cell = tableView.dequeueReusableCell(
+            withIdentifier: settingIdentifier)
         if cell == nil {
             cell = UITableViewCell(
-                style: UITableViewCellStyle.Value1, reuseIdentifier: settingIdentifier)
+                style: UITableViewCellStyle.value1, reuseIdentifier: settingIdentifier)
         }
         if indexPath.section == 0
         {
@@ -117,7 +117,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
                 
                 cell!.textLabel!.text = "Repeat"
                 cell!.detailTextLabel!.text = WeekdaysViewController.repeatText()
-                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
             else if indexPath.row == 1
             {
@@ -125,20 +125,20 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
                 
                 cell!.detailTextLabel!.text = Global.label
                 
-                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
             else if indexPath.row == 2
             {
                 cell!.textLabel!.text = "Sound"
                 cell!.detailTextLabel!.text = MediaTableViewController.mediaText()
-                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
             else if indexPath.row == 3
             {
                
                 cell!.textLabel!.text = "Snooze"
                 let sw = UISwitch(frame: CGRect())
-                sw.addTarget(self, action: #selector(AlarmAddEditViewController.snoozeSwitchTapped(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                sw.addTarget(self, action: #selector(AlarmAddEditViewController.snoozeSwitchTapped(_:)), for: UIControlEvents.touchUpInside)
                 
                 if Global.snoozeEnabled
                 {
@@ -150,18 +150,18 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         }
         else if indexPath.section == 1{
             cell = UITableViewCell(
-                style: UITableViewCellStyle.Default, reuseIdentifier: settingIdentifier)
+                style: UITableViewCellStyle.default, reuseIdentifier: settingIdentifier)
             cell!.textLabel!.text = "Delete Alarm"
-            cell!.textLabel!.textAlignment = .Center
-            cell!.textLabel!.textColor = UIColor.redColor()
+            cell!.textLabel!.textAlignment = .center
+            cell!.textLabel!.textColor = UIColor.red
         }
         
         return cell!
     }
     
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
         /*
         let title = NSLocalizedString("Choose a Alarm Interval", comment: "")
         //let message = NSLocalizedString("Choose Interval", comment: "")
@@ -199,15 +199,15 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
         {
             switch indexPath.row{
             case 0:
-                performSegueWithIdentifier("weekdaysSegue", sender: self)
+                performSegue(withIdentifier: "weekdaysSegue", sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             case 1:
-                performSegueWithIdentifier("labelEditSegue", sender: self)
+                performSegue(withIdentifier: "labelEditSegue", sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             case 2:
-                performSegueWithIdentifier("musicSegue", sender: self)
+                performSegue(withIdentifier: "musicSegue", sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             default:
@@ -219,7 +219,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
             Alarms.sharedInstance.removeAtIndex(Global.indexOfCell)
             Alarms.sharedInstance.deleteAlarm(Global.indexOfCell)
             
-            performSegueWithIdentifier("saveEditAlarm", sender: self)
+            performSegue(withIdentifier: "saveEditAlarm", sender: self)
         
             
         }
@@ -252,10 +252,10 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     }
 */
    
-    @IBAction func snoozeSwitchTapped (sender: UISwitch)
+    @IBAction func snoozeSwitchTapped (_ sender: UISwitch)
     {
        
-        if sender.on{
+        if sender.isOn{
             Global.snoozeEnabled = true
         }
         else
@@ -270,12 +270,12 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "saveEditAlarm"
         {
-            let alaVC = segue.destinationViewController as! MainAlarmViewController
+            let alaVC = segue.destination as! MainAlarmViewController
             let cells = alaVC.tableView.visibleCells 
             for cell in cells
             {

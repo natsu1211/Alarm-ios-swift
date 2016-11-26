@@ -11,8 +11,8 @@ import MediaPlayer
 
 class MediaTableViewController: UITableViewController, MPMediaPickerControllerDelegate  {
     
-    private let musicIdentifier = "musicIdentifier"
-    private let numberOfRingtones = 2
+    fileprivate let musicIdentifier = "musicIdentifier"
+    fileprivate let numberOfRingtones = 2
     var mediaItem: MPMediaItem?
     static func mediaText() -> String
     {
@@ -38,13 +38,13 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 3
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         if section == 0
@@ -62,7 +62,7 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
         }
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0
         {
             return nil
@@ -77,17 +77,17 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
         }
     }
     
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 84.0
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(
-            musicIdentifier) as UITableViewCell?
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(
+            withIdentifier: musicIdentifier) as UITableViewCell?
         if cell == nil {
             cell = UITableViewCell(
-                style: UITableViewCellStyle.Default, reuseIdentifier: musicIdentifier)
+                style: UITableViewCellStyle.default, reuseIdentifier: musicIdentifier)
         }
         if indexPath.section == 0
         {
@@ -102,7 +102,7 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
             if indexPath.row == 1
             {
                 cell!.textLabel!.text = "Pick a song"
-                cell!.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
             
         }
@@ -118,7 +118,7 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
             }
             if cell!.textLabel!.text == Global.mediaLabel
             {
-                cell!.accessoryType = UITableViewCellAccessoryType.Checkmark
+                cell!.accessoryType = UITableViewCellAccessoryType.checkmark
             }
         }
         
@@ -126,8 +126,8 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
     }
     
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let mediaPicker = MPMediaPickerController(mediaTypes: MPMediaType.AnyAudio)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let mediaPicker = MPMediaPickerController(mediaTypes: MPMediaType.anyAudio)
         mediaPicker.delegate = self
         mediaPicker.prompt = "Select any song!"
         mediaPicker.allowsPickingMultipleItems = false
@@ -136,24 +136,24 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
             if indexPath.row == 1
             {
                 
-                self.presentViewController(mediaPicker, animated: true, completion: nil)
+                self.present(mediaPicker, animated: true, completion: nil)
             }
         }
         
-        let c = tableView.cellForRowAtIndexPath(indexPath)
+        let c = tableView.cellForRow(at: indexPath)
         let cells = tableView.visibleCells 
         for cell in cells
         {
-            let indexP = tableView.indexPathForCell(cell)
+            let indexP = tableView.indexPath(for: cell)
             if indexP?.section == 2
             {
-                cell.accessoryType = UITableViewCellAccessoryType.None
+                cell.accessoryType = UITableViewCellAccessoryType.none
             }
         }
         
         if indexPath.section == 2
         {
-            c?.accessoryType = UITableViewCellAccessoryType.Checkmark
+            c?.accessoryType = UITableViewCellAccessoryType.checkmark
             Global.mediaLabel = c!.textLabel!.text!
         }
     }
@@ -162,7 +162,7 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
     /*
     MPMediaPickerControllerDelegate
     */
-    func mediaPicker(mediaPicker: MPMediaPickerController, didPickMediaItems  mediaItemCollection:MPMediaItemCollection) -> Void
+    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems  mediaItemCollection:MPMediaItemCollection) -> Void
     {
         if !mediaItemCollection.items.isEmpty
         {
@@ -174,13 +174,13 @@ class MediaTableViewController: UITableViewController, MPMediaPickerControllerDe
 //        }
         
         self.mediaItem = aMediaItem
-        Alarms.sharedInstance[Global.indexOfCell].mediaID = (self.mediaItem?.valueForProperty(MPMediaItemPropertyPersistentID)) as! String
+        Alarms.sharedInstance[Global.indexOfCell].mediaID = (self.mediaItem?.value(forProperty: MPMediaItemPropertyPersistentID)) as! String
         //fillData(aMediaItem);
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         }
     }
     
-    func mediaPickerDidCancel(mediaPicker: MPMediaPickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
 }

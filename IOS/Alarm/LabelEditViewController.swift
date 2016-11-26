@@ -22,7 +22,7 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
         labelTextField.text = Global.label
         
         //defined in UITextInputTraits protocol
-        labelTextField.returnKeyType = UIReturnKeyType.Done
+        labelTextField.returnKeyType = UIReturnKeyType.done
         labelTextField.enablesReturnKeyAutomatically = true
     }
     
@@ -37,13 +37,13 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
     //    return true
     //}
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         
         Global.label = textField.text!
 
         //Becuase segue push is used
-        navigationController?.popViewControllerAnimated(true)
+        navigationController?.popViewController(animated: true)
         return false
     }
     /*

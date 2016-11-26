@@ -28,7 +28,7 @@ class WeekdaysViewController: UITableViewController {
         var ret = String()
         var weekdaysSorted:[Int] = [Int]()
         
-        weekdaysSorted = Global.weekdays.sort(<)
+        weekdaysSorted = Global.weekdays.sorted(by: <)
         
         
         for day in weekdaysSorted
@@ -73,13 +73,13 @@ class WeekdaysViewController: UITableViewController {
 
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
         for weekday in Global.weekdays
         {
             if weekday == (indexPath.row + 1) {
-                cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+                cell.accessoryType = UITableViewCellAccessoryType.checkmark
             }
         }
         
@@ -89,16 +89,16 @@ class WeekdaysViewController: UITableViewController {
 
 
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath)!
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)!
         
         //for swift 1.2, if you are using swift 2.0, use indexOf:. method instead
         
-        if let index = Global.weekdays.indexOf((indexPath.row + 1)){
-          Global.weekdays.removeAtIndex(index)
+        if let index = Global.weekdays.index(of: (indexPath.row + 1)){
+          Global.weekdays.remove(at: index)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
-            cell.accessoryType = UITableViewCellAccessoryType.None
+            cell.accessoryType = UITableViewCellAccessoryType.none
         }
         else{
             //row index start from 0, weekdays index start from 1 (Sunday), so plus 1
@@ -106,7 +106,7 @@ class WeekdaysViewController: UITableViewController {
             //Alarms.sharedInstance[Global.indexOfCell].repeatWeekdays.append(indexPath.row + 1)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
-            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+            cell.accessoryType = UITableViewCellAccessoryType.checkmark
             
         }
     }

@@ -14,7 +14,7 @@ import AVFoundation
 protocol AlarmApplicationDelegate
 {
 
-    func playAlarmSound(soundName: String)
+    func playAlarmSound(_ soundName: String)
    
 }
 
@@ -26,24 +26,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     var alarmScheduler: AlarmSchedulerDelegate = Scheduler()
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //alarmDelegate? = self
         //alarmDelegate!.setupNotificationSettings()
         
         alarmScheduler.setupNotificationSettings()
-        window?.tintColor = UIColor.redColor()
+        window?.tintColor = UIColor.red
         return true
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         
         /*AudioServicesAddSystemSoundCompletion(SystemSoundID(kSystemSoundID_Vibrate),nil,
             nil,
             vibrationCallback,
             nil)*/
         //if app is in foreground, show a alert
-        let storageController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .Alert)
+        let storageController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .alert)
         //todo, snooze
         var isSnooze: Bool = false
         var soundName: String = ""
@@ -60,19 +60,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
        
         if isSnooze  == true
         {
-            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-            let now = NSDate()
+            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+            let now = Date()
             //snooze 9 minutes later
-            let snoozeTime = calendar.dateByAddingUnit(NSCalendarUnit.Minute, value: 9, toDate: now, options:.MatchStrictly)!
+            let snoozeTime = (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.minute, value: 9, to: now, options:.matchStrictly)!
             
-            let snoozeOption = UIAlertAction(title: "Snooze", style: .Default) {
+            let snoozeOption = UIAlertAction(title: "Snooze", style: .default) {
                 (action:UIAlertAction)->Void in self.audioPlayer?.stop()
                 
                 self.alarmScheduler.setNotificationWithDate(snoozeTime, onWeekdaysForNotify: [Int](), snooze: true, soundName: soundName, index: index)
             }
             storageController.addAction(snoozeOption)
         }
-        let stopOption = UIAlertAction(title: "OK", style: .Default) {
+        let stopOption = UIAlertAction(title: "OK", style: .default) {
             (action:UIAlertAction)->Void in self.audioPlayer?.stop()
             Alarms.sharedInstance.setEnabled(false, AtIndex: index)
             let vc = self.window?.rootViewController! as! UINavigationController
@@ -86,18 +86,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             }}
         
         storageController.addAction(stopOption)
-        window?.rootViewController!.presentViewController(storageController, animated: true, completion: nil)
+        window?.rootViewController!.present(storageController, animated: true, completion: nil)
   
         
     }
     //notification handler, snooze
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forLocalNotification notification: UILocalNotification, completionHandler: () -> Void)
+    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Void)
     {
         if identifier == "mySnooze"
         {
-            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-            let now = NSDate()
-            let snoozeTime = calendar.dateByAddingUnit(NSCalendarUnit.Minute, value: 9, toDate: now, options:.MatchStrictly)!
+            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+            let now = Date()
+            let snoozeTime = (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.minute, value: 9, to: now, options:.matchStrictly)!
             var soundName: String = ""
             var index: Int = -1
             if let userInfo = notification.userInfo {
@@ -109,21 +109,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         completionHandler()
     }
     //print out all registed NSNotification for debug
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         
         print(notificationSettings.types.rawValue)
     }
     
     //AlarmApplicationDelegate protocol
-    func playAlarmSound(soundName: String) {
+    func playAlarmSound(_ soundName: String) {
         AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        let url = NSURL.fileURLWithPath(
-            NSBundle.mainBundle().pathForResource(soundName, ofType: "mp3")!)
+        let url = URL(
+            fileURLWithPath: Bundle.main.path(forResource: soundName, ofType: "mp3")!)
         
         var error: NSError?
         
         do {
-            audioPlayer = try AVAudioPlayer(contentsOfURL: url)
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
         } catch let error1 as NSError {
             error = error1
             audioPlayer = nil
@@ -145,49 +145,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     
     
     //todo,vibration infinity
-    func vibrationCallback(id:SystemSoundID, _ callback:UnsafeMutablePointer<Void>) -> Void
+    func vibrationCallback(_ id:SystemSoundID, _ callback:UnsafeMutableRawPointer) -> Void
     {
         print("callback", terminator: "")
     }
     
     
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully
         flag: Bool) {
     }
     
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer,
-        error: NSError?) {
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer,
+        error: Error?) {
     }
     
-    func audioPlayerBeginInterruption(player: AVAudioPlayer) {
+    func audioPlayerBeginInterruption(_ player: AVAudioPlayer) {
     }
-    
-    func audioPlayerEndInterruption(player: AVAudioPlayer) {
-    }
-    
+
     
     
     
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
