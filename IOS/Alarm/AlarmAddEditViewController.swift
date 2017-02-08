@@ -1,6 +1,6 @@
 //
 //  AlarmAddViewController.swift
-//  WeatherAlarm
+//  Alarm-ios-swift
 //
 //  Created by longyutao on 15-3-2.
 //  Copyright (c) 2015年 LongGames. All rights reserved.
@@ -10,147 +10,112 @@ import UIKit
 import Foundation
 import MediaPlayer
 
-
-
-class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITableViewDataSource{
+class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var datePicker: UIDatePicker!
-    
     @IBOutlet weak var tableView: UITableView!
     
-    
-    
-    var scheduler: AlarmSchedulerDelegate = Scheduler()
+    var alarmScheduler: AlarmSchedulerDelegate = Scheduler()
+    var alarmModel: Alarms = Alarms()
+    var segueInfo: SegueInfo!
+    var snoozeEnabled: Bool = false
+    var repeatText: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //let mediaPicker = MPMediaPickerController(mediaTypes: .Music)
-        //mediaPicker.delegate = self
-       // mediaPicker.prompt = "Select any song!"
-       // mediaPicker.allowsPickingMultipleItems = false
-        //presentViewController(mediaPicker, animated: true, completion: nil)
-        // Do any additional setup after loading the view.
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        super.viewWillAppear(animated)
+        alarmModel = Alarms()
         tableView.reloadData()
+        super.viewWillAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
         let date = datePicker.date
-        //let timeStr = NSDateFormatter.localizedStringFromDate(date, dateStyle: .NoStyle, timeStyle: .ShortStyle)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        let timeStr = dateFormatter.string(from: date)
-        if Global.isEditMode
-        {
-            Alarms.sharedInstance.setDate(date, AtIndex: Global.indexOfCell)
-            Alarms.sharedInstance.setTimeStr(timeStr, AtIndex: Global.indexOfCell)
-            Alarms.sharedInstance.setWeekdays(Global.weekdays, AtIndex: Global.indexOfCell)
-            Alarms.sharedInstance.setSnooze(Global.snoozeEnabled, AtIndex: Global.indexOfCell)
-            Alarms.sharedInstance.setLabel(Global.label, AtIndex: Global.indexOfCell)
-            Alarms.sharedInstance.setMediaLabel(Global.mediaLabel, AtIndex: Global.indexOfCell)
-            Alarms.sharedInstance.PersistAlarm(Global.indexOfCell)
-            //scheduler.reSchedule()
+        let index = segueInfo.curCellIndex
+        var tempAlarm = Alarm()
+        tempAlarm.date = date
+        tempAlarm.label = segueInfo.label
+        tempAlarm.mediaLabel = segueInfo.mediaLabel
+        tempAlarm.mediaID = segueInfo.mediaID
+        tempAlarm.snoozeEnabled = snoozeEnabled
+        tempAlarm.repeatWeekdays = segueInfo.repeatWeekdays
+        if segueInfo.isEditMode {
+            alarmModel.alarms[index] = tempAlarm
         }
-        else
-        {
-            Alarms.sharedInstance.append( Alarm(label: Global.label, timeStr: timeStr, date: date,  enabled: false, snoozeEnabled: Global.snoozeEnabled, UUID: UUID().uuidString, mediaID: "", mediaLabel: "bell", repeatWeekdays: Global.weekdays))
+        else {
+            alarmModel.alarms.append(tempAlarm)
         }
         
-        //navigationController?.popViewControllerAnimated(true)
-        //dismissViewControllerAnimated(true, completion: nil)
-        scheduler.reSchedule()
-        self.performSegue(withIdentifier: "saveEditAlarm", sender: self)
+        alarmScheduler.reSchedule()
+        self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
     }
-    
-    
-    let settingIdentifier = "setting"
     
  
     func numberOfSections(in tableView: UITableView) -> Int {
         // Return the number of sections.
-        if Global.isEditMode
-        {
+        if segueInfo.isEditMode {
             return 2
         }
-        else
-        {
+        else {
             return 1
-
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0
-        {
+        if section == 0 {
             return 4
         }
-        else
-        {
+        else {
             return 1
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCell(
-            withIdentifier: settingIdentifier)
-        if cell == nil {
-            cell = UITableViewCell(
-                style: UITableViewCellStyle.value1, reuseIdentifier: settingIdentifier)
+        var cell = tableView.dequeueReusableCell(withIdentifier: Id.settingIdentifier)
+        if(cell == nil) {
+        cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: Id.settingIdentifier)
         }
-        if indexPath.section == 0
-        {
+        if indexPath.section == 0 {
             
-            if indexPath.row == 0
-            {
+            if indexPath.row == 0 {
                 
                 cell!.textLabel!.text = "Repeat"
-                cell!.detailTextLabel!.text = WeekdaysViewController.repeatText()
+                cell!.detailTextLabel!.text = repeatText
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
-            else if indexPath.row == 1
-            {
+            else if indexPath.row == 1 {
                 cell!.textLabel!.text = "Label"
-                
-                cell!.detailTextLabel!.text = Global.label
-                
+                cell!.detailTextLabel!.text = segueInfo.label
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
-            else if indexPath.row == 2
-            {
+            else if indexPath.row == 2 {
                 cell!.textLabel!.text = "Sound"
-                cell!.detailTextLabel!.text = MediaTableViewController.mediaText()
+                cell!.detailTextLabel!.text = segueInfo.mediaLabel
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
-            else if indexPath.row == 3
-            {
+            else if indexPath.row == 3 {
                
                 cell!.textLabel!.text = "Snooze"
                 let sw = UISwitch(frame: CGRect())
                 sw.addTarget(self, action: #selector(AlarmAddEditViewController.snoozeSwitchTapped(_:)), for: UIControlEvents.touchUpInside)
                 
-                if Global.snoozeEnabled
-                {
+                if snoozeEnabled {
                    sw.setOn(true, animated: false)
                 }
                 
                 cell!.accessoryView = sw
             }
         }
-        else if indexPath.section == 1{
+        else if indexPath.section == 1 {
             cell = UITableViewCell(
-                style: UITableViewCellStyle.default, reuseIdentifier: settingIdentifier)
+                style: UITableViewCellStyle.default, reuseIdentifier: Id.settingIdentifier)
             cell!.textLabel!.text = "Delete Alarm"
             cell!.textLabel!.textAlignment = .center
             cell!.textLabel!.textColor = UIColor.red
@@ -162,82 +127,35 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        /*
-        let title = NSLocalizedString("Choose a Alarm Interval", comment: "")
-        //let message = NSLocalizedString("Choose Interval", comment: "")
-        let onceActionTitle = NSLocalizedString(intervalArray[0], comment: "")
-        let everydayActionTitle = NSLocalizedString(intervalArray[1], comment: "")
-        let weekdayActionTitle = NSLocalizedString(intervalArray[2], comment: "")
-        let weekendActionTitle = NSLocalizedString(intervalArray[3], comment: "")
-        let cancelActionTitle = NSLocalizedString(intervalArray[4], comment: "")
-        
-        let storageController = UIAlertController(title: title, message: nil, preferredStyle: ./*ActionSheet*/Alert)
-            
-        let onceOption = UIAlertAction(title: onceActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .Once
-            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
-        storageController.addAction(onceOption)
-            
-        let everydayOption = UIAlertAction(title: everydayActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .EveryDay
-            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
-        storageController.addAction(everydayOption)
-            
-        let weekdayOption = UIAlertAction(title: weekdayActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .WeekDay
-            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
-        storageController.addAction(weekdayOption)
-            
-        let weekendOption = UIAlertAction(title: weekendActionTitle, style: .Default) {(action:UIAlertAction!)->Void in self.settingLabelDetail = .WeekEnd
-            cell!.detailTextLabel!.text = self.settingLabelDetail.rawValue}
-        storageController.addAction(weekendOption)
-            
-        let cancelOption = UIAlertAction(title: cancelActionTitle, style: .Cancel) {(action:UIAlertAction!)->Void in }
-        storageController.addAction(cancelOption)
-        
-            
-        presentViewController(storageController, animated: true, completion: nil)
-        */
-        if indexPath.section == 0
-        {
+        if indexPath.section == 0 {
             switch indexPath.row{
             case 0:
-                performSegue(withIdentifier: "weekdaysSegue", sender: self)
+                performSegue(withIdentifier: Id.weekdaysSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             case 1:
-                performSegue(withIdentifier: "labelEditSegue", sender: self)
+                performSegue(withIdentifier: Id.labelSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             case 2:
-                performSegue(withIdentifier: "musicSegue", sender: self)
+                performSegue(withIdentifier: Id.soundSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             default:
                 break
             }
         }
-        else if indexPath.section == 1
-        {
-            Alarms.sharedInstance.removeAtIndex(Global.indexOfCell)
-            Alarms.sharedInstance.deleteAlarm(Global.indexOfCell)
-            
-            performSegue(withIdentifier: "saveEditAlarm", sender: self)
-        
-            
+        else if indexPath.section == 1 {
+            //delete alarm
+            alarmModel.alarms.remove(at: segueInfo.curCellIndex)
+            alarmScheduler.reSchedule()
+            performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         }
             
     }
    
-    @IBAction func snoozeSwitchTapped (_ sender: UISwitch)
-    {
-       
-        if sender.isOn{
-            Global.snoozeEnabled = true
-        }
-        else
-        {
-            
-            Global.snoozeEnabled = false
-        }
-        
+    @IBAction func snoozeSwitchTapped (_ sender: UISwitch) {
+        snoozeEnabled = sender.isOn
     }
     
     
@@ -247,23 +165,49 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate,  UITabl
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "saveEditAlarm"
-        {
-            let alaVC = segue.destination as! MainAlarmViewController
-            let cells = alaVC.tableView.visibleCells 
-            for cell in cells
-            {
+        if segue.identifier == Id.saveSegueIdentifier {
+            let dist = segue.destination as! MainAlarmViewController
+            let cells = dist.tableView.visibleCells
+            for cell in cells {
                 let sw = cell.accessoryView as! UISwitch
-                if sw.tag > Global.indexOfCell
+                if sw.tag > segueInfo.curCellIndex
                 {
                     sw.tag -= 1
                 }
             }
         }
-        
+        else if segue.identifier == Id.soundSegueIdentifier {
+            //TODO
+            let dist = segue.destination as! MediaViewController
+            dist.mediaID = segueInfo.mediaID
+            dist.mediaLabel = segueInfo.mediaLabel
+        }
+        else if segue.identifier == Id.labelSegueIdentifier {
+            let dist = segue.destination as! LabelEditViewController
+            dist.label = segueInfo.label
+        }
+        else if segue.identifier == Id.weekdaysSegueIdentifier {
+            let dist = segue.destination as! WeekdaysViewController
+            dist.weekdays = segueInfo.repeatWeekdays
+        }
+    }
+    
+    @IBAction func unwindFromLabelEditView(_ segue: UIStoryboardSegue) {
+        let src = segue.source as! LabelEditViewController
+        segueInfo.label = src.label
+    }
+    
+    @IBAction func unwindFromWeekdaysView(_ segue: UIStoryboardSegue) {
+        let src = segue.source as! WeekdaysViewController
+        segueInfo.repeatWeekdays = src.weekdays
+        repeatText = src.repeatText
+    }
+    
+    @IBAction func unwindFromMediaView(_ segue: UIStoryboardSegue) {
+        let src = segue.source as! MediaViewController
+        segueInfo.mediaLabel = src.mediaLabel
+        segueInfo.mediaID = src.mediaID
     }
     
     
-    
-
 }

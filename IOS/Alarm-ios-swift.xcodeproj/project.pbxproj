@@ -10,9 +10,12 @@
 		7732E6111E38996800C9D9A2 /* Pickable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7732E6101E38996800C9D9A2 /* Pickable.swift */; };
 		7732E6131E38A50200C9D9A2 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7732E6121E38A50200C9D9A2 /* Persistable.swift */; };
 		77570F6B1E3EEA75005E2923 /* PropertyReflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77570F6A1E3EEA75005E2923 /* PropertyReflectable.swift */; };
-		9E16062C1C62358F009B2407 /* MediaTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E16062B1C62358F009B2407 /* MediaTableViewController.swift */; };
+		7773A0F81E43276700811A1D /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7773A0F71E43276700811A1D /* Identifier.swift */; };
+		7773A0FA1E4610B700811A1D /* SegueInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7773A0F91E4610B700811A1D /* SegueInfo.swift */; };
+		77A8570D1E40D76000971367 /* AlarmApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A8570C1E40D76000971367 /* AlarmApplicationDelegate.swift */; };
+		77A8570F1E41A04600971367 /* AlarmSchedulerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A8570E1E41A04600971367 /* AlarmSchedulerDelegate.swift */; };
+		9E16062C1C62358F009B2407 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E16062B1C62358F009B2407 /* MediaViewController.swift */; };
 		9E1F30731C49128000C66F79 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1F30721C49128000C66F79 /* Scheduler.swift */; };
-		9E1F30751C589F4100C66F79 /* GlobalParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1F30741C589F4100C66F79 /* GlobalParams.swift */; };
 		9E3B062F1BB8347000453456 /* bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E3B062E1BB8347000453456 /* bell.mp3 */; };
 		9E603F591BD7CA6600303E93 /* LabelEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */; };
 		9E92445B1C690A8D00724DFA /* tickle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9E92445A1C690A8D00724DFA /* tickle.mp3 */; };
@@ -41,9 +44,12 @@
 		7732E6101E38996800C9D9A2 /* Pickable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pickable.swift; sourceTree = "<group>"; };
 		7732E6121E38A50200C9D9A2 /* Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
 		77570F6A1E3EEA75005E2923 /* PropertyReflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyReflectable.swift; sourceTree = "<group>"; };
-		9E16062B1C62358F009B2407 /* MediaTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaTableViewController.swift; sourceTree = "<group>"; };
+		7773A0F71E43276700811A1D /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
+		7773A0F91E4610B700811A1D /* SegueInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegueInfo.swift; sourceTree = "<group>"; };
+		77A8570C1E40D76000971367 /* AlarmApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmApplicationDelegate.swift; sourceTree = "<group>"; };
+		77A8570E1E41A04600971367 /* AlarmSchedulerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlarmSchedulerDelegate.swift; sourceTree = "<group>"; };
+		9E16062B1C62358F009B2407 /* MediaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
 		9E1F30721C49128000C66F79 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
-		9E1F30741C589F4100C66F79 /* GlobalParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalParams.swift; sourceTree = "<group>"; };
 		9E3B062E1BB8347000453456 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bell.mp3; sourceTree = "<group>"; };
 		9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelEditViewController.swift; sourceTree = "<group>"; };
 		9E92445A1C690A8D00724DFA /* tickle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tickle.mp3; sourceTree = "<group>"; };
@@ -80,22 +86,56 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7732E60F1E37594300C9D9A2 /* protocol */ = {
+		7732E60F1E37594300C9D9A2 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				7732E6101E38996800C9D9A2 /* Pickable.swift */,
 				7732E6121E38A50200C9D9A2 /* Persistable.swift */,
 				77570F6A1E3EEA75005E2923 /* PropertyReflectable.swift */,
+				77A8570C1E40D76000971367 /* AlarmApplicationDelegate.swift */,
+				77A8570E1E41A04600971367 /* AlarmSchedulerDelegate.swift */,
 			);
-			name = protocol;
+			name = Protocol;
 			sourceTree = "<group>";
 		};
-		7751AD191E36F41E00CDED58 /* model */ = {
+		7751AD191E36F41E00CDED58 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				9EED78931AA1E51700961BC2 /* AlarmModel.swift */,
+				7773A0F91E4610B700811A1D /* SegueInfo.swift */,
 			);
-			name = model;
+			name = Model;
+			sourceTree = "<group>";
+		};
+		77A857121E42FDAD00971367 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */,
+				9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */,
+				9E16062B1C62358F009B2407 /* MediaViewController.swift */,
+				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
+				9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		77A857131E42FDF200971367 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9E1F30721C49128000C66F79 /* Scheduler.swift */,
+				9EED78711AA0F03F00961BC2 /* AppDelegate.swift */,
+				7773A0F71E43276700811A1D /* Identifier.swift */,
+			);
+			name = App;
+			sourceTree = "<group>";
+		};
+		77A857141E42FE4400971367 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9EED78751AA0F03F00961BC2 /* Main.storyboard */,
+				9EED787A1AA0F03F00961BC2 /* LaunchScreen.xib */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		9EED78631AA0F03F00961BC2 = {
@@ -119,20 +159,13 @@
 		9EED786E1AA0F03F00961BC2 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
-				7732E60F1E37594300C9D9A2 /* protocol */,
-				7751AD191E36F41E00CDED58 /* model */,
-				9EEEC58B1BC641BF00459CF7 /* MainAlarmViewController.swift */,
-				9EED78711AA0F03F00961BC2 /* AppDelegate.swift */,
-				9EED78751AA0F03F00961BC2 /* Main.storyboard */,
+				77A857131E42FDF200971367 /* App */,
+				77A857121E42FDAD00971367 /* Controller */,
 				9EED78781AA0F03F00961BC2 /* Images.xcassets */,
-				9EED787A1AA0F03F00961BC2 /* LaunchScreen.xib */,
+				7751AD191E36F41E00CDED58 /* Model */,
+				7732E60F1E37594300C9D9A2 /* Protocol */,
 				9EED786F1AA0F03F00961BC2 /* Supporting Files */,
-				9EED78991AA36C7900961BC2 /* AlarmAddEditViewController.swift */,
-				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
-				9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */,
-				9E1F30721C49128000C66F79 /* Scheduler.swift */,
-				9E1F30741C589F4100C66F79 /* GlobalParams.swift */,
-				9E16062B1C62358F009B2407 /* MediaTableViewController.swift */,
+				77A857141E42FE4400971367 /* View */,
 			);
 			path = Alarm;
 			sourceTree = "<group>";
@@ -271,14 +304,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EED789A1AA36C7900961BC2 /* AlarmAddEditViewController.swift in Sources */,
+				7773A0F81E43276700811A1D /* Identifier.swift in Sources */,
 				9E1F30731C49128000C66F79 /* Scheduler.swift in Sources */,
-				9E16062C1C62358F009B2407 /* MediaTableViewController.swift in Sources */,
-				9E1F30751C589F4100C66F79 /* GlobalParams.swift in Sources */,
+				9E16062C1C62358F009B2407 /* MediaViewController.swift in Sources */,
 				9EED78721AA0F03F00961BC2 /* AppDelegate.swift in Sources */,
+				7773A0FA1E4610B700811A1D /* SegueInfo.swift in Sources */,
+				77A8570D1E40D76000971367 /* AlarmApplicationDelegate.swift in Sources */,
 				9EED78941AA1E51700961BC2 /* AlarmModel.swift in Sources */,
 				9E603F591BD7CA6600303E93 /* LabelEditViewController.swift in Sources */,
 				9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */,
 				7732E6131E38A50200C9D9A2 /* Persistable.swift in Sources */,
+				77A8570F1E41A04600971367 /* AlarmSchedulerDelegate.swift in Sources */,
 				77570F6B1E3EEA75005E2923 /* PropertyReflectable.swift in Sources */,
 				7732E6111E38996800C9D9A2 /* Pickable.swift in Sources */,
 				9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */,

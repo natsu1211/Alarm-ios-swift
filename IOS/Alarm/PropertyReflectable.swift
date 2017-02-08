@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PropertyReflectable : CustomReflectable{
+protocol PropertyReflectable{
     typealias RepresentationType = [String:Any]
     typealias ValuesType = [Any]
     typealias NamesType = [String]
@@ -23,13 +23,9 @@ protocol PropertyReflectable : CustomReflectable{
 //default implementation
 extension PropertyReflectable{
     
-    var customMirror: Mirror {
-        return Mirror(reflecting: self)
-    }
-    
     var propertyDictRepresentation: RepresentationType {
         var ret: [String:Any] = [:]
-        for case let (label, value) in customMirror.children {
+        for case let (label, value) in Mirror(reflecting: self).children {
             guard let l = label else{
                 continue
             }

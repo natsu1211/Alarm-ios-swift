@@ -1,6 +1,6 @@
 //
 //  AlarmModel.swift
-//  WeatherAlarm
+//  Alarm-ios-swift
 //
 //  Created by longyutao on 15-2-28.
 //  Updated on 17-01-24
@@ -10,18 +10,17 @@
 import Foundation
 import MediaPlayer
 
-struct Alarm: PropertyReflectable
-{
+struct Alarm: PropertyReflectable {
     var date: Date = Date()
     var enabled: Bool = false
     var snoozeEnabled: Bool = false
     var repeatWeekdays: [Int] = []
     var uuid: String = ""
     var mediaID: String = ""
-    var mediaLabel: String = ""
-    var label: String = ""
+    var mediaLabel: String = "bell"
+    var label: String = "Alarm"
     
-    //init(){}
+    init(){}
     
     init(date:Date, enabled:Bool, snoozeEnabled:Bool, repeatWeekdays:[Int], uuid:String, mediaID:String, mediaLabel:String, label:String){
         self.date = date
@@ -35,22 +34,35 @@ struct Alarm: PropertyReflectable
     }
     
     init(_ dict: PropertyReflectable.RepresentationType){
-        date = dict[String(describing: date)] as! Date
-        enabled = dict[String(describing: enabled)] as! Bool
-        snoozeEnabled = dict[String(describing: snoozeEnabled)] as! Bool
-        repeatWeekdays = dict[String(describing: repeatWeekdays)] as! [Int]
-        uuid = dict[String(describing: uuid)] as! String
-        mediaID = dict[String(describing: mediaID)] as! String
-        mediaLabel = dict[String(describing: mediaLabel)] as! String
-        label = dict[String(describing: label)] as! String
+        date = dict["date"] as! Date
+        enabled = dict["enabled"] as! Bool
+        snoozeEnabled = dict["snoozeEnabled"] as! Bool
+        repeatWeekdays = dict["repeatWeekdays"] as! [Int]
+        uuid = dict["uuid"] as! String
+        mediaID = dict["mediaID"] as! String
+        mediaLabel = dict["mediaLabel"] as! String
+        label = dict["label"] as! String
     }
 }
 
-class Alarms: Persistable
-{
+extension Alarm {
+    var formattedTime: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.string(from: self.date)
+    }
+}
+
+//This can be considered as a viewModel
+class Alarms: Persistable {
     let ud: UserDefaults = UserDefaults.standard
     let persistKey: String = "myAlarmKey"
-    var alarms: [Alarm] = []
+    var alarms: [Alarm] = [] {
+        //observer, sync with UserDefaults
+        didSet{
+            persist()
+        }
+    }
     lazy fileprivate var alarmsDictRepresentation: [PropertyReflectable.RepresentationType] = {
         [unowned self] in
         return self.alarms.map {$0.propertyDictRepresentation}
@@ -71,29 +83,13 @@ class Alarms: Persistable
         }
     }
     
-    func insert(_ alarm: Alarm, at index: Int)
-    {
-        alarms.insert(alarm, at: index)
-        alarmsDictRepresentation.insert(alarm.propertyDictRepresentation, at: index)
-        persist()
-    }
-    
-    func remove(at index: Int)
-    {
-        alarms.remove(at: index)
-        alarmsDictRepresentation.remove(at: index)
-        persist()
-    }
-    
-    var count: Int
-    {
+    var count: Int {
         return alarms.count
     }
     
     
     //helper, get all alarms from Userdefaults
-    fileprivate func getAlarms() -> [Alarm]
-    {
+    fileprivate func getAlarms() -> [Alarm] {
         let array = UserDefaults.standard.array(forKey: persistKey)
         guard let alarmArray = array else{
             return [Alarm]()
