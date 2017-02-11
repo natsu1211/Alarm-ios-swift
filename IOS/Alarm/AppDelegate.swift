@@ -57,6 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
                 if cell.tag == index {
                     let sw = cell.accessoryView as! UISwitch
                     sw.setOn(false, animated: false)
+                    cell.backgroundColor = UIColor.groupTableViewBackground
+                    cell.textLabel?.alpha = 0.5
+                    cell.detailTextLabel?.alpha = 0.5
                 }
             }
         }

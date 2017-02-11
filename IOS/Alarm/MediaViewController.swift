@@ -29,12 +29,20 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
         // Dispose of any resources that can be recreated.
     }
     
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.textColor =  UIColor.gray
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 10)
+        header.textLabel?.frame = header.frame
+        header.textLabel?.textAlignment = .left
+    }
+    
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // Return the number of sections.
-        return 3
+        return 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,7 +51,10 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
             return 1
         }
         else if section == 1 {
-            return 2
+            return 1
+        }
+        else if section == 2 {
+            return 1
         }
         else {
             return numberOfRingtones
@@ -54,6 +65,9 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
             return nil
         }
         else if section == 1 {
+            return nil
+        }
+        else if section == 2 {
             return "SONGS"
         }
         else {
@@ -62,7 +76,7 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 84.0
+        return 40.0
     }
 
     
@@ -78,12 +92,16 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
             }
         }
         else if indexPath.section == 1 {
-            if indexPath.row == 1 {
+            cell!.textLabel!.text = "Vibration"
+            cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        }
+        else if indexPath.section == 2 {
+            if indexPath.row == 0 {
                 cell!.textLabel!.text = "Pick a song"
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
         }
-        else if indexPath.section == 2 {
+        else if indexPath.section == 3 {
             if indexPath.row == 0 {
                 cell!.textLabel!.text = "bell"
             }
@@ -105,8 +123,8 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
         mediaPicker.delegate = self
         mediaPicker.prompt = "Select any song!"
         mediaPicker.allowsPickingMultipleItems = false
-        if indexPath.section == 1 {
-            if indexPath.row == 1 {
+        if indexPath.section == 2 {
+            if indexPath.row == 0 {
                 self.present(mediaPicker, animated: true, completion: nil)
             }
         }
@@ -120,23 +138,21 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
             }
         }
         
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             c?.accessoryType = UITableViewCellAccessoryType.checkmark
             mediaLabel = c!.textLabel!.text!
         }
     }
     
     
-    /*
-    MPMediaPickerControllerDelegate
-    */
+    //MPMediaPickerControllerDelegate
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems  mediaItemCollection:MPMediaItemCollection) -> Void {
         if !mediaItemCollection.items.isEmpty {
             let aMediaItem = mediaItemCollection.items[0]
         
             self.mediaItem = aMediaItem
             mediaID = (self.mediaItem?.value(forProperty: MPMediaItemPropertyPersistentID)) as! String
-            self.dismiss(animated: true, completion: nil)
+            //self.dismiss(animated: true, completion: nil)
         }
     }
     

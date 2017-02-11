@@ -48,7 +48,7 @@ struct Alarm: PropertyReflectable {
 extension Alarm {
     var formattedTime: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: self.date)
     }
 }

@@ -56,7 +56,7 @@
                                     </subviews>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -92,17 +92,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="NSI-4y-VRm">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="180" id="cqM-5d-jwt"/>
+                                    <constraint firstAttribute="height" constant="242" id="cSb-ye-jbo"/>
                                 </constraints>
                                 <date key="date" timeIntervalSinceReferenceDate="446899833.86513501">
                                     <!--2015-03-01 10:50:33 +0000-->
                                 </date>
                             </datePicker>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sig-gf-rWO">
-                                <frame key="frameInset" minY="309" width="375" height="281"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Sig-gf-rWO">
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <sections/>
                                 <connections>
                                     <outlet property="dataSource" destination="Hc0-91-jHo" id="eg8-7Q-wK8"/>
@@ -110,15 +109,15 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="NSI-4y-VRm" firstAttribute="top" secondItem="UAQ-6d-GVG" secondAttribute="bottom" constant="15" id="5uv-68-zUS"/>
-                            <constraint firstItem="Sig-gf-rWO" firstAttribute="top" secondItem="NSI-4y-VRm" secondAttribute="bottom" constant="50" id="8W8-qo-knZ"/>
-                            <constraint firstAttribute="centerX" secondItem="NSI-4y-VRm" secondAttribute="centerX" id="HPK-lh-7BI"/>
-                            <constraint firstItem="NSI-4y-VRm" firstAttribute="leading" secondItem="rgy-dr-CTb" secondAttribute="leading" id="IPn-R0-Ce5"/>
+                            <constraint firstItem="NSI-4y-VRm" firstAttribute="leading" secondItem="Sig-gf-rWO" secondAttribute="leading" id="DsM-hm-Jzf"/>
+                            <constraint firstItem="NSI-4y-VRm" firstAttribute="trailing" secondItem="Sig-gf-rWO" secondAttribute="trailing" id="TKl-Z1-awj"/>
+                            <constraint firstItem="NSI-4y-VRm" firstAttribute="top" secondItem="UAQ-6d-GVG" secondAttribute="bottom" id="dPq-jc-msz"/>
                             <constraint firstItem="Sig-gf-rWO" firstAttribute="leading" secondItem="rgy-dr-CTb" secondAttribute="leading" id="hgj-gG-lMP"/>
-                            <constraint firstItem="kqQ-aI-t82" firstAttribute="top" secondItem="Sig-gf-rWO" secondAttribute="bottom" constant="10" id="iio-q4-ca3"/>
-                            <constraint firstAttribute="trailing" secondItem="NSI-4y-VRm" secondAttribute="trailing" id="s5I-Kn-G8z"/>
+                            <constraint firstItem="kqQ-aI-t82" firstAttribute="top" secondItem="Sig-gf-rWO" secondAttribute="bottom" id="iio-q4-ca3"/>
+                            <constraint firstItem="Sig-gf-rWO" firstAttribute="top" secondItem="NSI-4y-VRm" secondAttribute="bottom" constant="8" id="puF-Da-cCP"/>
                             <constraint firstAttribute="trailing" secondItem="Sig-gf-rWO" secondAttribute="trailing" id="tbG-eY-afM"/>
                             <constraint firstItem="Sig-gf-rWO" firstAttribute="centerX" secondItem="rgy-dr-CTb" secondAttribute="centerX" id="wjC-e9-7jF"/>
                         </constraints>

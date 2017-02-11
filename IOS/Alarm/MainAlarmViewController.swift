@@ -39,11 +39,15 @@ class MainAlarmViewController: UITableViewController{
             for i in 0..<cells.count {
                 if alarmModel.alarms[i].enabled {
                     (cells[i].accessoryView as! UISwitch).setOn(true, animated: false)
-                    //cells[i].backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+                    cells[i].backgroundColor = UIColor.white
+                    cells[i].textLabel?.alpha = 1.0
+                    cells[i].detailTextLabel?.alpha = 1.0
                 }
                 else {
                     (cells[i].accessoryView as! UISwitch).setOn(false, animated: false)
-                    //cells[i].backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
+                    cells[i].backgroundColor = UIColor.groupTableViewBackground
+                    cells[i].textLabel?.alpha = 0.5
+                    cells[i].detailTextLabel?.alpha = 0.5
                 }
             }
         }
@@ -56,7 +60,7 @@ class MainAlarmViewController: UITableViewController{
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 90
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,22 +91,22 @@ class MainAlarmViewController: UITableViewController{
         if (cell == nil) {
             cell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: Id.alarmCellIdentifier)
         }
-        
+        //cell text
+        cell!.selectionStyle = .none
         cell!.tag = indexPath.row
         let alarm: Alarm = alarmModel.alarms[indexPath.row]
-        cell!.textLabel?.text = alarm.formattedTime
-        cell!.textLabel?.font = UIFont.systemFont(ofSize: 22.0)
+        let amAttr: [String : Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 20.0)]
+        let str = NSMutableAttributedString(string: alarm.formattedTime, attributes: amAttr)
+        let timeAttr: [String : Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 45.0)]
+        str.addAttributes(timeAttr, range: NSMakeRange(0, str.length-2))
+        cell!.textLabel?.attributedText = str
         cell!.detailTextLabel?.text = alarm.label
-        
-
-        // Configure the cell...
-        
+        //append switch button
         let sw = UISwitch(frame: CGRect())
-        //sw.transform = CGAffineTransformMakeScale(0.9, 0.9);
+        sw.transform = CGAffineTransform(scaleX: 0.9, y: 0.9);
         
         //tag is used to indicate which row had been touched
         sw.tag = indexPath.row
-        cell!.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
         sw.addTarget(self, action: #selector(MainAlarmViewController.switchTapped(_:)), for: UIControlEvents.touchUpInside)
         if alarm.enabled {
             sw.setOn(true, animated: false)
@@ -120,12 +124,22 @@ class MainAlarmViewController: UITableViewController{
         alarmModel.alarms[index].enabled = sender.isOn
         if sender.isOn {
             print("switch on")
-            sender.superview?.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            sender.superview?.backgroundColor = UIColor.white
             alarmScheduler.setNotificationWithDate(alarmModel.alarms[index].date, onWeekdaysForNotify: alarmModel.alarms[index].repeatWeekdays, snooze: alarmModel.alarms[index].snoozeEnabled, soundName: alarmModel.alarms[index].mediaLabel, index: index)
+            let cells = tableView.visibleCells
+            if !cells.isEmpty {
+                cells[index].textLabel?.alpha = 1.0
+                cells[index].detailTextLabel?.alpha = 1.0
+            }
         }
         else {
             print("switch off")
-            sender.superview?.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0)
+            sender.superview?.backgroundColor = UIColor.groupTableViewBackground
+            let cells = tableView.visibleCells
+            if !cells.isEmpty {
+                cells[index].textLabel?.alpha = 0.5
+                cells[index].detailTextLabel?.alpha = 0.5
+            }
             alarmScheduler.reSchedule()
         }
     }
