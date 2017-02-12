@@ -15,11 +15,7 @@ swift 3.0.1 compatible version after refactoring.
 some old or feature branches that not maintained.
 
 ##Demo
-<img src="https://github.com/natsu1211/Alarm-ios-swift/blob/swift-3.0/gif/1.gif" width="35%" height="35%"> 
-<img src="https://github.com/natsu1211/Alarm-ios-swift/blob/swift-3.0/gif/2.gif" width="35%" height="35%">
-<img src="https://github.com/natsu1211/Alarm-ios-swift/blob/swift-3.0/gif/3.gif" width="35%" height="35%">
-<img src="https://github.com/natsu1211/Alarm-ios-swift/blob/swift-3.0/gif/4.gif" width="35%" height="35%">
-<img src="https://github.com/natsu1211/Alarm-ios-swift/blob/swift-3.0/gif/5.gif" width="35%" height="35%"> 
+<img src="https://github.com/natsu1211/Alarm-ios-swift/blob/swift-3.0.1/gif/alarm-ios-swift.gif" width="45%" height="45%"> 
 
 ##License
 MIT
