@@ -63,17 +63,17 @@ class Alarms: Persistable {
             persist()
         }
     }
-    lazy fileprivate var alarmsDictRepresentation: [PropertyReflectable.RepresentationType] = {
-        [unowned self] in
-        return self.alarms.map {$0.propertyDictRepresentation}
-    }()
+    
+    private func getAlarmsDictRepresentation()->[PropertyReflectable.RepresentationType] {
+        return alarms.map {$0.propertyDictRepresentation}
+    }
     
     init() {
         alarms = getAlarms()
     }
     
     func persist() {
-        ud.set(alarmsDictRepresentation, forKey: persistKey)
+        ud.set(getAlarmsDictRepresentation(), forKey: persistKey)
         ud.synchronize()
     }
     
@@ -89,7 +89,7 @@ class Alarms: Persistable {
     
     
     //helper, get all alarms from Userdefaults
-    fileprivate func getAlarms() -> [Alarm] {
+    private func getAlarms() -> [Alarm] {
         let array = UserDefaults.standard.array(forKey: persistKey)
         guard let alarmArray = array else{
             return [Alarm]()

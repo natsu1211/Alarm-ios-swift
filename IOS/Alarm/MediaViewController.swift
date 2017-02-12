@@ -128,19 +128,16 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
                 self.present(mediaPicker, animated: true, completion: nil)
             }
         }
-        
-        let cell = tableView.cellForRow(at: indexPath)
-        if indexPath.section == 2 {
-            cell?.accessoryType = UITableViewCellAccessoryType.none
-        }
-        
-        
-        if indexPath.section == 3 {
+        else if indexPath.section == 3 {
+            let cell = tableView.cellForRow(at: indexPath)
             cell?.accessoryType = UITableViewCellAccessoryType.checkmark
             mediaLabel = cell?.textLabel?.text!
+            cell?.setSelected(true, animated: true)
+            cell?.setSelected(false, animated: true)
             let cells = tableView.visibleCells
             for c in cells {
-                if (c != cell) {
+                let section = tableView.indexPath(for: c)?.section
+                if (section == indexPath.section && c != cell) {
                     c.accessoryType = UITableViewCellAccessoryType.none
                 }
             }

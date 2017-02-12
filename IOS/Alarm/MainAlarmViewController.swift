@@ -26,7 +26,6 @@ class MainAlarmViewController: UITableViewController{
         //dynamically append the edit button
         if alarmModel.count != 0 {
             self.navigationItem.leftBarButtonItem = editButtonItem
-            //self.navigationItem.leftBarButtonItem?.tintColor = UIColor.redColor()
         }
         else {
             self.navigationItem.leftBarButtonItem = nil
@@ -159,12 +158,13 @@ class MainAlarmViewController: UITableViewController{
                     sw.tag -= 1
                 }
             }
+            if alarmModel.count == 0 {
+                self.navigationItem.leftBarButtonItem = nil
+            }
+            
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
-            
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }   
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
