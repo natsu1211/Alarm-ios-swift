@@ -129,18 +129,21 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
             }
         }
         
-        let c = tableView.cellForRow(at: indexPath)
-        let cells = tableView.visibleCells 
-        for cell in cells {
-            let indexP = tableView.indexPath(for: cell)
-            if indexP?.section == 2 {
-                cell.accessoryType = UITableViewCellAccessoryType.none
-            }
+        let cell = tableView.cellForRow(at: indexPath)
+        if indexPath.section == 2 {
+            cell?.accessoryType = UITableViewCellAccessoryType.none
         }
         
+        
         if indexPath.section == 3 {
-            c?.accessoryType = UITableViewCellAccessoryType.checkmark
-            mediaLabel = c!.textLabel!.text!
+            cell?.accessoryType = UITableViewCellAccessoryType.checkmark
+            mediaLabel = cell?.textLabel?.text!
+            let cells = tableView.visibleCells
+            for c in cells {
+                if (c != cell) {
+                    c.accessoryType = UITableViewCellAccessoryType.none
+                }
+            }
         }
     }
     
