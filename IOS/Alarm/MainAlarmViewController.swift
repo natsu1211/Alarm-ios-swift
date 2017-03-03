@@ -81,7 +81,7 @@ class MainAlarmViewController: UITableViewController{
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isEditing {
-            performSegue(withIdentifier: Id.editSegueIdentifier, sender: SegueInfo(curCellIndex: indexPath.row, isEditMode: true, label: alarmModel.alarms[indexPath.row].label, mediaLabel: alarmModel.alarms[indexPath.row].mediaLabel, mediaID: alarmModel.alarms[indexPath.row].mediaID, repeatWeekdays: alarmModel.alarms[indexPath.row].repeatWeekdays))
+            performSegue(withIdentifier: Id.editSegueIdentifier, sender: SegueInfo(curCellIndex: indexPath.row, isEditMode: true, label: alarmModel.alarms[indexPath.row].label, mediaLabel: alarmModel.alarms[indexPath.row].mediaLabel, mediaID: alarmModel.alarms[indexPath.row].mediaID, repeatWeekdays: alarmModel.alarms[indexPath.row].repeatWeekdays, enabled: alarmModel.alarms[indexPath.row].enabled))
         }
     }
     
@@ -124,7 +124,7 @@ class MainAlarmViewController: UITableViewController{
         if sender.isOn {
             print("switch on")
             sender.superview?.backgroundColor = UIColor.white
-            alarmScheduler.setNotificationWithDate(alarmModel.alarms[index].date, onWeekdaysForNotify: alarmModel.alarms[index].repeatWeekdays, snooze: alarmModel.alarms[index].snoozeEnabled, soundName: alarmModel.alarms[index].mediaLabel, index: index)
+            alarmScheduler.setNotificationWithDate(alarmModel.alarms[index].date, onWeekdaysForNotify: alarmModel.alarms[index].repeatWeekdays, snoozeEnabled: alarmModel.alarms[index].snoozeEnabled, onSnooze: false, soundName: alarmModel.alarms[index].mediaLabel, index: index)
             let cells = tableView.visibleCells
             if !cells.isEmpty {
                 cells[index].textLabel?.alpha = 1.0
@@ -149,7 +149,6 @@ class MainAlarmViewController: UITableViewController{
         if editingStyle == .delete {
             let index = indexPath.row
             alarmModel.alarms.remove(at: index)
-            alarmScheduler.reSchedule()
             let cells = tableView.visibleCells
             for cell in cells {
                 let sw = cell.accessoryView as! UISwitch
@@ -164,6 +163,7 @@ class MainAlarmViewController: UITableViewController{
             
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
+            alarmScheduler.reSchedule()
         }   
     }
     
@@ -175,13 +175,11 @@ class MainAlarmViewController: UITableViewController{
         let addEditController = dist.topViewController as! AlarmAddEditViewController
         if segue.identifier == Id.addSegueIdentifier {
             addEditController.navigationItem.title = "Add Alarm"
-            addEditController.segueInfo = SegueInfo(curCellIndex: alarmModel.count, isEditMode: false, label: "Alarm", mediaLabel: "bell", mediaID: "", repeatWeekdays: [])
-            addEditController.repeatText = "Never"
+            addEditController.segueInfo = SegueInfo(curCellIndex: alarmModel.count, isEditMode: false, label: "Alarm", mediaLabel: "bell", mediaID: "", repeatWeekdays: [], enabled: false)
         }
         else if segue.identifier == Id.editSegueIdentifier {
             addEditController.navigationItem.title = "Edit Alarm"
             addEditController.segueInfo = sender as! SegueInfo
-            addEditController.repeatText = "Never"
         }
     }
     

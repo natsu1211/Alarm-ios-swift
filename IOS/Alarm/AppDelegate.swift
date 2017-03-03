@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     var window: UIWindow?
     var audioPlayer: AVAudioPlayer?
     let alarmScheduler: AlarmSchedulerDelegate = Scheduler()
-    let alarmModel: Alarms = Alarms()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         alarmScheduler.setupNotificationSettings()
@@ -49,17 +48,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         }
         let stopOption = UIAlertAction(title: "OK", style: .default) {
             (action:UIAlertAction)->Void in self.audioPlayer?.stop()
-            self.alarmModel.alarms[index].enabled = false
             //change UI
             let vc = self.window?.rootViewController as! UINavigationController
-            let cells = (vc.topViewController as! MainAlarmViewController).tableView.visibleCells 
+            let mainVC = vc.topViewController as! MainAlarmViewController
+            if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
+                mainVC.alarmModel.alarms[index].enabled = false
+            }
+            let cells = mainVC.tableView.visibleCells
             for cell in cells {
                 if cell.tag == index {
                     let sw = cell.accessoryView as! UISwitch
-                    sw.setOn(false, animated: false)
-                    cell.backgroundColor = UIColor.groupTableViewBackground
-                    cell.textLabel?.alpha = 0.5
-                    cell.detailTextLabel?.alpha = 0.5
+                    if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
+                        sw.setOn(false, animated: false)
+                        cell.backgroundColor = UIColor.groupTableViewBackground
+                        cell.textLabel?.alpha = 0.5
+                        cell.detailTextLabel?.alpha = 0.5
+                    }
                 }
             }
         }

@@ -15,4 +15,5 @@ struct SegueInfo {
     var mediaLabel: String
     var mediaID: String
     var repeatWeekdays: [Int]
+    var enabled: Bool
 }

@@ -87,7 +87,6 @@ class Alarms: Persistable {
         return alarms.count
     }
     
-    
     //helper, get all alarms from Userdefaults
     private func getAlarms() -> [Alarm] {
         let array = UserDefaults.standard.array(forKey: persistKey)

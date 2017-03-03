@@ -19,14 +19,14 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     var alarmModel: Alarms = Alarms()
     var segueInfo: SegueInfo!
     var snoozeEnabled: Bool = false
-    var repeatText: String!
+    var enabled: Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        alarmModel = Alarms()
+        alarmModel=Alarms()
         tableView.reloadData()
         super.viewWillAppear(animated)
     }
@@ -41,18 +41,18 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         var tempAlarm = Alarm()
         tempAlarm.date = date
         tempAlarm.label = segueInfo.label
+        tempAlarm.enabled = segueInfo.enabled
         tempAlarm.mediaLabel = segueInfo.mediaLabel
         tempAlarm.mediaID = segueInfo.mediaID
         tempAlarm.snoozeEnabled = snoozeEnabled
         tempAlarm.repeatWeekdays = segueInfo.repeatWeekdays
+        tempAlarm.uuid = UUID().uuidString
         if segueInfo.isEditMode {
             alarmModel.alarms[index] = tempAlarm
         }
         else {
             alarmModel.alarms.append(tempAlarm)
         }
-        
-        alarmScheduler.reSchedule()
         self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
     }
     
@@ -88,7 +88,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
             if indexPath.row == 0 {
                 
                 cell!.textLabel!.text = "Repeat"
-                cell!.detailTextLabel!.text = repeatText
+                cell!.detailTextLabel!.text = WeekdaysViewController.repeatText(weekdays: segueInfo.repeatWeekdays)
                 cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
             else if indexPath.row == 1 {
@@ -149,7 +149,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         else if indexPath.section == 1 {
             //delete alarm
             alarmModel.alarms.remove(at: segueInfo.curCellIndex)
-            alarmScheduler.reSchedule()
             performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
         }
             
@@ -176,6 +175,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                     sw.tag -= 1
                 }
             }
+            alarmScheduler.reSchedule()
         }
         else if segue.identifier == Id.soundSegueIdentifier {
             //TODO
@@ -201,7 +201,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction func unwindFromWeekdaysView(_ segue: UIStoryboardSegue) {
         let src = segue.source as! WeekdaysViewController
         segueInfo.repeatWeekdays = src.weekdays
-        repeatText = src.repeatText
     }
     
     @IBAction func unwindFromMediaView(_ segue: UIStoryboardSegue) {
