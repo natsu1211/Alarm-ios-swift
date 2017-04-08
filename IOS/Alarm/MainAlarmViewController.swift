@@ -30,8 +30,6 @@ class MainAlarmViewController: UITableViewController{
         else {
             self.navigationItem.leftBarButtonItem = nil
         }
-        //unschedule all the notifications, faster than calling the cancelAllNotifications func
-        UIApplication.shared.scheduledLocalNotifications = nil
         
         let cells = tableView.visibleCells
         if !cells.isEmpty {
