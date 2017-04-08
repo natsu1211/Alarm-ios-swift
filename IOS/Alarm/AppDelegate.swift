@@ -21,11 +21,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         alarmScheduler.setupNotificationSettings()
         window?.tintColor = UIColor.red
+        
+        let notificationSettings = UIUserNotificationSettings(types: .alert, categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(notificationSettings)
+        
+        if let notification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
+            if let userInfo = notification.userInfo {
+                let index = userInfo["index"] as! Int
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let mainVC = storyboard.instantiateViewController(withIdentifier: "Alarm") as! MainAlarmViewController
+                if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
+                    mainVC.alarmModel.alarms[index].enabled = false
+                }
+            }
+            DispatchQueue.main.async {
+                
+                let alertController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+            }
+        }
+        
         return true
     }
    
     //receive local notification when app in foreground
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        
         //show an alert window
         let storageController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .alert)
         var isSnooze: Bool = false
@@ -49,28 +71,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         let stopOption = UIAlertAction(title: "OK", style: .default) {
             (action:UIAlertAction)->Void in self.audioPlayer?.stop()
             //change UI
-            let vc = self.window?.rootViewController as! UINavigationController
-            let mainVC = vc.topViewController as! MainAlarmViewController
-            if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
-                mainVC.alarmModel.alarms[index].enabled = false
-            }
-            let cells = mainVC.tableView.visibleCells
-            for cell in cells {
-                if cell.tag == index {
-                    let sw = cell.accessoryView as! UISwitch
-                    if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
-                        sw.setOn(false, animated: false)
-                        cell.backgroundColor = UIColor.groupTableViewBackground
-                        cell.textLabel?.alpha = 0.5
-                        cell.detailTextLabel?.alpha = 0.5
+            if let mainVC = self.window?.visibleViewController as? MainAlarmViewController {
+                if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
+                    mainVC.alarmModel.alarms[index].enabled = false
+                }
+                let cells = mainVC.tableView.visibleCells
+                for cell in cells {
+                    if cell.tag == index {
+                        let sw = cell.accessoryView as! UISwitch
+                        if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
+                            sw.setOn(false, animated: false)
+                            cell.backgroundColor = UIColor.groupTableViewBackground
+                            cell.textLabel?.alpha = 0.5
+                            cell.detailTextLabel?.alpha = 0.5
+                        }
                     }
+                }
+            } else {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let mainVC = storyboard.instantiateViewController(withIdentifier: "Alarm") as! MainAlarmViewController
+                if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
+                    mainVC.alarmModel.alarms[index].enabled = false
                 }
             }
         }
         
         storageController.addAction(stopOption)
-        window?.rootViewController!.present(storageController, animated: true, completion: nil)
-  
+        window?.visibleViewController?.navigationController?.present(storageController, animated: true, completion: nil)
     }
     
     //snooze notification handler when app in background
@@ -86,6 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         }
         completionHandler()
     }
+    
     //print out all registed NSNotification for debug
     func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
         
@@ -158,6 +186,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+
 
 
 }

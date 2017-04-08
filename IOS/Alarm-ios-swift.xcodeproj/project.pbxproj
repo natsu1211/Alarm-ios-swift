@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7701B7B31E99414800908B6C /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7701B7B21E99414800908B6C /* UIWindow+Extension.swift */; };
 		7732E6131E38A50200C9D9A2 /* Persistable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7732E6121E38A50200C9D9A2 /* Persistable.swift */; };
 		77570F6B1E3EEA75005E2923 /* PropertyReflectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77570F6A1E3EEA75005E2923 /* PropertyReflectable.swift */; };
 		7773A0F81E43276700811A1D /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7773A0F71E43276700811A1D /* Identifier.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7701B7B21E99414800908B6C /* UIWindow+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		7732E6121E38A50200C9D9A2 /* Persistable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistable.swift; sourceTree = "<group>"; };
 		77570F6A1E3EEA75005E2923 /* PropertyReflectable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyReflectable.swift; sourceTree = "<group>"; };
 		7773A0F71E43276700811A1D /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				9E16062B1C62358F009B2407 /* MediaViewController.swift */,
 				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
 				9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */,
+				7701B7B21E99414800908B6C /* UIWindow+Extension.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				TargetAttributes = {
 					9EED786B1AA0F03F00961BC2 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = HLGGTJ4M3A;
 						LastSwiftMigration = 0810;
 					};
 					9EED78801AA0F03F00961BC2 = {
@@ -311,6 +315,7 @@
 				9E603F591BD7CA6600303E93 /* LabelEditViewController.swift in Sources */,
 				9EEEC58C1BC641BF00459CF7 /* MainAlarmViewController.swift in Sources */,
 				7732E6131E38A50200C9D9A2 /* Persistable.swift in Sources */,
+				7701B7B31E99414800908B6C /* UIWindow+Extension.swift in Sources */,
 				77A8570F1E41A04600971367 /* AlarmSchedulerDelegate.swift in Sources */,
 				77570F6B1E3EEA75005E2923 /* PropertyReflectable.swift in Sources */,
 				9E9BEE071BCF8FF8000CF364 /* WeekdaysViewController.swift in Sources */,
@@ -446,9 +451,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = HLGGTJ4M3A;
 				INFOPLIST_FILE = Alarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "LongGames.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = LongGames.Alarm.ios.swift;
 				PRODUCT_NAME = "Alarm-ios-swift";
 				SWIFT_VERSION = 3.0;
 			};
@@ -458,9 +465,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = HLGGTJ4M3A;
 				INFOPLIST_FILE = Alarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "LongGames.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = LongGames.Alarm.ios.swift;
 				PRODUCT_NAME = "Alarm-ios-swift";
 				SWIFT_VERSION = 3.0;
 			};
