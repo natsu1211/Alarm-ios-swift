@@ -1,6 +1,6 @@
 # Alarm-ios-swift     
 
-Full functional clone of the apple's official clock alarm application for study purpose.
+Full functional clone of the apple's official clock alarm application for study purpose.     
 Now supports Swift 3.
 
 
