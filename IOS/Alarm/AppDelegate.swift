@@ -20,10 +20,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         alarmScheduler.setupNotificationSettings()
-        window?.tintColor = UIColor.red
+        var error: NSError?
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        } catch let error1 as NSError{
+            error = error1
+            print("could not set session. err:\(error!.localizedDescription)")
+        }
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch let error1 as NSError{
+            error = error1
+            print("could not active session. err:\(error!.localizedDescription)")
+        }
         
-        let notificationSettings = UIUserNotificationSettings(types: .alert, categories: nil)
-        UIApplication.shared.registerUserNotificationSettings(notificationSettings)
+        window?.tintColor = UIColor.red
         
         if let notification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
             if let userInfo = notification.userInfo {
@@ -70,6 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         }
         let stopOption = UIAlertAction(title: "OK", style: .default) {
             (action:UIAlertAction)->Void in self.audioPlayer?.stop()
+            AudioServicesRemoveSystemSoundCompletion(kSystemSoundID_Vibrate)
             //change UI
             if let mainVC = self.window?.visibleViewController as? MainAlarmViewController {
                 if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
@@ -129,11 +141,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         AudioServicesAddSystemSoundCompletion(SystemSoundID(kSystemSoundID_Vibrate),nil,
             nil,
             { (_:SystemSoundID, _:UnsafeMutableRawPointer?) -> Void in
-                print("callback", terminator: "") //todo
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             },
             nil)
-        let url = URL(
-            fileURLWithPath: Bundle.main.path(forResource: soundName, ofType: "mp3")!)
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: soundName, ofType: "mp3")!)
         
         var error: NSError?
         
@@ -146,16 +157,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         
         if let err = error {
             print("audioPlayer error \(err.localizedDescription)")
+            return
         } else {
             audioPlayer!.delegate = self
             audioPlayer!.prepareToPlay()
         }
+        
         //negative number means loop infinity
         audioPlayer!.numberOfLoops = -1
         audioPlayer!.play()
     }
     
-    //AVAudioPlayerDelegate protocol, todo
+    //AVAudioPlayerDelegate protocol
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
     }
@@ -168,6 +181,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+//        audioPlayer?.pause()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -181,6 +195,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//        audioPlayer?.play()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
