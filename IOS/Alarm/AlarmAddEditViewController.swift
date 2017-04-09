@@ -41,7 +41,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         var tempAlarm = Alarm()
         tempAlarm.date = date
         tempAlarm.label = segueInfo.label
-        tempAlarm.enabled = segueInfo.enabled
+        tempAlarm.enabled = true
         tempAlarm.mediaLabel = segueInfo.mediaLabel
         tempAlarm.mediaID = segueInfo.mediaID
         tempAlarm.snoozeEnabled = snoozeEnabled
