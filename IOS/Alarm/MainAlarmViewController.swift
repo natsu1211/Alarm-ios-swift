@@ -22,6 +22,7 @@ class MainAlarmViewController: UITableViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         alarmModel = Alarms()
+        alarmScheduler.checkNotification()
         tableView.reloadData()
         //dynamically append the edit button
         if alarmModel.count != 0 {
@@ -32,21 +33,12 @@ class MainAlarmViewController: UITableViewController{
         }
         
         let cells = tableView.visibleCells
-        if !cells.isEmpty {
-            for i in 0..<cells.count {
-                if alarmModel.alarms[i].enabled {
-                    (cells[i].accessoryView as! UISwitch).setOn(true, animated: false)
-                    cells[i].backgroundColor = UIColor.white
-                    cells[i].textLabel?.alpha = 1.0
-                    cells[i].detailTextLabel?.alpha = 1.0
-                }
-                else {
-                    (cells[i].accessoryView as! UISwitch).setOn(false, animated: false)
-                    cells[i].backgroundColor = UIColor.groupTableViewBackground
-                    cells[i].textLabel?.alpha = 0.5
-                    cells[i].detailTextLabel?.alpha = 0.5
-                }
-            }
+        for (index,cell) in cells.enumerated() {
+            let enabled = alarmModel.alarms[index].enabled
+            let alpha =  enabled ? 1.0 : 0.5
+            let color = enabled ? UIColor.white : UIColor.groupTableViewBackground
+            (cell.accessoryView as! UISwitch).setOn(enabled, animated: false)
+            configCell(cell: cell, bgColor: color, alpha: CGFloat(alpha))
         }
     }
     
@@ -119,28 +111,26 @@ class MainAlarmViewController: UITableViewController{
     @IBAction func switchTapped(_ sender: UISwitch) {
         let index = sender.tag
         alarmModel.alarms[index].enabled = sender.isOn
+        let enabled = alarmModel.alarms[index].enabled
+        let alpha =  enabled ? 1.0 : 0.5
+        let color = enabled ? UIColor.white : UIColor.groupTableViewBackground
         if sender.isOn {
             print("switch on")
-            sender.superview?.backgroundColor = UIColor.white
             alarmScheduler.setNotificationWithDate(alarmModel.alarms[index].date, onWeekdaysForNotify: alarmModel.alarms[index].repeatWeekdays, snoozeEnabled: alarmModel.alarms[index].snoozeEnabled, onSnooze: false, soundName: alarmModel.alarms[index].mediaLabel, index: index)
-            let cells = tableView.visibleCells
-            if !cells.isEmpty {
-                cells[index].textLabel?.alpha = 1.0
-                cells[index].detailTextLabel?.alpha = 1.0
-            }
         }
         else {
             print("switch off")
-            sender.superview?.backgroundColor = UIColor.groupTableViewBackground
-            let cells = tableView.visibleCells
-            if !cells.isEmpty {
-                cells[index].textLabel?.alpha = 0.5
-                cells[index].detailTextLabel?.alpha = 0.5
-            }
             alarmScheduler.reSchedule()
         }
+        let cells = tableView.visibleCells
+        configCell(cell: cells[index], bgColor: color, alpha: CGFloat(alpha))
     }
 
+    private func configCell(cell: UITableViewCell, bgColor: UIColor, alpha: CGFloat) {
+        cell.backgroundColor = bgColor
+        cell.textLabel?.alpha = alpha
+        cell.detailTextLabel?.alpha = alpha
+    }
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
