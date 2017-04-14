@@ -36,7 +36,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
-        let date = datePicker.date
+        let date = Scheduler.correctSecondComponent(date: datePicker.date)
         let index = segueInfo.curCellIndex
         var tempAlarm = Alarm()
         tempAlarm.date = date

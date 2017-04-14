@@ -14,5 +14,6 @@ protocol AlarmSchedulerDelegate {
     func setNotificationForSnooze(snoozeMinute: Int, soundName: String, index: Int)
     func setupNotificationSettings()
     func reSchedule()
+    func checkNotification()
 }
 

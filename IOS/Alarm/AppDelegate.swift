@@ -36,23 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         
         window?.tintColor = UIColor.red
         
-        if let notification = launchOptions?[UIApplicationLaunchOptionsKey.localNotification] as? UILocalNotification {
-            if let userInfo = notification.userInfo {
-                let index = userInfo["index"] as! Int
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let mainVC = storyboard.instantiateViewController(withIdentifier: "Alarm") as! MainAlarmViewController
-                if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
-                    mainVC.alarmModel.alarms[index].enabled = false
-                }
-            }
-            DispatchQueue.main.async {
-                
-                let alertController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-            }
-        }
-        
         return true
     }
    
@@ -114,13 +97,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     
     //snooze notification handler when app in background
     func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Void) {
+        var index: Int = -1
+        var soundName: String = ""
+        if let userInfo = notification.userInfo {
+            soundName = userInfo["soundName"] as! String
+            index = userInfo["index"] as! Int
+        }
         if identifier == Id.snoozeIdentifier {
-            var soundName: String = ""
-            var index: Int = -1
-            if let userInfo = notification.userInfo {
-                soundName = userInfo["soundName"] as! String
-                index = userInfo["index"] as! Int
-            }
             alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
         }
         completionHandler()

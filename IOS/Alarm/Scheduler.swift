@@ -49,7 +49,7 @@ class Scheduler : AlarmSchedulerDelegate
         UIApplication.shared.registerUserNotificationSettings(newNotificationSettings)
     }
     
-    fileprivate func correctDate(_ date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
+    public func correctDate(_ date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
     {
         var correctedDate: [Date] = [Date]()
         let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
@@ -97,13 +97,17 @@ class Scheduler : AlarmSchedulerDelegate
                 }
                 
                 //fix second component to 0
-                let second = calendar.component(.second, from: wdDate)
-                wdDate =  (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.second, value: -second, to: wdDate, options:.matchStrictly)!
-                
+                wdDate = Scheduler.correctSecondComponent(date: wdDate, calendar: calendar)
                 correctedDate.append(wdDate)
             }
             return correctedDate
         }
+    }
+    
+    public static func correctSecondComponent(date: Date, calendar: Calendar = Calendar(identifier: Calendar.Identifier.gregorian))->Date {
+        let second = calendar.component(.second, from: date)
+        let d = (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.second, value: -second, to: date, options:.matchStrictly)!
+        return d
     }
     
     func setNotificationWithDate(_ date: Date, onWeekdaysForNotify weekdays:[Int], snoozeEnabled:Bool,  onSnooze: Bool, soundName: String, index: Int) {
@@ -113,7 +117,8 @@ class Scheduler : AlarmSchedulerDelegate
         AlarmNotification.category = "myAlarmCategory"
         AlarmNotification.soundName = soundName + ".mp3"
         AlarmNotification.timeZone = TimeZone.current
-        AlarmNotification.userInfo = ["snooze" : snoozeEnabled, "index": index, "soundName": soundName]
+        let repeating: Bool = !weekdays.isEmpty
+        AlarmNotification.userInfo = ["snooze" : snoozeEnabled, "index": index, "soundName": soundName, "repeating" : repeating]
         //repeat weekly if repeat weekdays are selected
         //no repeat with snooze notification
         if !weekdays.isEmpty && !onSnooze{
@@ -122,7 +127,9 @@ class Scheduler : AlarmSchedulerDelegate
         
         let datesForNotification = correctDate(date, onWeekdaysForNotify:weekdays)
         
+        syncAlarmModel()
         for d in datesForNotification {
+            alarmModel.alarms[index].date = d
             AlarmNotification.fireDate = d
             UIApplication.shared.scheduleLocalNotification(AlarmNotification)
         }
@@ -139,13 +146,37 @@ class Scheduler : AlarmSchedulerDelegate
     func reSchedule() {
         //cancel all and register all is often more convenient
         UIApplication.shared.cancelAllLocalNotifications()
-        alarmModel = Alarms()
+        syncAlarmModel()
         for i in 0..<alarmModel.count{
             let alarm = alarmModel.alarms[i]
             if alarm.enabled {
                 setNotificationWithDate(alarm.date as Date, onWeekdaysForNotify: alarm.repeatWeekdays, snoozeEnabled: alarm.snoozeEnabled, onSnooze: false, soundName: alarm.mediaLabel, index: i)
             }
         }
+    }
+    
+    // workaround for some situation that alarm model is not setting properly (when app on background or not launched)
+    func checkNotification() {
+        syncAlarmModel()
+        let notifications = UIApplication.shared.scheduledLocalNotifications
+        if notifications != nil {
+            for (index, alarm) in alarmModel.alarms.enumerated() {
+                var isOutDated = true
+                for n in notifications! {
+                    if alarm.date.compare(n.fireDate!) == ComparisonResult.orderedDescending ||
+                        n.userInfo?["snooze"] as! Bool{
+                        isOutDated = false
+                    }
+                }
+                if isOutDated {
+                    alarmModel.alarms[index].enabled = false
+                }
+            }
+        }
+    }
+    
+    private func syncAlarmModel() {
+        alarmModel = Alarms()
     }
     
     private enum weekdaysCompareResult {
