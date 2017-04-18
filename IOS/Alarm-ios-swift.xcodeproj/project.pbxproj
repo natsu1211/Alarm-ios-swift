@@ -86,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		770405701EA09FB2005F9379 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7701B7B21E99414800908B6C /* UIWindow+Extension.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
 		7732E60F1E37594300C9D9A2 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +122,6 @@
 				9E16062B1C62358F009B2407 /* MediaViewController.swift */,
 				9E9BEE061BCF8FF8000CF364 /* WeekdaysViewController.swift */,
 				9E603F581BD7CA6600303E93 /* LabelEditViewController.swift */,
-				7701B7B21E99414800908B6C /* UIWindow+Extension.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -159,6 +166,7 @@
 		9EED786E1AA0F03F00961BC2 /* Alarm */ = {
 			isa = PBXGroup;
 			children = (
+				770405701EA09FB2005F9379 /* Extension */,
 				77A857131E42FDF200971367 /* App */,
 				77A857121E42FDAD00971367 /* Controller */,
 				9EED78781AA0F03F00961BC2 /* Images.xcassets */,
