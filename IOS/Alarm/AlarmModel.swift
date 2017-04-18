@@ -19,10 +19,11 @@ struct Alarm: PropertyReflectable {
     var mediaID: String = ""
     var mediaLabel: String = "bell"
     var label: String = "Alarm"
+    var onSnooze: Bool = false
     
     init(){}
     
-    init(date:Date, enabled:Bool, snoozeEnabled:Bool, repeatWeekdays:[Int], uuid:String, mediaID:String, mediaLabel:String, label:String){
+    init(date:Date, enabled:Bool, snoozeEnabled:Bool, repeatWeekdays:[Int], uuid:String, mediaID:String, mediaLabel:String, label:String, onSnooze: Bool){
         self.date = date
         self.enabled = enabled
         self.snoozeEnabled = snoozeEnabled
@@ -31,6 +32,7 @@ struct Alarm: PropertyReflectable {
         self.mediaID = mediaID
         self.mediaLabel = mediaLabel
         self.label = label
+        self.onSnooze = onSnooze
     }
     
     init(_ dict: PropertyReflectable.RepresentationType){
@@ -42,7 +44,10 @@ struct Alarm: PropertyReflectable {
         mediaID = dict["mediaID"] as! String
         mediaLabel = dict["mediaLabel"] as! String
         label = dict["label"] as! String
+        onSnooze = dict["onSnooze"] as! Bool
     }
+    
+    static var propertyCount: Int = 9
 }
 
 extension Alarm {
@@ -93,12 +98,12 @@ class Alarms: Persistable {
         guard let alarmArray = array else{
             return [Alarm]()
         }
-        //since switch-case statement not support generic downcast
-        guard let dicts = alarmArray as? [PropertyReflectable.RepresentationType] else{
-            //restore alarm failed, clean up uncompatible Userdefaults
-            unpersist()
-            return [Alarm]()
+        if let dicts = alarmArray as? [PropertyReflectable.RepresentationType]{
+            if dicts.first?.count == Alarm.propertyCount {
+                return dicts.map{Alarm($0)}
+            }
         }
-        return dicts.map{Alarm($0)}
+        unpersist()
+        return [Alarm]()
     }
 }

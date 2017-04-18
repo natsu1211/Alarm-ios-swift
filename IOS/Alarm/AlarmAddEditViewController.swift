@@ -28,6 +28,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(_ animated: Bool) {
         alarmModel=Alarms()
         tableView.reloadData()
+        snoozeEnabled = segueInfo.snoozeEnabled
         super.viewWillAppear(animated)
     }
 
@@ -47,6 +48,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         tempAlarm.snoozeEnabled = snoozeEnabled
         tempAlarm.repeatWeekdays = segueInfo.repeatWeekdays
         tempAlarm.uuid = UUID().uuidString
+        tempAlarm.onSnooze = false
         if segueInfo.isEditMode {
             alarmModel.alarms[index] = tempAlarm
         }

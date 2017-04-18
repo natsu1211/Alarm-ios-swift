@@ -15,6 +15,7 @@ protocol PropertyReflectable{
     var propertyDictRepresentation: RepresentationType {get}
     var propertyValues: ValuesType {get}
     var propertyNames: NamesType {get}
+    static var propertyCount: Int {get}
     //construction from representation type
     init(_ r:RepresentationType)
 }

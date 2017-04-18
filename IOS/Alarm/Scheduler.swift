@@ -14,7 +14,13 @@ class Scheduler : AlarmSchedulerDelegate
 {
     var alarmModel: Alarms = Alarms()
     func setupNotificationSettings() {
-        
+        var snoozeEnabled: Bool = false
+        if let n = UIApplication.shared.scheduledLocalNotifications {
+            if let result = minFireDateWithIndex(notifications: n) {
+                let i = result.1
+                snoozeEnabled = alarmModel.alarms[i].snoozeEnabled
+            }
+        }
         // Specify the notification types.
         let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.sound]
         
@@ -33,9 +39,8 @@ class Scheduler : AlarmSchedulerDelegate
         snoozeAction.isDestructive = false
         snoozeAction.isAuthenticationRequired = false
         
-        let actionsArray = [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction)
-        let actionsArrayMinimal = [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction)
-        
+        let actionsArray = snoozeEnabled ? [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction) : [UIUserNotificationAction](arrayLiteral: stopAction)
+        let actionsArrayMinimal = snoozeEnabled ? [UIUserNotificationAction](arrayLiteral: snoozeAction, stopAction) : [UIUserNotificationAction](arrayLiteral: stopAction)
         // Specify the category related to the above actions.
         let alarmCategory = UIMutableUserNotificationCategory()
         alarmCategory.identifier = "myAlarmCategory"
@@ -49,7 +54,7 @@ class Scheduler : AlarmSchedulerDelegate
         UIApplication.shared.registerUserNotificationSettings(newNotificationSettings)
     }
     
-    public func correctDate(_ date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
+    fileprivate func correctDate(_ date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
     {
         var correctedDate: [Date] = [Date]()
         let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
@@ -61,7 +66,7 @@ class Scheduler : AlarmSchedulerDelegate
         //no repeat
         if weekdays.isEmpty{
             //scheduling date is eariler than current date
-            if date.compare(now) == ComparisonResult.orderedAscending {
+            if date < now {
                 //plus one day, otherwise the notification will be fired righton
                 correctedDate.append((calendar as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: 1, to: date, options:.matchStrictly)!)
             }
@@ -129,10 +134,16 @@ class Scheduler : AlarmSchedulerDelegate
         
         syncAlarmModel()
         for d in datesForNotification {
-            alarmModel.alarms[index].date = d
+            if onSnooze {
+                alarmModel.alarms[index].date = Scheduler.correctSecondComponent(date: alarmModel.alarms[index].date)
+            }
+            else {
+                alarmModel.alarms[index].date = d
+            }
             AlarmNotification.fireDate = d
             UIApplication.shared.scheduleLocalNotification(AlarmNotification)
         }
+        setupNotificationSettings()
         
     }
     
@@ -157,19 +168,26 @@ class Scheduler : AlarmSchedulerDelegate
     
     // workaround for some situation that alarm model is not setting properly (when app on background or not launched)
     func checkNotification() {
-        syncAlarmModel()
+        alarmModel = Alarms()
         let notifications = UIApplication.shared.scheduledLocalNotifications
-        if notifications != nil {
-            for (index, alarm) in alarmModel.alarms.enumerated() {
+        if notifications!.isEmpty {
+            for i in 0..<alarmModel.count {
+                alarmModel.alarms[i].enabled = false
+            }
+        }
+        else {
+            for (i, alarm) in alarmModel.alarms.enumerated() {
                 var isOutDated = true
+                if alarm.onSnooze {
+                    isOutDated = false
+                }
                 for n in notifications! {
-                    if alarm.date.compare(n.fireDate!) == ComparisonResult.orderedDescending ||
-                        n.userInfo?["snooze"] as! Bool{
+                    if alarm.date >= n.fireDate! {
                         isOutDated = false
                     }
                 }
                 if isOutDated {
-                    alarmModel.alarms[index].enabled = false
+                    alarmModel.alarms[i].enabled = false
                 }
             }
         }
@@ -179,16 +197,32 @@ class Scheduler : AlarmSchedulerDelegate
         alarmModel = Alarms()
     }
     
-    private enum weekdaysCompareResult {
+    private enum weekdaysComparisonResult {
         case before
         case same
         case after
     }
     
-    private func compare(weekday w1: Int, with w2: Int) -> weekdaysCompareResult
+    private func compare(weekday w1: Int, with w2: Int) -> weekdaysComparisonResult
     {
         if w1 != 1 && w2 == 1 {return .before}
         else if w1 == w2 {return .same}
         else {return .after}
+    }
+    
+    private func minFireDateWithIndex(notifications: [UILocalNotification]) -> (Date, Int)? {
+        if notifications.isEmpty {
+            return nil
+        }
+        var minIndex = -1
+        var minDate: Date = notifications.first!.fireDate!
+        for n in notifications {
+            let index = n.userInfo!["index"] as! Int
+            if(n.fireDate! <= minDate) {
+                minDate = n.fireDate!
+                minIndex = index
+            }
+        }
+        return (minDate, minIndex)
     }
 }
