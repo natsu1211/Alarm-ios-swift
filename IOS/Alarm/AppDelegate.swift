@@ -67,29 +67,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             self.alarmModel = Alarms()
             self.alarmModel.alarms[index].onSnooze = false
             //change UI
-            if let mainVC = self.window?.visibleViewController as? MainAlarmViewController {
-                if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
-                    mainVC.alarmModel.alarms[index].enabled = false
-                }
-                let cells = mainVC.tableView.visibleCells
-                for cell in cells {
-                    if cell.tag == index {
-                        let sw = cell.accessoryView as! UISwitch
-                        if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
-                            sw.setOn(false, animated: false)
-                            cell.backgroundColor = UIColor.groupTableViewBackground
-                            cell.textLabel?.alpha = 0.5
-                            cell.detailTextLabel?.alpha = 0.5
-                        }
-                    }
-                }
-            } else {
+            var mainVC = self.window?.visibleViewController as? MainAlarmViewController
+            if mainVC == nil {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let mainVC = storyboard.instantiateViewController(withIdentifier: "Alarm") as! MainAlarmViewController
-                if mainVC.alarmModel.alarms[index].repeatWeekdays.isEmpty {
-                    mainVC.alarmModel.alarms[index].enabled = false
-                }
+                mainVC = storyboard.instantiateViewController(withIdentifier: "Alarm") as? MainAlarmViewController
             }
+            mainVC!.changeSwitchButtonState(index: index)
         }
         
         storageController.addAction(stopOption)

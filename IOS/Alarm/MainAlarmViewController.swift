@@ -173,6 +173,27 @@ class MainAlarmViewController: UITableViewController{
     @IBAction func unwindFromAddEditAlarmView(_ segue: UIStoryboardSegue) {
         isEditing = false
     }
+    
+    public func changeSwitchButtonState(index: Int) {
+        //let info = notification.userInfo as! [String: AnyObject]
+        //let index: Int = info["index"] as! Int
+        alarmModel = Alarms()
+        if alarmModel.alarms[index].repeatWeekdays.isEmpty {
+            alarmModel.alarms[index].enabled = false
+        }
+        let cells = tableView.visibleCells
+        for cell in cells {
+            if cell.tag == index {
+                let sw = cell.accessoryView as! UISwitch
+                if alarmModel.alarms[index].repeatWeekdays.isEmpty {
+                    sw.setOn(false, animated: false)
+                    cell.backgroundColor = UIColor.groupTableViewBackground
+                    cell.textLabel?.alpha = 0.5
+                    cell.detailTextLabel?.alpha = 0.5
+                }
+            }
+        }
+    }
 
 }
 
