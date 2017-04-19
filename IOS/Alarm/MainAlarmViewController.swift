@@ -31,15 +31,6 @@ class MainAlarmViewController: UITableViewController{
         else {
             self.navigationItem.leftBarButtonItem = nil
         }
-        
-        let cells = tableView.visibleCells
-        for (index,cell) in cells.enumerated() {
-            let enabled = alarmModel.alarms[index].enabled
-            let alpha =  enabled ? 1.0 : 0.5
-            let color = enabled ? UIColor.white : UIColor.groupTableViewBackground
-            (cell.accessoryView as! UISwitch).setOn(enabled, animated: false)
-            configCell(cell: cell, bgColor: color, alpha: CGFloat(alpha))
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,9 +87,16 @@ class MainAlarmViewController: UITableViewController{
         
         //tag is used to indicate which row had been touched
         sw.tag = indexPath.row
-        sw.addTarget(self, action: #selector(MainAlarmViewController.switchTapped(_:)), for: UIControlEvents.touchUpInside)
+        sw.addTarget(self, action: #selector(MainAlarmViewController.switchTapped(_:)), for: UIControlEvents.valueChanged)
         if alarm.enabled {
+            cell!.backgroundColor = UIColor.white
+            cell!.textLabel?.alpha = 1.0
+            cell!.detailTextLabel?.alpha = 1.0
             sw.setOn(true, animated: false)
+        } else {
+            cell!.backgroundColor = UIColor.groupTableViewBackground
+            cell!.textLabel?.alpha = 0.5
+            cell!.detailTextLabel?.alpha = 0.5
         }
         cell!.accessoryView = sw
         
@@ -110,27 +108,18 @@ class MainAlarmViewController: UITableViewController{
     @IBAction func switchTapped(_ sender: UISwitch) {
         let index = sender.tag
         alarmModel.alarms[index].enabled = sender.isOn
-        let enabled = alarmModel.alarms[index].enabled
-        let alpha =  enabled ? 1.0 : 0.5
-        let color = enabled ? UIColor.white : UIColor.groupTableViewBackground
         if sender.isOn {
             print("switch on")
             alarmScheduler.setNotificationWithDate(alarmModel.alarms[index].date, onWeekdaysForNotify: alarmModel.alarms[index].repeatWeekdays, snoozeEnabled: alarmModel.alarms[index].snoozeEnabled, onSnooze: false, soundName: alarmModel.alarms[index].mediaLabel, index: index)
+            tableView.reloadData()
         }
         else {
             print("switch off")
             alarmScheduler.reSchedule()
+            tableView.reloadData()
         }
-        let cells = tableView.visibleCells
-        configCell(cell: cells[index], bgColor: color, alpha: CGFloat(alpha))
     }
 
-    private func configCell(cell: UITableViewCell, bgColor: UIColor, alpha: CGFloat) {
-        cell.backgroundColor = bgColor
-        cell.textLabel?.alpha = alpha
-        cell.detailTextLabel?.alpha = alpha
-    }
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
