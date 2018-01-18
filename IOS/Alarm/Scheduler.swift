@@ -13,7 +13,7 @@ import UIKit
 class Scheduler : AlarmSchedulerDelegate
 {
     var alarmModel: Alarms = Alarms()
-    func setupNotificationSettings() {
+    func setupNotificationSettings() -> UIUserNotificationSettings {
         var snoozeEnabled: Bool = false
         if let n = UIApplication.shared.scheduledLocalNotifications {
             if let result = minFireDateWithIndex(notifications: n) {
@@ -52,9 +52,10 @@ class Scheduler : AlarmSchedulerDelegate
         // Register the notification settings.
         let newNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: categoriesForSettings)
         UIApplication.shared.registerUserNotificationSettings(newNotificationSettings)
+        return newNotificationSettings
     }
     
-    fileprivate func correctDate(_ date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
+    private func correctDate(_ date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
     {
         var correctedDate: [Date] = [Date]()
         let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
@@ -115,7 +116,7 @@ class Scheduler : AlarmSchedulerDelegate
         return d
     }
     
-    func setNotificationWithDate(_ date: Date, onWeekdaysForNotify weekdays:[Int], snoozeEnabled:Bool,  onSnooze: Bool, soundName: String, index: Int) {
+    internal func setNotificationWithDate(_ date: Date, onWeekdaysForNotify weekdays:[Int], snoozeEnabled:Bool,  onSnooze: Bool, soundName: String, index: Int) {
         let AlarmNotification: UILocalNotification = UILocalNotification()
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
