@@ -75,9 +75,9 @@ class MainAlarmViewController: UITableViewController{
         cell!.selectionStyle = .none
         cell!.tag = indexPath.row
         let alarm: Alarm = alarmModel.alarms[indexPath.row]
-        let amAttr: [String : Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 20.0)]
+        let amAttr: [String : Any] = [NSAttributedStringKey.font.rawValue : UIFont.systemFont(ofSize: 20.0)]
         let str = NSMutableAttributedString(string: alarm.formattedTime, attributes: amAttr)
-        let timeAttr: [String : Any] = [NSFontAttributeName : UIFont.systemFont(ofSize: 45.0)]
+        let timeAttr: [String : Any] = [NSAttributedStringKey.font.rawValue : UIFont.systemFont(ofSize: 45.0)]
         str.addAttributes(timeAttr, range: NSMakeRange(0, str.length-2))
         cell!.textLabel?.attributedText = str
         cell!.detailTextLabel?.text = alarm.label
