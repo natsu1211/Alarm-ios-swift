@@ -161,6 +161,9 @@ class MainAlarmViewController: UITableViewController{
     
     @IBAction func unwindFromAddEditAlarmView(_ segue: UIStoryboardSegue) {
         isEditing = false
+        
+        alarmModel = Alarms()
+        self.tableView.reloadData()
     }
     
     public func changeSwitchButtonState(index: Int) {
@@ -183,6 +186,6 @@ class MainAlarmViewController: UITableViewController{
             }
         }
     }
-
+   
 }
 
