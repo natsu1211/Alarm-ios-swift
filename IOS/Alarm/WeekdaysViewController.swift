@@ -1,11 +1,3 @@
-//
-//  WeekdaysViewController.swift
-//  Alarm-ios-swift
-//
-//  Created by longyutao on 15/10/15.
-//  Copyright (c) 2015年 LongGames. All rights reserved.
-//
-
 import UIKit
 
 class WeekdaysViewController: UITableViewController {
@@ -17,7 +9,7 @@ class WeekdaysViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        performSegue(withIdentifier: Id.weekdaysUnwindIdentifier, sender: self)
+        performSegue(withIdentifier: Identifier.weekdaysUnwindIdentifier, sender: self)
     }
 
     override func didReceiveMemoryWarning() {

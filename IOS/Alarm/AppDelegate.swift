@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  WeatherAlarm
-//
-//  Created by longyutao on 15-2-28.
-//  Copyright (c) 2015年 LongGames. All rights reserved.
-//
-
 import UIKit
 import Foundation
 import AudioToolbox
@@ -16,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
 
     var window: UIWindow?
     var audioPlayer: AVAudioPlayer?
-    let alarmScheduler: AlarmSchedulerDelegate = Scheduler()
+    let alarmScheduler: AlarmSchedulerDelegate = AlarmScheduler()
     var alarmModel: Alarms = Alarms()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -89,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         }
         self.alarmModel = Alarms()
         self.alarmModel.alarms[index].onSnooze = false
-        if identifier == Id.snoozeIdentifier {
+        if identifier == Identifier.snoozeIdentifier {
             alarmScheduler.setNotificationForSnooze(snoozeMinute: 9, soundName: soundName, index: index)
             self.alarmModel.alarms[index].onSnooze = true
         }

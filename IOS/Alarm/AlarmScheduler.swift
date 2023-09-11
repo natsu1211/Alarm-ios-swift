@@ -1,18 +1,9 @@
-//
-//  Scheduler.swift
-//  Alarm-ios-swift
-//
-//  Created by longyutao on 16/1/15.
-//  Copyright (c) 2016年 LongGames. All rights reserved.
-//
-
 import Foundation
 import UIKit
 
 
-class Scheduler : AlarmSchedulerDelegate
+class AlarmScheduler : AlarmSchedulerDelegate
 {
-    var alarmModel: Alarms = Alarms()
     func setupNotificationSettings() -> UIUserNotificationSettings {
         var snoozeEnabled: Bool = false
         if let n = UIApplication.shared.scheduledLocalNotifications {
@@ -26,14 +17,14 @@ class Scheduler : AlarmSchedulerDelegate
         
         // Specify the notification actions.
         let stopAction = UIMutableUserNotificationAction()
-        stopAction.identifier = Id.stopIdentifier
+        stopAction.identifier = Identifier.stopIdentifier
         stopAction.title = "OK"
         stopAction.activationMode = UIUserNotificationActivationMode.background
         stopAction.isDestructive = false
         stopAction.isAuthenticationRequired = false
         
         let snoozeAction = UIMutableUserNotificationAction()
-        snoozeAction.identifier = Id.snoozeIdentifier
+        snoozeAction.identifier = Identifier.snoozeIdentifier
         snoozeAction.title = "Snooze"
         snoozeAction.activationMode = UIUserNotificationActivationMode.background
         snoozeAction.isDestructive = false
@@ -103,7 +94,7 @@ class Scheduler : AlarmSchedulerDelegate
                 }
                 
                 //fix second component to 0
-                wdDate = Scheduler.correctSecondComponent(date: wdDate, calendar: calendar)
+                wdDate = AlarmScheduler.correctSecondComponent(date: wdDate, calendar: calendar)
                 correctedDate.append(wdDate)
             }
             return correctedDate
@@ -116,7 +107,7 @@ class Scheduler : AlarmSchedulerDelegate
         return d
     }
     
-    internal func setNotificationWithDate(_ date: Date, onWeekdaysForNotify weekdays:[Int], snoozeEnabled:Bool,  onSnooze: Bool, soundName: String, index: Int) {
+    internal func setNotification(alarm: Alarm) {
         let AlarmNotification: UILocalNotification = UILocalNotification()
         AlarmNotification.alertBody = "Wake Up!"
         AlarmNotification.alertAction = "Open App"
@@ -133,7 +124,6 @@ class Scheduler : AlarmSchedulerDelegate
         
         let datesForNotification = correctDate(date, onWeekdaysForNotify:weekdays)
         
-        syncAlarmModel()
         for d in datesForNotification {
             if onSnooze {
                 alarmModel.alarms[index].date = Scheduler.correctSecondComponent(date: alarmModel.alarms[index].date)
@@ -156,7 +146,6 @@ class Scheduler : AlarmSchedulerDelegate
     }
     
     func reSchedule() {
-        //cancel all and register all is often more convenient
         UIApplication.shared.cancelAllLocalNotifications()
         syncAlarmModel()
         for i in 0..<alarmModel.count{
@@ -169,7 +158,6 @@ class Scheduler : AlarmSchedulerDelegate
     
     // workaround for some situation that alarm model is not setting properly (when app on background or not launched)
     func checkNotification() {
-        alarmModel = Alarms()
         let notifications = UIApplication.shared.scheduledLocalNotifications
         if notifications!.isEmpty {
             for i in 0..<alarmModel.count {
@@ -192,10 +180,6 @@ class Scheduler : AlarmSchedulerDelegate
                 }
             }
         }
-    }
-    
-    private func syncAlarmModel() {
-        alarmModel = Alarms()
     }
     
     private enum weekdaysComparisonResult {

@@ -1,14 +1,6 @@
-//
-//  Identifier.swift
-//  Alarm-ios-swift
-//
-//  Created by natsu1211 on 2017/02/02.
-//  Copyright © 2017年 LongGames. All rights reserved.
-//
-
 import Foundation
 
-struct Id {
+struct Identifier {
     static let stopIdentifier = "Alarm-ios-swift-stop"
     static let snoozeIdentifier = "Alarm-ios-swift-snooze"
     static let addSegueIdentifier = "addSegue"
