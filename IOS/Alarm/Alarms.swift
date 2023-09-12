@@ -7,6 +7,10 @@ class Alarms: Codable {
         case alarms
     }
     
+    init() {
+        self.alarms = [Alarm]()
+    }
+    
     required init(from decoder: Decoder) throws {
         let container: KeyedDecodingContainer<Alarms.CodingKeys> = try decoder.container(keyedBy: Alarms.CodingKeys.self)
         
@@ -24,7 +28,7 @@ class Alarms: Codable {
     func add(_ alarm: Alarm) {
         alarms.append(alarm)
         let newIndex = alarms.index { $0 === alarm }!
-        Store.shared.save(alarm, userInfo: [
+        Store.shared.save(self, notifying: alarm, userInfo: [
             Alarm.changeReasonKey: Alarm.added,
             Alarm.newValueKey: newIndex
         ])
@@ -37,7 +41,7 @@ class Alarms: Codable {
     
     func remove(at index: Int) {
         alarms.remove(at: index)
-        Store.shared.remove(alarms[index], userInfo: [
+        Store.shared.save(self, notifying: nil, userInfo: [
             Alarm.changeReasonKey: Alarm.removed,
             Alarm.oldValueKey: index
         ])

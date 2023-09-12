@@ -6,21 +6,30 @@ final class Store {
     static let changedNotification = Notification.Name("StoreChanged")
     private let userDefault = UserDefaults.standard
     
-    func save(_ notifying: Alarm, userInfo: [AnyHashable: Any]) {
-        if let jsonData = try? JSONEncoder().encode(notifying) {
-            userDefault.set(jsonData, forKey: notifying.uuid.uuidString)
+    func save(_ data: Alarms, notifying: Alarm?, userInfo: [AnyHashable: Any]) {
+        if let jsonData = try? JSONEncoder().encode(data) {
+            userDefault.set(jsonData, forKey: .UserDefaultsKey)
         }
         NotificationCenter.default.post(name: Store.changedNotification, object: notifying, userInfo: userInfo)
     }
+
     
-    func remove(_ alarm: Alarm, userInfo: [AnyHashable: Any]) {
-        // TODO
+    func load() -> Alarms?{
+        if let data = userDefault.data(forKey: .UserDefaultsKey) {
+            if let alarms = try? JSONDecoder().decode(Alarms.self, from: data) {
+                return alarms
+            }
+        }
+        return nil
     }
     
-    func removeAll() {
+    func clear() {
         for key in userDefault.dictionaryRepresentation().keys {
             UserDefaults.standard.removeObject(forKey: key.description)
         }
     }
-    
+}
+
+fileprivate extension String {
+    static let UserDefaultsKey = "UserDefaultsData"
 }
