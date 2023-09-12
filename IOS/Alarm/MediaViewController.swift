@@ -1,27 +1,19 @@
-//
-//  MusicViewController.swift
-//  Alarm-ios-swift
-//
-//  Created by longyutao on 16/2/3.
-//  Copyright (c) 2016年 LongGames. All rights reserved.
-//
-
 import UIKit
 import MediaPlayer
 
 class MediaViewController: UITableViewController, MPMediaPickerControllerDelegate  {
     
-    fileprivate let numberOfRingtones = 2
+    private let numberOfRingtones = 2
     var mediaItem: MPMediaItem?
-    var mediaLabel: String!
-    var mediaID: String!
+    var mediaLabel: String?
+    var mediaID: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        performSegue(withIdentifier: Id.soundUnwindIdentifier, sender: self)
+        performSegue(withIdentifier: Identifier.soundUnwindIdentifier, sender: self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -81,40 +73,38 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: Id.musicIdentifier)
-        if(cell == nil) {
-            cell = UITableViewCell(
-                style: UITableViewCellStyle.default, reuseIdentifier: Id.musicIdentifier)
-        }
+        var cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: Identifier.musicIdentifier) ?? UITableViewCell(
+            style: UITableViewCellStyle.default, reuseIdentifier: Identifier.musicIdentifier)
+
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                cell!.textLabel!.text = "Buy More Tones"
+                cell.textLabel?.text = "Buy More Tones"
             }
         }
         else if indexPath.section == 1 {
-            cell!.textLabel!.text = "Vibration"
-            cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+            cell.textLabel?.text = "Vibration"
+            cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         }
         else if indexPath.section == 2 {
             if indexPath.row == 0 {
-                cell!.textLabel!.text = "Pick a song"
-                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                cell.textLabel?.text = "Pick a song"
+                cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
         }
         else if indexPath.section == 3 {
             if indexPath.row == 0 {
-                cell!.textLabel!.text = "bell"
+                cell.textLabel?.text = "bell"
             }
             else if indexPath.row == 1 {
-                cell!.textLabel!.text = "tickle"
+                cell.textLabel?.text = "tickle"
             }
             
-            if cell!.textLabel!.text == mediaLabel {
-                cell!.accessoryType = UITableViewCellAccessoryType.checkmark
+            if cell.textLabel?.text == mediaLabel {
+                cell.accessoryType = UITableViewCellAccessoryType.checkmark
             }
         }
         
-        return cell!
+        return cell
     }
     
     
@@ -131,7 +121,7 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
         else if indexPath.section == 3 {
             let cell = tableView.cellForRow(at: indexPath)
             cell?.accessoryType = UITableViewCellAccessoryType.checkmark
-            mediaLabel = cell?.textLabel?.text!
+            mediaLabel = cell?.textLabel?.text
             cell?.setSelected(true, animated: true)
             cell?.setSelected(false, animated: true)
             let cells = tableView.visibleCells
@@ -146,12 +136,12 @@ class MediaViewController: UITableViewController, MPMediaPickerControllerDelegat
     
     
     //MPMediaPickerControllerDelegate
-    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems  mediaItemCollection:MPMediaItemCollection) -> Void {
+    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection:MPMediaItemCollection){
         if !mediaItemCollection.items.isEmpty {
             let aMediaItem = mediaItemCollection.items[0]
         
             self.mediaItem = aMediaItem
-            mediaID = (self.mediaItem?.value(forProperty: MPMediaItemPropertyPersistentID)) as! String
+            mediaID = (self.mediaItem?.value(forProperty: MPMediaItemPropertyPersistentID)) as? String
             //self.dismiss(animated: true, completion: nil)
         }
     }

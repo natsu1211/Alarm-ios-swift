@@ -1,34 +1,23 @@
-//
-//  AlarmAddViewController.swift
-//  Alarm-ios-swift
-//
-//  Created by longyutao on 15-3-2.
-//  Copyright (c) 2015年 LongGames. All rights reserved.
-//
-
 import UIKit
 import Foundation
-import MediaPlayer
 
 class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var tableView: UITableView!
     
-    var alarmScheduler: AlarmSchedulerDelegate = Scheduler()
-    var alarmModel: Alarms = Alarms()
-    var segueInfo: SegueInfo!
-    var snoozeEnabled: Bool = false
-    var enabled: Bool!
+    private let alarmScheduler: AlarmSchedulerDelegate = AlarmScheduler()
+    private var snoozeEnabled = false
+    var alarms: Alarms?
+    var currentAlarm: Alarm?
+    var isEditMode = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        alarmModel=Alarms()
         tableView.reloadData()
-        snoozeEnabled = segueInfo.snoozeEnabled
         super.viewWillAppear(animated)
     }
 
@@ -37,31 +26,19 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
-        let date = Scheduler.correctSecondComponent(date: datePicker.date)
-        let index = segueInfo.curCellIndex
-        var tempAlarm = Alarm()
-        tempAlarm.date = date
-        tempAlarm.label = segueInfo.label
-        tempAlarm.enabled = true
-        tempAlarm.mediaLabel = segueInfo.mediaLabel
-        tempAlarm.mediaID = segueInfo.mediaID
-        tempAlarm.snoozeEnabled = snoozeEnabled
-        tempAlarm.repeatWeekdays = segueInfo.repeatWeekdays
-        tempAlarm.uuid = UUID().uuidString
-        tempAlarm.onSnooze = false
-        if segueInfo.isEditMode {
-            alarmModel.alarms[index] = tempAlarm
+        let date = AlarmScheduler.correctSecondComponent(date: datePicker.date)
+
+        if !isEditMode {
+            var newAlarm = Alarm()
+            alarms?.add(newAlarm)
         }
-        else {
-            alarmModel.alarms.append(tempAlarm)
-        }
-        self.performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
+        self.performSegue(withIdentifier: Identifier.saveSegueIdentifier, sender: self)
     }
     
  
     func numberOfSections(in tableView: UITableView) -> Int {
         // Return the number of sections.
-        if segueInfo.isEditMode {
+        if isEditMode {
             return 2
         }
         else {
@@ -80,32 +57,29 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: Identifier.settingIdentifier) ?? UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: Identifier.settingIdentifier)
         
-        var cell = tableView.dequeueReusableCell(withIdentifier: Id.settingIdentifier)
-        if(cell == nil) {
-        cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: Id.settingIdentifier)
-        }
         if indexPath.section == 0 {
-            
             if indexPath.row == 0 {
-                
-                cell!.textLabel!.text = "Repeat"
-                cell!.detailTextLabel!.text = WeekdaysViewController.repeatText(weekdays: segueInfo.repeatWeekdays)
-                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                cell.textLabel?.text = "Repeat"
+                if let alarm = currentAlarm {
+                    cell.detailTextLabel?.text = WeekdaysViewController.repeatText(weekdays: alarm.repeatWeekdays)
+                    cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                }
             }
             else if indexPath.row == 1 {
-                cell!.textLabel!.text = "Label"
-                cell!.detailTextLabel!.text = segueInfo.label
-                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                cell.textLabel?.text = "Label"
+                cell.detailTextLabel?.text = currentAlarm?.label
+                cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
             else if indexPath.row == 2 {
-                cell!.textLabel!.text = "Sound"
-                cell!.detailTextLabel!.text = segueInfo.mediaLabel
-                cell!.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+                cell.textLabel?.text = "Sound"
+                cell.detailTextLabel?.text = currentAlarm?.mediaLabel
+                cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             }
             else if indexPath.row == 3 {
                
-                cell!.textLabel!.text = "Snooze"
+                cell.textLabel?.text = "Snooze"
                 let sw = UISwitch(frame: CGRect())
                 sw.addTarget(self, action: #selector(AlarmAddEditViewController.snoozeSwitchTapped(_:)), for: UIControlEvents.touchUpInside)
                 
@@ -113,18 +87,19 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
                    sw.setOn(true, animated: false)
                 }
                 
-                cell!.accessoryView = sw
+                cell.accessoryView = sw
             }
+            
+            return cell
         }
         else if indexPath.section == 1 {
             cell = UITableViewCell(
-                style: UITableViewCellStyle.default, reuseIdentifier: Id.settingIdentifier)
-            cell!.textLabel!.text = "Delete Alarm"
-            cell!.textLabel!.textAlignment = .center
-            cell!.textLabel!.textColor = UIColor.red
+                style: UITableViewCellStyle.default, reuseIdentifier: Identifier.settingIdentifier)
+            cell.textLabel?.text = "Delete Alarm"
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.textColor = UIColor.red
         }
-        
-        return cell!
+        return cell
     }
     
     
@@ -133,15 +108,15 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         if indexPath.section == 0 {
             switch indexPath.row{
             case 0:
-                performSegue(withIdentifier: Id.weekdaysSegueIdentifier, sender: self)
+                performSegue(withIdentifier: Identifier.weekdaysSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             case 1:
-                performSegue(withIdentifier: Id.labelSegueIdentifier, sender: self)
+                performSegue(withIdentifier: Identifier.labelSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             case 2:
-                performSegue(withIdentifier: Id.soundSegueIdentifier, sender: self)
+                performSegue(withIdentifier: Identifier.soundSegueIdentifier, sender: self)
                 cell?.setSelected(true, animated: false)
                 cell?.setSelected(false, animated: false)
             default:
@@ -150,8 +125,9 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
         }
         else if indexPath.section == 1 {
             //delete alarm
-            alarmModel.alarms.remove(at: segueInfo.curCellIndex)
-            performSegue(withIdentifier: Id.saveSegueIdentifier, sender: self)
+            guard let alarm = currentAlarm else {fatalError()}
+            alarms?.remove(alarm)
+            performSegue(withIdentifier: Identifier.saveSegueIdentifier, sender: self)
         }
             
     }
@@ -167,49 +143,43 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == Id.saveSegueIdentifier {
-            let dist = segue.destination as! MainAlarmViewController
-            let cells = dist.tableView.visibleCells
-            for cell in cells {
-                let sw = cell.accessoryView as! UISwitch
-                if sw.tag > segueInfo.curCellIndex
-                {
-                    sw.tag -= 1
-                }
-            }
+        if segue.identifier == Identifier.saveSegueIdentifier {
+            guard let dist = segue.destination as? MainAlarmViewController else {fatalError()}
             alarmScheduler.reSchedule()
         }
-        else if segue.identifier == Id.soundSegueIdentifier {
-            //TODO
-            let dist = segue.destination as! MediaViewController
-            dist.mediaID = segueInfo.mediaID
-            dist.mediaLabel = segueInfo.mediaLabel
+        else if segue.identifier == Identifier.soundSegueIdentifier {
+            // TODO
+            guard let dist = segue.destination as? MediaViewController else {fatalError()}
+            if let alarm = currentAlarm {
+                dist.mediaID = alarm.mediaID
+                dist.mediaLabel = alarm.mediaLabel
+            }
         }
-        else if segue.identifier == Id.labelSegueIdentifier {
-            let dist = segue.destination as! LabelEditViewController
-            dist.label = segueInfo.label
+        else if segue.identifier == Identifier.labelSegueIdentifier {
+            guard let dist = segue.destination as? LabelEditViewController else {fatalError()}
+            if let alarm = currentAlarm {
+                dist.label = alarm.label
+            }
         }
-        else if segue.identifier == Id.weekdaysSegueIdentifier {
-            let dist = segue.destination as! WeekdaysViewController
-            dist.weekdays = segueInfo.repeatWeekdays
+        else if segue.identifier == Identifier.weekdaysSegueIdentifier {
+            guard let dist = segue.destination as? WeekdaysViewController else {fatalError()}
+            dist.weekdays = currentAlarm?.repeatWeekdays ?? [Int]()
         }
     }
     
     @IBAction func unwindFromLabelEditView(_ segue: UIStoryboardSegue) {
-        let src = segue.source as! LabelEditViewController
-        segueInfo.label = src.label
+        guard let src = segue.source as? LabelEditViewController else {fatalError()}
+        currentAlarm?.label = src.label
     }
     
     @IBAction func unwindFromWeekdaysView(_ segue: UIStoryboardSegue) {
-        let src = segue.source as! WeekdaysViewController
-        segueInfo.repeatWeekdays = src.weekdays
+        guard let src = segue.source as? WeekdaysViewController else {fatalError()}
+        currentAlarm?.repeatWeekdays = src.weekdays
     }
     
     @IBAction func unwindFromMediaView(_ segue: UIStoryboardSegue) {
-        let src = segue.source as! MediaViewController
-        segueInfo.mediaLabel = src.mediaLabel
-        segueInfo.mediaID = src.mediaID
+        guard let src = segue.source as? MediaViewController else {fatalError()}
+        currentAlarm?.mediaLabel = src.mediaLabel ?? ""
+        currentAlarm?.mediaID = src.mediaID ?? ""
     }
-    
-    
 }

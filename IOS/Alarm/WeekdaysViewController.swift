@@ -2,7 +2,7 @@ import UIKit
 
 class WeekdaysViewController: UITableViewController {
     
-    var weekdays: [Int]!
+    var weekdays: [Int] = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,9 +20,8 @@ class WeekdaysViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        for weekday in weekdays
-        {
-            if weekday == (indexPath.row + 1) {
+        for weekday in weekdays {
+            if weekday == indexPath.row {
                 cell.accessoryType = UITableViewCellAccessoryType.checkmark
             }
         }
@@ -33,19 +32,17 @@ class WeekdaysViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)!
         
-        if let index = weekdays.index(of: (indexPath.row + 1)){
+        if let index = weekdays.index(of: (indexPath.row)) {
             weekdays.remove(at: index)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
             cell.accessoryType = UITableViewCellAccessoryType.none
         }
         else{
-            //row index start from 0, weekdays index start from 1 (Sunday), so plus 1
-            weekdays.append(indexPath.row + 1)
+            weekdays.append(indexPath.row)
             cell.setSelected(true, animated: true)
             cell.setSelected(false, animated: true)
             cell.accessoryType = UITableViewCellAccessoryType.checkmark
-            
         }
     }
 }
@@ -61,32 +58,16 @@ extension WeekdaysViewController {
             return "Never"
         }
         
-        var ret = String()
-        var weekdaysSorted:[Int] = [Int]()
-        
-        weekdaysSorted = weekdays.sorted(by: <)
-        
+        var weekdaysSorted = weekdays.sorted(by: <)
+        // Does swift has static cached emtpy string?
+        var ret = ""
         for day in weekdaysSorted {
-            switch day{
-            case 1:
-                ret += "Sun "
-            case 2:
-                ret += "Mon "
-            case 3:
-                ret += "Tue "
-            case 4:
-                ret += "Wed "
-            case 5:
-                ret += "Thu "
-            case 6:
-                ret += "Fri "
-            case 7:
-                ret += "Sat "
-            default:
-                //throw
-                break
-            }
+            ret += weekdaysText[day]
         }
         return ret
     }
+}
+
+fileprivate extension WeekdaysViewController {
+    static let weekdaysText = ["Sun ", "Mon ", "Tue ", "Wed ", "Thu ", "Fri ", "Sat "]
 }

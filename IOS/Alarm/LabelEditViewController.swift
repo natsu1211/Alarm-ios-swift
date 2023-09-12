@@ -1,17 +1,9 @@
-//
-//  labelEditViewController.swift
-//  Alarm-ios-swift
-//
-//  Created by longyutao on 15/10/21.
-//  Copyright (c) 2015年 LongGames. All rights reserved.
-//
-
 import UIKit
 
 class LabelEditViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var labelTextField: UITextField!
-    var label: String!
+    var label: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +24,8 @@ class LabelEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        label = textField.text!
-        performSegue(withIdentifier: Id.labelUnwindIdentifier, sender: self)
-        //This method can be used when no state passing is needed
-        //navigationController?.popViewController(animated: true)
+        label = textField.text ?? ""
+        performSegue(withIdentifier: Identifier.labelUnwindIdentifier, sender: self)
         return false
     }
 
