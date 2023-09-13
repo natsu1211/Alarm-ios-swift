@@ -4,12 +4,10 @@ import UIKit
 
 class AlarmScheduler : AlarmSchedulerDelegate
 {
-    weak var alarms: Alarms?
-    
     func setupNotificationSettings() {
         var snoozeEnabled = false
         if let notifications = UIApplication.shared.scheduledLocalNotifications {
-            if let alarm = mostRecentFireDateAlarm(notifications: notifications, alarms: alarms) {
+            if let alarm = mostRecentFireDateAlarm(notifications: notifications, alarms: Store.shared.alarms) {
                 snoozeEnabled = alarm.snoozeEnabled
             }
         }
@@ -40,7 +38,7 @@ class AlarmScheduler : AlarmSchedulerDelegate
         
         let categoriesForSettings = Set(arrayLiteral: alarmCategory)
         // Register the notification settings.
-        let notificationSettings = UIUserNotificationSettings(types: [.alert, .sound], categories: categoriesForSettings)
+        let notificationSettings = UIUserNotificationSettings(types: [.alert,.sound], categories: categoriesForSettings)
         UIApplication.shared.registerUserNotificationSettings(notificationSettings)
     }
     
@@ -137,8 +135,7 @@ class AlarmScheduler : AlarmSchedulerDelegate
             alarmNotification.alertBody = "Wake Up!"
             alarmNotification.alertAction = "Open App"
             alarmNotification.category = "AlarmCategory"
-            alarmNotification.soundName = ringtoneName
-            alarmNotification.soundName = ringtoneName
+            alarmNotification.soundName = ringtoneName + ".mp3"
             alarmNotification.timeZone = TimeZone.current
             alarmNotification.userInfo = ["snooze" : snoozeEnabled, "uuid": uuid, "soundName": ringtoneName]
             //repeat weekly if repeat weekdays are selected
