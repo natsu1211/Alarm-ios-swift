@@ -1,20 +1,13 @@
-//
-//  AlarmSchedulerDelegate.swift
-//  Alarm-ios-swift
-//
-//  Created by natsu1211 on 2017/02/01.
-//  Copyright © 2017年 LongGames. All rights reserved.
-//
-
 import Foundation
 import UIKit
 
 protocol AlarmSchedulerDelegate {
-    func setNotificationWithDate(_ date: Date, onWeekdaysForNotify:[Int], snoozeEnabled: Bool, onSnooze:Bool, soundName: String, index: Int)
-    //helper
-    func setNotificationForSnooze(snoozeMinute: Int, soundName: String, index: Int)
-    func setupNotificationSettings() -> UIUserNotificationSettings
-    func reSchedule()
-    func checkNotification()
+    func setNotification(ByUUIDStr uuid: String, onSnooze: Bool, snoozeDate: Date?)
+    func setNotification(ByAlarm alarm: Alarm, onSnooze: Bool, snoozeDate: Date?)
+    func setNotificationForSnooze(ByUUIDStr uuid: String, snoozeMinute: Int)
+    func cancelNotification(ByUUIDStr uuid: String)
+    func updateNotification(ByUUIDStr uuid: String)
+    func setupNotificationSettings()
+    
 }
 
