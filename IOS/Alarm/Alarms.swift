@@ -18,6 +18,10 @@ class Alarms: Codable {
         
     }
     
+    func getAlarm(ByUUIDStr uuidString: String) -> Alarm?{
+        return alarms.first(where: {$0.uuid.uuidString == uuidString})
+    }
+    
     func encode(to encoder: Encoder) throws {
         var container: KeyedEncodingContainer<Alarms.CodingKeys> = encoder.container(keyedBy: Alarms.CodingKeys.self)
         
@@ -27,7 +31,7 @@ class Alarms: Codable {
     
     func add(_ alarm: Alarm) {
         alarms.append(alarm)
-        let newIndex = alarms.index { $0 === alarm }!
+        let newIndex = alarms.index { $0.uuid == alarm.uuid }!
         Store.shared.save(self, notifying: alarm, userInfo: [
             Alarm.changeReasonKey: Alarm.added,
             Alarm.newValueKey: newIndex
@@ -35,15 +39,27 @@ class Alarms: Codable {
     }
     
     func remove(_ alarm: Alarm) {
-        guard let index = alarms.index(where: { $0 === alarm }) else { return }
+        guard let index = alarms.index(where: { $0.uuid == alarm.uuid }) else { return }
         remove(at: index)
     }
     
     func remove(at index: Int) {
+        let alarm = alarms[index]
+        let uuidStr = alarm.uuid.uuidString
         alarms.remove(at: index)
         Store.shared.save(self, notifying: nil, userInfo: [
             Alarm.changeReasonKey: Alarm.removed,
-            Alarm.oldValueKey: index
+            Alarm.oldValueKey: index,
+            Alarm.newValueKey: uuidStr
+        ])
+    }
+    
+    func update(_ alarm: Alarm) {
+        guard let index = alarms.index(where: { $0.uuid == alarm.uuid }) else { return }
+        Store.shared.save(self, notifying: alarm, userInfo: [
+            Alarm.changeReasonKey: Alarm.updated,
+            Alarm.oldValueKey: index,
+            Alarm.newValueKey: index
         ])
     }
     

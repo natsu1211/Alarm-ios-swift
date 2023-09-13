@@ -9,13 +9,12 @@ class Alarm: Codable {
     var mediaID: String
     var mediaLabel: String
     var label: String
-    var onSnooze: Bool
     
     convenience init() {
-        self.init(uuid: UUID(), date: Date(), enabled: false, snoozeEnabled: false, repeatWeekdays: [], mediaID: "", mediaLabel: "", label: "", onSnooze: false)
+        self.init(uuid: UUID(), date: Date(), enabled: true, snoozeEnabled: false, repeatWeekdays: [], mediaID: "", mediaLabel: "bell", label: "Alarm")
     }
     
-    init(uuid: UUID, date: Date, enabled: Bool, snoozeEnabled: Bool, repeatWeekdays: [Int], mediaID: String, mediaLabel: String, label: String, onSnooze: Bool) {
+    init(uuid: UUID, date: Date, enabled: Bool, snoozeEnabled: Bool, repeatWeekdays: [Int], mediaID: String, mediaLabel: String, label: String) {
         self.uuid = uuid
         self.date = date
         self.enabled = enabled
@@ -24,7 +23,6 @@ class Alarm: Codable {
         self.mediaID = mediaID
         self.mediaLabel = mediaLabel
         self.label = label
-        self.onSnooze = onSnooze
     }
     
     enum CodingKeys: CodingKey {
@@ -36,7 +34,6 @@ class Alarm: Codable {
         case mediaID
         case mediaLabel
         case label
-        case onSnooze
     }
     
     required init(from decoder: Decoder) throws {
@@ -50,8 +47,6 @@ class Alarm: Codable {
         self.mediaID = try container.decode(String.self, forKey: Alarm.CodingKeys.mediaID)
         self.mediaLabel = try container.decode(String.self, forKey: Alarm.CodingKeys.mediaLabel)
         self.label = try container.decode(String.self, forKey: Alarm.CodingKeys.label)
-        self.onSnooze = try container.decode(Bool.self, forKey: Alarm.CodingKeys.onSnooze)
-        
     }
     
     func encode(to encoder: Encoder) throws {
@@ -65,7 +60,6 @@ class Alarm: Codable {
         try container.encode(self.mediaID, forKey: Alarm.CodingKeys.mediaID)
         try container.encode(self.mediaLabel, forKey: Alarm.CodingKeys.mediaLabel)
         try container.encode(self.label, forKey: Alarm.CodingKeys.label)
-        try container.encode(self.onSnooze, forKey: Alarm.CodingKeys.onSnooze)
     }
 }
 
@@ -81,7 +75,7 @@ extension Alarm {
     static let changeReasonKey = "reason"
     static let newValueKey = "newValue"
     static let oldValueKey = "oldValue"
-    static let renamed = "renamed"
+    static let updated = "updated"
     static let added = "added"
     static let removed = "removed"
 }

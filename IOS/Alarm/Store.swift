@@ -13,14 +13,13 @@ final class Store {
         NotificationCenter.default.post(name: Store.changedNotification, object: notifying, userInfo: userInfo)
     }
 
-    
-    func load() -> Alarms?{
+    func load() -> Alarms{
         if let data = userDefault.data(forKey: .UserDefaultsKey) {
             if let alarms = try? JSONDecoder().decode(Alarms.self, from: data) {
                 return alarms
             }
         }
-        return nil
+        return Alarms()
     }
     
     func clear() {
