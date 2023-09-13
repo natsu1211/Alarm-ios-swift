@@ -2,12 +2,11 @@ import Foundation
 import UIKit
 
 protocol AlarmSchedulerDelegate {
-    func setNotification(ByUUIDStr uuid: String, onSnooze: Bool, snoozeDate: Date?)
-    func setNotification(ByAlarm alarm: Alarm, onSnooze: Bool, snoozeDate: Date?)
-    func setNotificationForSnooze(ByUUIDStr uuid: String, snoozeMinute: Int)
+    func setNotification(date: Date, ringtoneName: String, repeatWeekdays: [Int], snoozeEnabled: Bool, onSnooze: Bool, uuid: String)
+    func setNotificationForSnooze(ringtoneName: String, snoozeMinute: Int, uuid: String)
     func cancelNotification(ByUUIDStr uuid: String)
-    func updateNotification(ByUUIDStr uuid: String)
+    func updateNotification(ByUUIDStr uuid: String, date: Date, ringtoneName: String, repeatWeekdays: [Int], snoonzeEnabled: Bool)
     func setupNotificationSettings()
-    
+    var alarms: Alarms? {get set}
 }
 

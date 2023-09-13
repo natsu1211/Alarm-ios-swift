@@ -4,7 +4,7 @@ import UIKit
 
 class AlarmScheduler : AlarmSchedulerDelegate
 {
-    private var alarms: Alarms? = Store.shared.load()
+    weak var alarms: Alarms?
     
     func setupNotificationSettings() {
         var snoozeEnabled = false
@@ -68,9 +68,9 @@ class AlarmScheduler : AlarmSchedulerDelegate
         return alarms?.getAlarm(ByUUIDStr: mostRecentDateAlarmUUIDStr)
     }
     
-    private func correctDate(_ date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
+    private func getNotificationDates(baseDate date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
     {
-        var correctedDates: [Date] = [Date]()
+        var notificationDates: [Date] = [Date]()
         let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         let now = Date()
         let flags: NSCalendar.Unit = [NSCalendar.Unit.weekday, NSCalendar.Unit.weekdayOrdinal, NSCalendar.Unit.day]
@@ -82,12 +82,10 @@ class AlarmScheduler : AlarmSchedulerDelegate
             //scheduling date is eariler than current date
             if date < now {
                 //plus one day, otherwise the notification will be fired righton
-                correctedDates.append((calendar as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: 1, to: date, options:.matchStrictly)!)
+                notificationDates.append((calendar as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: 1, to: date, options:.matchStrictly)!)
+            } else {
+                notificationDates.append(date)
             }
-            else {
-                correctedDates.append(date)
-            }
-            return correctedDates
         }
         else {
             let daysInWeek = 7
@@ -115,11 +113,11 @@ class AlarmScheduler : AlarmSchedulerDelegate
                 //fix second component to 0
                 if let date = wdDate {
                     let correctedDate = AlarmScheduler.correctSecondComponent(date: date, calendar: calendar)
-                    correctedDates.append(correctedDate)
+                    notificationDates.append(correctedDate)
                 }
             }
-            return correctedDates
         }
+        return notificationDates
     }
     
     static func correctSecondComponent(date: Date, calendar: Calendar = Calendar(identifier: Calendar.Identifier.gregorian)) -> Date {
@@ -128,68 +126,50 @@ class AlarmScheduler : AlarmSchedulerDelegate
         return d
     }
     
-    func setNotification(ByUUIDStr uuid: String, onSnooze: Bool = false, snoozeDate: Date? = nil) {
-        if let alarm = alarms?.getAlarm(ByUUIDStr: uuid) {
-            setNotification(ByAlarm: alarm, onSnooze: onSnooze, snoozeDate: snoozeDate)
-        }
-    }
-    
-    func setNotification(ByAlarm alarm: Alarm, onSnooze: Bool = false, snoozeDate: Date? = nil) {
+    func setNotification(date: Date, ringtoneName: String, repeatWeekdays: [Int], snoozeEnabled: Bool, onSnooze: Bool, uuid: String) {
         // will ask for user's permission of local notification when this function be called first time,
         // if notification is not permitted, then this app actually cannot work
         setupNotificationSettings()
-        var date = snoozeDate ?? alarm.date
-        let datesForNotification = correctDate(date, onWeekdaysForNotify: alarm.repeatWeekdays)
+        let datesForNotification = getNotificationDates(baseDate: date, onWeekdaysForNotify: repeatWeekdays)
         
         for d in datesForNotification {
             let alarmNotification = UILocalNotification()
             alarmNotification.alertBody = "Wake Up!"
             alarmNotification.alertAction = "Open App"
             alarmNotification.category = "AlarmCategory"
-            let soundName = alarm.mediaLabel
-            alarmNotification.soundName = soundName
+            alarmNotification.soundName = ringtoneName
+            alarmNotification.soundName = ringtoneName
             alarmNotification.timeZone = TimeZone.current
-            let repeating = !alarm.repeatWeekdays.isEmpty
-            alarmNotification.userInfo = ["snooze" : alarm.snoozeEnabled, "uuid": alarm.uuid.uuidString, "soundName": soundName, "repeating" : repeating]
-            
+            alarmNotification.userInfo = ["snooze" : snoozeEnabled, "uuid": uuid, "soundName": ringtoneName]
             //repeat weekly if repeat weekdays are selected
             //no repeat with snooze notification
-            if repeating && !onSnooze{
+            if repeatWeekdays.count > 0 && !onSnooze{
                 alarmNotification.repeatInterval = NSCalendar.Unit.weekOfYear
             }
             
-            if onSnooze {
-                alarm.date = AlarmScheduler.correctSecondComponent(date: alarm.date)
-            }
-            else {
-                alarm.date = d
-            }
             alarmNotification.fireDate = d
             UIApplication.shared.scheduleLocalNotification(alarmNotification)
         }
     }
     
-    func setNotificationForSnooze(ByUUIDStr uuid: String, snoozeMinute: Int) {
+    func setNotificationForSnooze(ringtoneName: String, snoozeMinute: Int, uuid: String) {
         let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         let now = Date()
         let snoozeDate = (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.minute, value: snoozeMinute, to: now, options:.matchStrictly)!
-        setNotification(ByUUIDStr: uuid, onSnooze: true, snoozeDate: snoozeDate)
+        setNotification(date: snoozeDate, ringtoneName: ringtoneName, repeatWeekdays: [], snoozeEnabled: true, onSnooze: true, uuid: uuid)
     }
     
     func cancelNotification(ByUUIDStr uuid: String) {
         let notifacations = UIApplication.shared.scheduledLocalNotifications
-        let notification = notifacations?.first(where: {$0.userInfo?["uuid"] as? String == uuid})
-        if let n = notification {
+        if let n = notifacations?.first(where: {$0.userInfo?["uuid"] as? String == uuid}) {
             UIApplication.shared.cancelLocalNotification(n)
-            setupNotificationSettings()
         }
+        setupNotificationSettings()
     }
     
-    func updateNotification(ByUUIDStr uuid: String) {
+    func updateNotification(ByUUIDStr uuid: String, date: Date, ringtoneName: String, repeatWeekdays: [Int], snoonzeEnabled: Bool) {
         cancelNotification(ByUUIDStr: uuid)
-        if let alarm = alarms?.getAlarm(ByUUIDStr: uuid) {
-            setNotification(ByAlarm: alarm, onSnooze: false)
-        }
+        setNotification(date: date, ringtoneName: ringtoneName, repeatWeekdays: repeatWeekdays, snoozeEnabled: snoonzeEnabled, onSnooze: false, uuid: uuid)
         setupNotificationSettings()
     }
     
