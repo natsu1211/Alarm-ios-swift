@@ -12,7 +12,7 @@ import XCTest
 
 class SchedulerTestCase: XCTestCase {
     
-    let scheduler = AlarmScheduler()
+    let scheduler = NotificationScheduler()
     
     override func setUp() {
         super.setUp()

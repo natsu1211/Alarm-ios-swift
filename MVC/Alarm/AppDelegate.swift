@@ -8,7 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
 
     var window: UIWindow?
     private var audioPlayer: AVAudioPlayer?
-    private let alarmScheduler: AlarmSchedulerDelegate = AlarmScheduler()
+    private let notificationScheduler: NotificationSchedulerDelegate = NotificationScheduler()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         do {
@@ -22,7 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             print("could not active session. err:\(error.localizedDescription)")
         }
         window?.tintColor = UIColor.red
-        
+        // will ask for user's permission of local notification when this function be called first time,
+        // if notification is not permitted, then this app actually cannot work
+        notificationScheduler.registerNotificationCategories()
         return true
     }
    
@@ -44,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             let snoozeOption = UIAlertAction(title: "Snooze", style: .default) {
                 (action:UIAlertAction) in
                 self.audioPlayer?.stop()
-                self.alarmScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
+                self.notificationScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
             }
             alertController.addAction(snoozeOption)
         }
@@ -71,11 +73,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         guard
             let userInfo = notification.userInfo,
             let soundName = userInfo["soundName"] as? String,
-            let uuidStr = userInfo["uuid"] as? String
+            let uuid = userInfo["uuid"] as? String
         else {return}
-        if identifier == Identifier.snoozeIdentifier {
-            alarmScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
+        
+        switch identifier {
+        case Identifier.snoozeActionIdentifier:
+            notificationScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuid)
+            break
+        case Identifier.stopActionIdentifier:
+            let alarms = Store.shared.alarms
+            if let alarm = alarms.getAlarm(ByUUIDStr: uuid) {
+                if alarm.repeatWeekdays.isEmpty {
+                    alarm.enabled = false
+                    alarms.update(alarm)
+                }
+            }
+            break
+        default:
+            break
         }
+
         completionHandler()
     }
     
@@ -129,7 +146,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-//        audioPlayer?.pause()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -139,6 +155,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        notificationScheduler.syncAlarmStateWithNotification()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

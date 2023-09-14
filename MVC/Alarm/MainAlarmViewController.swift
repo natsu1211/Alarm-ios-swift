@@ -3,7 +3,7 @@ import UIKit
 class MainAlarmViewController: UITableViewController{
    
     private let alarmDelegate: AlarmApplicationDelegate = AppDelegate()
-    private let scheduler: AlarmSchedulerDelegate = AlarmScheduler()
+    private let scheduler: NotificationSchedulerDelegate = NotificationScheduler()
     private let alarms: Alarms = Store.shared.alarms
     
     private var selectedIndexPath: IndexPath?

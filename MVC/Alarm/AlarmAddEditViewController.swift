@@ -6,7 +6,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var tableView: UITableView!
     
-    private let alarmScheduler: AlarmSchedulerDelegate = AlarmScheduler()
     var alarms: Alarms?
     var currentAlarm: Alarm?
     var isEditMode = false
@@ -34,7 +33,7 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @IBAction func saveEditAlarm(_ sender: AnyObject) {
-        let date = AlarmScheduler.correctSecondComponent(date: datePicker.date)
+        let date = NotificationScheduler.correctSecondComponent(date: datePicker.date)
         
         if let alarm = currentAlarm {
             alarm.date = date
