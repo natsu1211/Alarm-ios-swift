@@ -1,8 +1,8 @@
 import Foundation
 import UIKit
+import UserNotifications
 
-
-class AlarmScheduler : AlarmSchedulerDelegate
+class NotificationScheduler : AlarmSchedulerDelegate
 {
     func setupNotificationSettings() {
         var snoozeEnabled = false
@@ -110,7 +110,7 @@ class AlarmScheduler : AlarmSchedulerDelegate
                 
                 //fix second component to 0
                 if let date = wdDate {
-                    let correctedDate = AlarmScheduler.correctSecondComponent(date: date, calendar: calendar)
+                    let correctedDate = NotificationScheduler.correctSecondComponent(date: date, calendar: calendar)
                     notificationDates.append(correctedDate)
                 }
             }
