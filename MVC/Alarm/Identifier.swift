@@ -1,8 +1,11 @@
 import Foundation
 
 struct Identifier {
-    static let stopIdentifier = "Alarm-ios-swift-stop"
-    static let snoozeIdentifier = "Alarm-ios-swift-snooze"
+    static let stopIdentifier = "ALARM_IOS_SWIFT_STOP"
+    static let snoozeIdentifier = "ALARM_IOS_SWIFT_SNOOZE"
+    static let alarmCategoryIndentifier = "ALARM_CATEGORY"
+    static let snoozeAlarmCategoryIndentifier = "SNOOZE_ALARM_CATEGORY"
+    
     static let addSegueIdentifier = "addSegue"
     static let editSegueIdentifier = "editSegue"
     static let saveSegueIdentifier = "saveEditSegue"

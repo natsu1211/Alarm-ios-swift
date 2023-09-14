@@ -2,13 +2,14 @@ import UIKit
 import Foundation
 import AudioToolbox
 import AVFoundation
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, AlarmApplicationDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, UNUserNotificationCenterDelegate, AlarmApplicationDelegate{
 
     var window: UIWindow?
     private var audioPlayer: AVAudioPlayer?
-    private let alarmScheduler: AlarmSchedulerDelegate = AlarmScheduler()
+    private let notificationScheduler: NotificationSchedulerDelegate = NotificationScheduler()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         do {
@@ -21,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
         } catch let error as NSError{
             print("could not active session. err:\(error.localizedDescription)")
         }
+        
+        UNUserNotificationCenter.current().delegate = self
+        notificationScheduler.requestAuthorization()
+        notificationScheduler.registerNotificationCategories()
         window?.tintColor = UIColor.red
         
         return true
@@ -44,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             let snoozeOption = UIAlertAction(title: "Snooze", style: .default) {
                 (action:UIAlertAction) in
                 self.audioPlayer?.stop()
-                self.alarmScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
+                self.notificationScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
             }
             alertController.addAction(snoozeOption)
         }
@@ -74,14 +79,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, Al
             let uuidStr = userInfo["uuid"] as? String
         else {return}
         if identifier == Identifier.snoozeIdentifier {
-            alarmScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
+            notificationScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
         }
         completionHandler()
-    }
-    
-    //print out all registed NSNotification for debug
-    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        print(notificationSettings.types.rawValue)
     }
     
     //AlarmApplicationDelegate protocol
