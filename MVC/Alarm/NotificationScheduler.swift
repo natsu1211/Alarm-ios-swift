@@ -20,8 +20,8 @@ class NotificationScheduler : NotificationSchedulerDelegate
     
     func registerNotificationCategories() {
         // Define the custom actions
-        let snoozeAction = UNNotificationAction(identifier: Identifier.snoozeIdentifier, title: "Snooze", options: [.foreground])
-        let stopAction = UNNotificationAction(identifier: Identifier.stopIdentifier, title: "OK", options: [.foreground])
+        let snoozeAction = UNNotificationAction(identifier: Identifier.snoozeActionIdentifier, title: "Snooze", options: [.foreground])
+        let stopAction = UNNotificationAction(identifier: Identifier.stopActionIdentifier, title: "OK", options: [.foreground])
         
         let snoonzeActions = [snoozeAction, stopAction]
         let nonSnoozeActions = [stopAction]
@@ -39,6 +39,31 @@ class NotificationScheduler : NotificationSchedulerDelegate
                                                             options: .customDismissAction)
         // Register the notification category
         UNUserNotificationCenter.current().setNotificationCategories([snoozeAlarmCategory, nonSnoozeAlarmCategroy])
+    }
+    
+    // sync alarm state to scheduled notifications for some situation (app in background and user didn't click notification to bring the app to foreground) that
+    // alarm state is not updated correctly
+    func syncAlarmStateWithNotification() {
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {
+            requests in
+            print(requests)
+            let alarms = Store.shared.alarms
+            let uuidNotificationsSet = Set(requests.map({$0.content.userInfo["uuid"] as! String}))
+            let uuidAlarmsSet = alarms.uuids
+            let uuidDeltaSet = uuidAlarmsSet.subtracting(uuidNotificationsSet)
+            print(uuidDeltaSet)
+            for uuid in uuidDeltaSet {
+                if let alarm = alarms.getAlarm(ByUUIDStr: uuid) {
+                    if alarm.enabled {
+                        alarm.enabled = false
+                        // since this method will cause UI change, make sure run on main thread
+                        DispatchQueue.main.async {
+                            alarms.update(alarm)
+                        }
+                    }
+                }
+            }
+        })
     }
     
     private func getNotificationDates(baseDate date: Date, onWeekdaysForNotify weekdays:[Int]) -> [Date]
@@ -62,7 +87,9 @@ class NotificationScheduler : NotificationSchedulerDelegate
         }
         else {
             let daysInWeek = 7
-            for wd in weekdays {
+            for wdIndex in weekdays {
+                // weekdays index start from 1 (Sunday)
+                let wd = wdIndex + 1
                 var wdDate: Date?
                 //schedule on next week
                 if compare(weekday: wd, with: weekday) == .before {
@@ -138,7 +165,6 @@ class NotificationScheduler : NotificationSchedulerDelegate
     
     func cancelNotification(ByUUIDStr uuid: String) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [uuid])
-        //UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests in print(requests)})
     }
     
     func updateNotification(ByUUIDStr uuid: String, date: Date, ringtoneName: String, repeatWeekdays: [Int], snoonzeEnabled: Bool) {

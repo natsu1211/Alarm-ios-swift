@@ -8,5 +8,6 @@ protocol NotificationSchedulerDelegate {
     func setNotificationForSnooze(ringtoneName: String, snoozeMinute: Int, uuid: String)
     func cancelNotification(ByUUIDStr uuid: String)
     func updateNotification(ByUUIDStr uuid: String, date: Date, ringtoneName: String, repeatWeekdays: [Int], snoonzeEnabled: Bool)
+    func syncAlarmStateWithNotification()
 }
 

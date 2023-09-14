@@ -67,6 +67,10 @@ class Alarms: Codable {
         return alarms.count
     }
     
+    var uuids: Set<String> {
+        return Set(alarms.map { $0.uuid.uuidString })
+    }
+    
     subscript(index: Int) -> Alarm {
         return alarms[index]
     }
