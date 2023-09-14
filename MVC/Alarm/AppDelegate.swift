@@ -30,14 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, UN
         
         return true
     }
-   
-    //receive local notification when app in foreground
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+    
+    // The method will be called on the delegate only if the application is in the foreground. If the method is not implemented or the handler is not called in a timely manner then the notification will not be presented. The application can choose to have the notification presented as a sound, badge, alert and/or in the notification list. This decision should be based on whether the information in the notification is otherwise visible to the user.
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         //show an alert window
         let alertController = UIAlertController(title: "Alarm", message: nil, preferredStyle: .alert)
+        let userInfo = notification.request.content.userInfo
         guard
-            let userInfo = notification.userInfo,
             let snoozeEnabled = userInfo["snooze"] as? Bool,
             let soundName = userInfo["soundName"] as? String,
             let uuidStr = userInfo["uuid"] as? String
@@ -69,18 +69,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, UN
         
         alertController.addAction(stopOption)
         window?.visibleViewController?.navigationController?.present(alertController, animated: true, completion: nil)
+        completionHandler(.list)
     }
     
-    //snooze notification handler when app in background
-    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, for notification: UILocalNotification, completionHandler: @escaping () -> Void) {
+    // The method will be called on the delegate when the user responded to the notification by opening the application, dismissing the notification or choosing a UNNotificationAction. The delegate must be set before the application returns from application:didFinishLaunchingWithOptions:.
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
         guard
-            let userInfo = notification.userInfo,
             let soundName = userInfo["soundName"] as? String,
-            let uuidStr = userInfo["uuid"] as? String
+            let uuid = userInfo["uuid"] as? String
         else {return}
-        if identifier == Identifier.snoozeIdentifier {
-            notificationScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuidStr)
+        
+        switch response.actionIdentifier {
+        case Identifier.snoozeActionIdentifier:
+            // notification fired when app in background, snooze button clicked
+            notificationScheduler.setNotificationForSnooze(ringtoneName: soundName, snoozeMinute: 9, uuid: uuid)
+            break
+        case Identifier.stopActionIdentifier:
+            // notification fired when app in background, ok button clicked
+            let alarms = Store.shared.alarms
+            if let alarm = alarms.getAlarm(ByUUIDStr: uuid) {
+                if alarm.repeatWeekdays.isEmpty {
+                    alarm.enabled = false
+                    alarms.update(alarm)
+                }
+            }
+            break
+        default:
+            break
         }
+
         completionHandler()
     }
     
@@ -139,6 +157,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AVAudioPlayerDelegate, UN
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        notificationScheduler.syncAlarmStateWithNotification()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
