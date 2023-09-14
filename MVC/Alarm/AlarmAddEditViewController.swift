@@ -6,7 +6,6 @@ class AlarmAddEditViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var tableView: UITableView!
     
-    private let alarmScheduler: NotificationSchedulerDelegate = NotificationScheduler()
     var alarms: Alarms?
     var currentAlarm: Alarm?
     var isEditMode = false

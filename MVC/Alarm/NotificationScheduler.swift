@@ -178,10 +178,10 @@ class NotificationScheduler : NotificationSchedulerDelegate
         case after
     }
     
-    // 0 == Sunday, 1 == Monday and so on
+    // 1 == Sunday, 2 == Monday and so on
     private func compare(weekday w1: Int, with w2: Int) -> weekdaysComparisonResult
     {
-        if (w1 != 0 && w2 == 0) || w1 < w2 {return .before}
+        if (w1 != 1 && w2 == 1) || w1 < w2 {return .before}
         else if w1 == w2 {return .same}
         else {return .after}
     }
