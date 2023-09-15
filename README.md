@@ -7,7 +7,7 @@ Partially clone of Apple's built-in alarm app in swift.
     - No new added HealthKit functionality.
 - Add, Delete, Edit Alarm (One shot and Repeating). Snooze.
 - Local ringtone selection only. No access to music app library.
-- Text not localized. English Only. But NSLocal is used for further localization.
+- Text not localized.
 
 As far as I know, it's impossible to make a full clone of official alarm app using existing APIs.    
 The major issues are,    
@@ -21,7 +21,6 @@ however, I believe you can still get something useful from this project, if you 
 - How to schedule and handle local notification correctly.
 - How to use UITableView.
 - Storyboard-based view transition.
-- some Swift features, like ``, `extesnion`, `parttern match`, 
 
 ## Demo     
 <img src="https://user-images.githubusercontent.com/3120754/268233418-b9319d24-aeab-4fa6-a872-3155e5193b96.gif" width="45%" height="45%"> 
