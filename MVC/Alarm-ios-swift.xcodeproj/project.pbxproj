@@ -27,6 +27,7 @@
 		FB2EEBE52AAFB6DB00EB6EB6 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2EEBE42AAFB6DB00EB6EB6 /* UITableView+Extension.swift */; };
 		FB5234332AAE186900FDC1FF /* Alarms.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5234322AAE186900FDC1FF /* Alarms.swift */; };
 		FB5234352AAE18AF00FDC1FF /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5234342AAE18AF00FDC1FF /* Store.swift */; };
+		FBAF88772AB5C84600B7A9BC /* SchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAF88762AB5C84600B7A9BC /* SchedulerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		FB2EEBE42AAFB6DB00EB6EB6 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		FB5234322AAE186900FDC1FF /* Alarms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarms.swift; sourceTree = "<group>"; };
 		FB5234342AAE18AF00FDC1FF /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		FBAF88762AB5C84600B7A9BC /* SchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				9EED78851AA0F03F00961BC2 /* Supporting Files */,
+				FBAF88762AB5C84600B7A9BC /* SchedulerTests.swift */,
 			);
 			path = AlarmTests;
 			sourceTree = "<group>";
@@ -263,7 +266,7 @@
 					};
 					9EED78801AA0F03F00961BC2 = {
 						CreatedOnToolsVersion = 6.1.1;
-						LastSwiftMigration = "";
+						LastSwiftMigration = 1430;
 						TestTargetID = 9EED786B1AA0F03F00961BC2;
 					};
 				};
@@ -336,6 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBAF88772AB5C84600B7A9BC /* SchedulerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +521,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -533,6 +538,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "LongGames.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Alarm-ios-swiftTests";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Alarm-ios-swift.app/Alarm-ios-swift";
@@ -543,6 +549,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
