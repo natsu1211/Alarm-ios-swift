@@ -23,7 +23,7 @@ however, I believe you can still get something useful from this project, if you 
 - Storyboard-based view transition.
 
 ## Demo     
-<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/3120754/268449367-73497836-3e80-47a9-8002-c13165c634f9.gif" width="45%" height="45%"> 
+<img src="https://user-images.githubusercontent.com/3120754/268233418-b9319d24-aeab-4fa6-a872-3155e5193b96.gif" width="400" height="806">  
 
 ## Branch     
 `main`      
