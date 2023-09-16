@@ -27,6 +27,7 @@
 		FB2EEBE52AAFB6DB00EB6EB6 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2EEBE42AAFB6DB00EB6EB6 /* UITableView+Extension.swift */; };
 		FB5234332AAE186900FDC1FF /* Alarms.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5234322AAE186900FDC1FF /* Alarms.swift */; };
 		FB5234352AAE18AF00FDC1FF /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5234342AAE18AF00FDC1FF /* Store.swift */; };
+		FB81C11F2AB5E3CA0044C5BD /* MainAlarmViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB81C11E2AB5E3CA0044C5BD /* MainAlarmViewControllerTests.swift */; };
 		FBAF88772AB5C84600B7A9BC /* SchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAF88762AB5C84600B7A9BC /* SchedulerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		FB2EEBE42AAFB6DB00EB6EB6 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		FB5234322AAE186900FDC1FF /* Alarms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarms.swift; sourceTree = "<group>"; };
 		FB5234342AAE18AF00FDC1FF /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		FB81C11E2AB5E3CA0044C5BD /* MainAlarmViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAlarmViewControllerTests.swift; sourceTree = "<group>"; };
 		FBAF88762AB5C84600B7A9BC /* SchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -193,6 +195,7 @@
 			children = (
 				9EED78851AA0F03F00961BC2 /* Supporting Files */,
 				FBAF88762AB5C84600B7A9BC /* SchedulerTests.swift */,
+				FB81C11E2AB5E3CA0044C5BD /* MainAlarmViewControllerTests.swift */,
 			);
 			path = AlarmTests;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBAF88772AB5C84600B7A9BC /* SchedulerTests.swift in Sources */,
+				FB81C11F2AB5E3CA0044C5BD /* MainAlarmViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
