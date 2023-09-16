@@ -23,7 +23,7 @@ however, I believe you can still get something useful from this project, if you 
 - Storyboard-based view transition.
 
 ## Demo     
-<img src="https://user-images.githubusercontent.com/3120754/268233418-b9319d24-aeab-4fa6-a872-3155e5193b96.gif" width="45%" height="45%"> 
+<img src="https://github-production-user-asset-6210df.s3.amazonaws.com/3120754/268449367-73497836-3e80-47a9-8002-c13165c634f9.gif" width="45%" height="45%"> 
 
 ## Branch     
 `main`      
@@ -133,10 +133,6 @@ If the user doesn't manage to handle the notification in time or ignores it, we 
 It's important to note that any app intending to send Local Notifications must first obtain the user's permission. In this app, we request permission to send notifications the first time the app is launched, by calling `requestAuthorization()`. The system will prompt the user with an alert window, asking them to choose whether or not to grant this permission. If the user accidentally clicks "No," then the app will be unable to send Local Notifications, make it useless. This is also one of the reasons why third-party alarm clock apps can't function the same way as the built-in system ones. It's a feature of iOS, and there's not much we can do about it (although you might consider prompting the user with a pop-up explaining why this permission is so crucial, in hopes that they might go to settings and change the permission setting).
 
 The methods for requesting user permissions and scheduling notifications may vary based on the iOS version. After iOS 10, Apple redesigned the Notification-related APIs. The `main` branch contains the latest approach, while the `below-ios10.0` branch includes the methods used before iOS 10.0. Of course, given that iOS 10.0 is quite dated now, you likely won't need to know the older methods. Implementations related to Local Notification can be found at `NotificationScheduler.Swift`.
-
-### MVVM
-
-
 
 ## License      
 MIT
