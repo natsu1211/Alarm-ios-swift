@@ -172,16 +172,16 @@ class NotificationScheduler : NotificationSchedulerDelegate
         setNotification(date: date, ringtoneName: ringtoneName, repeatWeekdays: repeatWeekdays, snoozeEnabled: snoonzeEnabled, onSnooze: false, uuid: uuid)
     }
     
-    private enum weekdaysComparisonResult {
+    enum weekdaysComparisonResult {
         case before
         case same
         case after
     }
     
     // 1 == Sunday, 2 == Monday and so on
-    private func compare(weekday w1: Int, with w2: Int) -> weekdaysComparisonResult
+    func compare(weekday w1: Int, with w2: Int) -> weekdaysComparisonResult
     {
-        if (w1 != 1 && w2 == 1) || w1 < w2 {return .before}
+        if w1 != 1 && (w1 < w2 || w2 == 1) {return .before}
         else if w1 == w2 {return .same}
         else {return .after}
     }
