@@ -27,21 +27,14 @@ however, I believe you can still get something useful from this project, if you 
 
 ## Branch     
 `main`      
-Main branch. Contains implementations in MVC and MVVM architecture.    
-SwiftUI version and more test case will be added in future.
+Main branch. Contains implementations in MVC architecture.    
 
 `below-ios10.0`         
-Only contains implementation in MVC. Using old local notification APIs deprecated since IOS 10.0.    
+Using old local notification APIs deprecated since IOS 10.0.    
 Behaves almost the same as new APIs.    
 *Caution: Not well tested and not maintained anymore. Reference use only.*
 
 ## Technical Details
-I wrote this app in 2016 to learn iOS development and Swift. That year, iOS 10 was released, and the Swift language had just been made public. Since I am a console game developer and not a mobile app developer, after completing the interface and basic functions of this app, I lost interest in maintaining this project. 
-
-But over the years, I've written numerous desktop editors using the MVVM architecture in my work, and I've learned about the design philosophies and pros and cons of various architectures. I also realized that I made so many mistakes when writing this app back then. Since this project has unexpectedly accumulated hundreds of stars over the years, in order to avoid misleading beginners, I made up my mind and spent some time refactoring this app. 
-
-I've tried to align it with the design of both MVC and MVVM architectures. Implementations under these two architectures can be found in folders with the same name.
-
 ### MVC
 When we develop iOS applications using the UIKit, our program is essentially already in the MVC architecture. However, simply organizing our application into the three parts of View, Model, and Controller does not necessarily make our application easier to maintain. We also need to consider how and when the Model changes when a user interacts with the UI, as well as other parts of the UI.
 
