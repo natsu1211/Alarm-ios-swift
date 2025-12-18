@@ -1,4 +1,5 @@
 # Alarm-ios-swift     
+**With the release of iOS 26 and AlarmKit, it has become possible to create a truly functional third-party alarm clock app. The following instructions are no longer applicable to iOS 26 and later.**
 
 Partially clone of Apple's built-in alarm app in swift.    
 
